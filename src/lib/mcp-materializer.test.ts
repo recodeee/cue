@@ -13,7 +13,7 @@ import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-import type { ResolvedProfile } from "../../../profiles/_types";
+import type { ResolvedProfile } from "../../profiles/_types";
 import {
   McpNotFound,
   UnresolvedEnvPlaceholder,

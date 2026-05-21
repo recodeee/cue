@@ -19,7 +19,7 @@ import {
   InheritanceDepthExceeded,
   ProfileNotFound,
   SchemaViolation,
-} from "../../../profiles/_types";
+} from "../../profiles/_types";
 import { listProfiles, loadProfile } from "./profile-loader";
 
 // ---------------------------------------------------------------------------
@@ -27,7 +27,7 @@ import { listProfiles, loadProfile } from "./profile-loader";
 // ---------------------------------------------------------------------------
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const REPO_ROOT = resolve(HERE, "..", "..", "..");
+const REPO_ROOT = resolve(HERE, "..", "..");
 const EXAMPLES_DIR = join(REPO_ROOT, "profiles", "_examples");
 
 let scratchRoot: string;

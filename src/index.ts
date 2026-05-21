@@ -18,7 +18,7 @@ import { dirname, resolve } from "node:path";
 import { COMMANDS, type CommandName } from "./commands/_index";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const REPO_ROOT = process.env.SOUL_REPO_ROOT ?? resolve(HERE, "..", "..");
+const REPO_ROOT = process.env.SOUL_REPO_ROOT ?? resolve(HERE, "..");
 
 function readVersion(): string {
   try {

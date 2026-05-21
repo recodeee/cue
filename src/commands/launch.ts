@@ -105,9 +105,8 @@ async function loadMcpRegistry(agent: "claude-code" | "codex"): Promise<Record<s
     "..",
     "..",
     "..",
-    "..",
   );
-  const path = join(root, "mcps", "configs", file);
+  const path = join(root, "resources", "mcps", "configs", file);
   try {
     const text = await readFile(path, "utf8");
     const raw = JSON.parse(text) as { servers?: Record<string, unknown> };

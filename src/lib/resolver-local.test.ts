@@ -21,7 +21,7 @@ import {
   SkillNotFound,
   suggest,
 } from "./resolver-local";
-import type { ResolvedProfile } from "../../../profiles/_types";
+import type { ResolvedProfile } from "../../profiles/_types";
 
 // ---------------------------------------------------------------------------
 // Fixture helpers

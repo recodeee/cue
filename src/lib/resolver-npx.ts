@@ -25,8 +25,8 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import type { LinkPlan, NpxSkillRef, Profile } from "../../../profiles/_types";
-import { ProfileError } from "../../../profiles/_types";
+import type { LinkPlan, NpxSkillRef, Profile } from "../../profiles/_types";
+import { ProfileError } from "../../profiles/_types";
 import {
   cacheChildren,
   cacheHit,
@@ -323,9 +323,9 @@ function entryId(e: NpxSkillRef): string {
 
 function defaultRepoRoot(): string {
   if (process.env.SOUL_REPO_ROOT) return resolve(process.env.SOUL_REPO_ROOT);
-  // bin/cli/lib/resolver-npx.ts  →  repo root is three levels up.
+  // src/lib/resolver-npx.ts  →  repo root is three levels up (file → lib → src → repo).
   const here = fileURLToPath(import.meta.url);
-  return resolve(here, "..", "..", "..", "..");
+  return resolve(here, "..", "..", "..");
 }
 
 // Re-export cachePath for callers that want to print the slot for debugging.

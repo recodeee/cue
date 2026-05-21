@@ -19,7 +19,7 @@
 import { readdir, stat } from "node:fs/promises";
 import { basename, dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { ProfileError, type LinkPlan, type ResolvedProfile } from "../../../profiles/_types";
+import { ProfileError, type LinkPlan, type ResolvedProfile } from "../../profiles/_types";
 
 // ---------------------------------------------------------------------------
 // Repo-root helpers (used by resolveLocalSkill)
@@ -29,10 +29,9 @@ const REPO_ROOT = resolve(
   dirname(fileURLToPath(import.meta.url)),
   "..",
   "..",
-  "..",
 );
 
-const DEFAULT_SKILLS_ROOT = join(REPO_ROOT, "skills", "skills");
+const DEFAULT_SKILLS_ROOT = join(REPO_ROOT, "resources", "skills", "skills");
 
 // ---------------------------------------------------------------------------
 // Error classes
@@ -295,7 +294,7 @@ export const _internal = { sep };
  */
 export async function resolveLocalSkill(id: string): Promise<string> {
   const skillsRoot = process.env.SOUL_REPO_ROOT
-    ? join(process.env.SOUL_REPO_ROOT, "skills", "skills")
+    ? join(process.env.SOUL_REPO_ROOT, "resources", "skills", "skills")
     : DEFAULT_SKILLS_ROOT;
   const root = resolve(skillsRoot);
   const { categoryIndex, slugIndex, allSlugs } = await walk(root);

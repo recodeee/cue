@@ -30,7 +30,7 @@ import {
   ProfileError,
   type LinkPlan,
   type ResolvedProfile,
-} from "../../../profiles/_types";
+} from "../../profiles/_types";
 
 // ---------------------------------------------------------------------------
 // Error classes

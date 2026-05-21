@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 import { materializeRuntime } from "./runtime-materializer";
-import type { ResolvedProfile } from "../../../profiles/_types";
+import type { ResolvedProfile } from "../../profiles/_types";
 
 let root: string;
 beforeEach(async () => { root = await mkdtemp(join(tmpdir(), "cue-runtime-")); });

@@ -29,7 +29,7 @@ import {
   ProfileNotFound,
   type ResolvedProfile,
   SchemaViolation,
-} from "../../../profiles/_types";
+} from "../../profiles/_types";
 import { listProfiles, loadProfile } from "./profile-loader";
 import { materializeMcp, type MaterializeOptions } from "./mcp-materializer";
 import { resolveLocal } from "./resolver-local";
@@ -41,10 +41,10 @@ import {
 import { resolvePlugins } from "./resolver-plugins";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const REPO_ROOT = process.env.SOUL_REPO_ROOT ?? resolve(HERE, "..", "..", "..");
+const REPO_ROOT = process.env.SOUL_REPO_ROOT ?? resolve(HERE, "..", "..");
 const DEFAULT_PROFILES_DIR = join(REPO_ROOT, "profiles");
-const DEFAULT_SKILLS_ROOT = join(REPO_ROOT, "skills", "skills");
-const DEFAULT_CONFIGS_ROOT = join(REPO_ROOT, "mcps", "configs");
+const DEFAULT_SKILLS_ROOT = join(REPO_ROOT, "resources", "skills", "skills");
+const DEFAULT_CONFIGS_ROOT = join(REPO_ROOT, "resources", "mcps", "configs");
 
 export type LintRuleId = "W1" | "W2" | "W3" | "W4" | "E1" | "E2" | "E3";
 export type DiagnosticRuleId = LintRuleId | "SCHEMA" | "LOAD";

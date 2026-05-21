@@ -25,10 +25,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { parse as parseYaml } from "yaml";
 
-import type { NpxSkillRef, Profile } from "../../../profiles/_types";
+import type { NpxSkillRef, Profile } from "../../profiles/_types";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const REPO_ROOT = resolve(HERE, "..", "..", "..");
+const REPO_ROOT = resolve(HERE, "..", "..");
 
 export type SkillOrigin = "local" | "npx" | "plugin";
 
@@ -321,7 +321,7 @@ export function defaultProfilesDir(repoRoot = REPO_ROOT): string {
 }
 
 export function defaultSkillsRoot(repoRoot = REPO_ROOT): string {
-  return join(repoRoot, "skills", "skills");
+  return join(repoRoot, "resources", "skills", "skills");
 }
 
 export function validateProfileName(name: string): boolean {

@@ -30,7 +30,7 @@ import {
   type ResolvedSkill,
   type SkillRef,
   SchemaViolation,
-} from "../../../profiles/_types";
+} from "../../profiles/_types";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -42,10 +42,9 @@ const MAX_INHERITANCE_DEPTH = 3;
 /** Pattern a plugin id must match: <plugin>@<marketplace>. */
 const PLUGIN_PATTERN = /^[a-z0-9][a-z0-9-]*@[a-z0-9][a-z0-9_-]*$/;
 
-/** Resolve repo root by walking up from this file: bin/cli/lib -> repo root. */
+/** Resolve repo root by walking up from this file: src/lib -> repo root. */
 const REPO_ROOT = resolve(
   dirname(fileURLToPath(import.meta.url)),
-  "..",
   "..",
   "..",
 );

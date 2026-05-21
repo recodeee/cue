@@ -11,7 +11,7 @@ import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-import type { Profile } from "../../../profiles/_types";
+import type { Profile } from "../../profiles/_types";
 import {
   CacheCorrupt,
   NpxFetchFailed,

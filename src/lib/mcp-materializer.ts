@@ -34,7 +34,7 @@ import { readFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { ProfileError, type ResolvedProfile } from "../../../profiles/_types";
+import { ProfileError, type ResolvedProfile } from "../../profiles/_types";
 
 // ---------------------------------------------------------------------------
 // Errors
@@ -71,15 +71,14 @@ export class UnresolvedEnvPlaceholder extends ProfileError {
 // Constants & options
 // ---------------------------------------------------------------------------
 
-/** Resolve repo root by walking up from this file: bin/cli/lib -> repo root. */
+/** Resolve repo root by walking up from this file: src/lib -> repo root. */
 const REPO_ROOT = resolve(
   dirname(fileURLToPath(import.meta.url)),
   "..",
   "..",
-  "..",
 );
 
-const DEFAULT_CONFIGS_ROOT = join(REPO_ROOT, "mcps", "configs");
+const DEFAULT_CONFIGS_ROOT = join(REPO_ROOT, "resources", "mcps", "configs");
 
 export interface MaterializeOptions {
   /**

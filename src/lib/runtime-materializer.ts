@@ -11,7 +11,7 @@ import { createHash } from "node:crypto";
 import { mkdir, rename, rm, symlink, writeFile, readFile, mkdtemp } from "node:fs/promises";
 import { dirname, join } from "node:path";
 
-import type { AgentKind, ResolvedProfile } from "../../../profiles/_types";
+import type { AgentKind, ResolvedProfile } from "../../profiles/_types";
 
 export interface MaterializeInput {
   profile: ResolvedProfile;
