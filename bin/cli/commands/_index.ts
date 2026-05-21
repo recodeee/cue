@@ -41,13 +41,13 @@ export const COMMANDS = {
     summary: "Schema + lint checks for a profile (or --all) (A13)",
     load: () => import("./validate"),
   },
-  "init-shell": {
-    summary: "Generate claude-<profile> aliases for zsh/bash/pwsh (A16)",
-    load: () => import("./init-shell"),
-  },
   launch: {
     summary: "Resolve+materialize a profile then exec claude/codex (hot path)",
     load: () => import("./launch"),
+  },
+  shell: {
+    summary: "Install/uninstall ~/.local/bin/{claude,codex} shims",
+    load: () => import("./shell"),
   },
 } as const satisfies Record<string, Command>;
 
