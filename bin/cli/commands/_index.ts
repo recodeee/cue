@@ -53,6 +53,10 @@ export const COMMANDS = {
     summary: "Print the active profile and its resolved capability counts",
     load: () => import("./current"),
   },
+  "migrate-symlinks": {
+    summary: "Rewrite ~/.codex and ~/.claude-accounts symlinks from soul/ to cue/",
+    load: () => import("./migrate-symlinks"),
+  },
 } as const satisfies Record<string, Command>;
 
 export type CommandName = keyof typeof COMMANDS;
