@@ -1,5 +1,5 @@
 name: core
-description: Baseline profile for every lean Soul install profile
+description: Baseline shared by every cue profile — meta skills + cross-session memory
 skills:
   local:
     - meta/analyze
@@ -7,5 +7,5 @@ skills:
     - meta/skill-suggestion
     - caveman/caveman
     - caveman/caveman-commit
-mcps:
-  - claude-mem
+plugins:
+  - claude-mem@thedotmack

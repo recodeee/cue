@@ -1,0 +1,11 @@
+name: marketing
+description: Marketing — copywriting, SEO, CRO, growth, channels, brand
+inherits: core
+skills:
+  local:
+    - design/brandkit
+    - design/gpt-taste
+    - design/high-end-visual-design
+    - design/imagegen-frontend-web
+plugins:
+  - marketing-skills@claude-code-skills
