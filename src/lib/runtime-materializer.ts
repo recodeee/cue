@@ -8,7 +8,7 @@
  */
 
 import { createHash } from "node:crypto";
-import { mkdir, rename, rm, symlink, writeFile, readFile, mkdtemp } from "node:fs/promises";
+import { mkdir, rename, rm, symlink, writeFile, readFile, mkdtemp, readdir, lstat } from "node:fs/promises";
 import { dirname, join } from "node:path";
 
 import type { AgentKind, ResolvedProfile } from "../../profiles/_types";
@@ -64,21 +64,17 @@ export async function materializeRuntime(input: MaterializeInput): Promise<Mater
   try {
     const existing = (await readFile(join(runtimeDir, ".cue-hash"), "utf8")).trim();
     if (existing === hash) {
-      // Always refresh credentials AND settings on cache hit so account
-      // switches don't leak settings/permissions across runs.
+      // Refresh state from credentialsSource even on cache hit so account
+      // switches and newly-added source entries are reflected.
       if (input.credentialsSource) {
-        const { copyFile } = await import("node:fs/promises");
-        try {
-          await copyFile(
-            join(input.credentialsSource, ".credentials.json"),
-            join(runtimeDir, ".credentials.json"),
-          );
-        } catch { /* no credentials yet */ }
         // Re-merge settings.json from current credentialsSource.
         if (agent === "claude-code") {
           const merged = await buildClaudeSettings(profile, agent, input);
           await writeFile(join(runtimeDir, "settings.json"), merged + "\n");
         }
+        // Re-overlay any source entries that aren't already present (e.g.
+        // user added a new sessions/ entry, plugins/, etc.).
+        await overlaySourceState(runtimeDir, input.credentialsSource);
       }
       return { runtimeDir, rebuilt: false, hash };
     }
@@ -125,13 +121,14 @@ export async function materializeRuntime(input: MaterializeInput): Promise<Mater
   // 4. hash (no trailing newline so /^[a-f0-9]{64}$/ matches directly)
   await writeFile(join(tmpDir, ".cue-hash"), hash);
 
-  // 5. Copy .credentials.json from source config dir (auth persistence).
+  // 5. Overlay source state: symlink everything from credentialsSource that
+  // cue doesn't manage (sessions/, projects/, history.jsonl, .credentials.json,
+  // .session-stats.json, plugins/, telemetry/, etc.). This makes the runtime
+  // dir look like a fully-onboarded Claude Code config from Claude's
+  // perspective, while still letting cue override skills/, settings.json,
+  // and CLAUDE.md.
   if (input.credentialsSource) {
-    const credSrc = join(input.credentialsSource, ".credentials.json");
-    try {
-      const { copyFile } = await import("node:fs/promises");
-      await copyFile(credSrc, join(tmpDir, ".credentials.json"));
-    } catch { /* no credentials yet — user will log in once */ }
+    await overlaySourceState(tmpDir, input.credentialsSource);
   }
 
   // 6. Atomic swap: rm -rf old, rename tmp.
@@ -145,6 +142,62 @@ export async function materializeRuntime(input: MaterializeInput): Promise<Mater
 // Reads existing settings from credentialsSource (preserves permissions,
 // trustedDirectories, skipAutoPermissionPrompt) and overlays the profile's
 // plugins + MCPs.
+// Files/dirs cue actively manages — never overlay these from the source dir.
+const CUE_MANAGED_ENTRIES = new Set([
+  "settings.json",
+  "skills",
+  "CLAUDE.md",
+  "AGENTS.md",
+  ".cue-hash",
+  "config.toml",
+]);
+
+/**
+ * Overlay state from `sourceDir` into `targetDir` by symlinking every
+ * top-level entry that cue doesn't actively manage. This makes the runtime
+ * dir behave like a fully-onboarded Claude Code config from Claude's
+ * perspective — sessions, projects, history, telemetry markers, plugins,
+ * `.session-stats.json`, `.credentials.json`, etc. all surface from the
+ * account dir. Token refreshes write back to the source.
+ *
+ * Existing real files/dirs (cue overrides like settings.json, skills/) are
+ * left alone. Existing symlinks are replaced — supports account switching
+ * on cache hit, where the previous symlinks point to a different source.
+ * Errors per-entry are non-fatal.
+ */
+async function overlaySourceState(targetDir: string, sourceDir: string): Promise<void> {
+  let entries: string[];
+  try {
+    entries = await readdir(sourceDir);
+  } catch {
+    return; // source unreadable; nothing to overlay
+  }
+
+  for (const name of entries) {
+    if (CUE_MANAGED_ENTRIES.has(name)) continue;
+    const targetPath = join(targetDir, name);
+    const sourcePath = join(sourceDir, name);
+
+    let existingType: "symlink" | "other" | "missing" = "missing";
+    try {
+      const st = await lstat(targetPath);
+      existingType = st.isSymbolicLink() ? "symlink" : "other";
+    } catch { /* missing */ }
+
+    if (existingType === "other") continue; // cue override — don't touch
+
+    if (existingType === "symlink") {
+      // Replace if it points elsewhere (e.g. previous account on cache hit).
+      try {
+        await rm(targetPath, { force: true });
+      } catch { continue; }
+    }
+    try {
+      await symlink(sourcePath, targetPath);
+    } catch { /* race or permission — skip silently */ }
+  }
+}
+
 async function buildClaudeSettings(
   profile: ResolvedProfile,
   agent: AgentKind,

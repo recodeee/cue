@@ -118,9 +118,10 @@ describe("materializeRuntime", () => {
     expect(Object.keys(settings.mcpServers)).toEqual(["claude-mem"]);
   });
 
-  test("credentialsSource: copies .credentials.json into runtime", async () => {
+  test("credentialsSource: symlinks .credentials.json into runtime (token refreshes write back to source)", async () => {
     const credSrc = join(root, "creds");
     const { mkdir, writeFile } = await import("node:fs/promises");
+    const { readlink } = await import("node:fs/promises");
     await mkdir(credSrc, { recursive: true });
     await writeFile(join(credSrc, ".credentials.json"), '{"claudeAiOauth":{"token":"abc"}}');
 
@@ -134,8 +135,48 @@ describe("materializeRuntime", () => {
       credentialsSource: credSrc,
     });
 
-    const copied = await readFile(join(out.runtimeDir, ".credentials.json"), "utf8");
-    expect(copied).toBe('{"claudeAiOauth":{"token":"abc"}}');
+    // Should be a symlink to the source (so token refreshes propagate back)
+    const linkTarget = await readlink(join(out.runtimeDir, ".credentials.json"));
+    expect(linkTarget).toBe(join(credSrc, ".credentials.json"));
+    // And reading it returns the source contents
+    const contents = await readFile(join(out.runtimeDir, ".credentials.json"), "utf8");
+    expect(contents).toBe('{"claudeAiOauth":{"token":"abc"}}');
+  });
+
+  test("credentialsSource: overlays sessions/, projects/, history.jsonl, etc.", async () => {
+    const credSrc = join(root, "creds");
+    const { mkdir, writeFile } = await import("node:fs/promises");
+    const { readlink } = await import("node:fs/promises");
+    await mkdir(join(credSrc, "sessions"), { recursive: true });
+    await mkdir(join(credSrc, "projects"), { recursive: true });
+    await writeFile(join(credSrc, "history.jsonl"), '{"sess":1}\n');
+    await writeFile(join(credSrc, ".session-stats.json"), '{"x":1}');
+    await writeFile(join(credSrc, ".credentials.json"), '{"token":"a"}');
+    // cue-managed files in source MUST NOT be symlinked (cue overrides them).
+    await writeFile(join(credSrc, "settings.json"), JSON.stringify({ permissions: { allow: [] } }));
+
+    const out = await materializeRuntime({
+      profile: sampleProfile,
+      agent: "claude-code",
+      runtimeRoot: join(root, "runtime"),
+      skillSourceLookup: async (id) => `/fake/source/${id}`,
+      mcpRegistry: { "claude-mem": { command: "claude-mem" } },
+      userClaudeMd: "",
+      credentialsSource: credSrc,
+    });
+
+    // Source state symlinked through
+    expect(await readlink(join(out.runtimeDir, "sessions"))).toBe(join(credSrc, "sessions"));
+    expect(await readlink(join(out.runtimeDir, "projects"))).toBe(join(credSrc, "projects"));
+    expect(await readlink(join(out.runtimeDir, "history.jsonl"))).toBe(join(credSrc, "history.jsonl"));
+    expect(await readlink(join(out.runtimeDir, ".session-stats.json"))).toBe(join(credSrc, ".session-stats.json"));
+    expect(await readlink(join(out.runtimeDir, ".credentials.json"))).toBe(join(credSrc, ".credentials.json"));
+
+    // settings.json is cue-managed: NOT a symlink, but a real merged file.
+    const { lstat } = await import("node:fs/promises");
+    const st = await lstat(join(out.runtimeDir, "settings.json"));
+    expect(st.isSymbolicLink()).toBe(false);
+    expect(st.isFile()).toBe(true);
   });
 
   test("credentialsSource: merges existing settings.json (preserves permissions)", async () => {
@@ -179,10 +220,10 @@ describe("materializeRuntime", () => {
     });
   });
 
-  test("credentialsSource: refreshes credentials AND settings on cache hit", async () => {
+  test("credentialsSource: refreshes settings on cache hit + repoints symlinks on account switch", async () => {
     const credSrcA = join(root, "credsA");
     const credSrcB = join(root, "credsB");
-    const { mkdir, writeFile, copyFile: _ } = await import("node:fs/promises");
+    const { mkdir, writeFile, readlink } = await import("node:fs/promises");
     await mkdir(credSrcA, { recursive: true });
     await mkdir(credSrcB, { recursive: true });
     await writeFile(join(credSrcA, ".credentials.json"), '{"token":"A"}');
@@ -205,18 +246,18 @@ describe("materializeRuntime", () => {
       userClaudeMd: "",
     };
 
-    // First launch with account A → builds runtime with A's creds + settings
+    // First launch with account A → builds runtime with A's symlinks + settings
     const first = await materializeRuntime({ ...args, credentialsSource: credSrcA });
     expect(first.rebuilt).toBe(true);
-    expect(await readFile(join(first.runtimeDir, ".credentials.json"), "utf8")).toBe('{"token":"A"}');
+    expect(await readlink(join(first.runtimeDir, ".credentials.json"))).toBe(join(credSrcA, ".credentials.json"));
     let s1 = JSON.parse(await readFile(join(first.runtimeDir, "settings.json"), "utf8"));
     expect(s1.permissions.allow).toEqual(["A"]);
 
-    // Second launch with account B (same profile) → hash matches → cache hit,
-    // but credentials AND settings should both refresh from B.
+    // Second launch with account B (same profile) → hash matches → cache hit.
+    // Settings rebuilt from B; symlinks repointed to B.
     const second = await materializeRuntime({ ...args, credentialsSource: credSrcB });
     expect(second.rebuilt).toBe(false);
-    expect(await readFile(join(second.runtimeDir, ".credentials.json"), "utf8")).toBe('{"token":"B"}');
+    expect(await readlink(join(second.runtimeDir, ".credentials.json"))).toBe(join(credSrcB, ".credentials.json"));
     let s2 = JSON.parse(await readFile(join(second.runtimeDir, "settings.json"), "utf8"));
     expect(s2.permissions.allow).toEqual(["B"]);
   });

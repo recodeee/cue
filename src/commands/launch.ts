@@ -213,7 +213,10 @@ export async function run(args: string[]): Promise<number> {
     configDir: configDir(),
     override: parsed.override,
   });
-  const resolved = (parsed.forcePick || isAccountAlias) ? { source: "none" as const } : existingResolved;
+  // Force picker if --cue-pick OR (account alias AND no explicit --cue-profile).
+  // Explicit --cue-profile always wins.
+  const forcePicker = parsed.forcePick || (isAccountAlias && !parsed.override);
+  const resolved = forcePicker ? { source: "none" as const } : existingResolved;
   const existingProfile = existingResolved.source !== "none"
     ? (existingResolved as { source: string; profile: string }).profile
     : undefined;
