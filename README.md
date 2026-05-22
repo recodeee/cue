@@ -2,12 +2,26 @@
 
 > Pick a profile. Launch with the right skills, MCPs, and plugins. Nothing else.
 
-`cue` sits between your shell and the agent binary. Type `claude` or `codex` and `cue` intercepts: it resolves which profile applies in this directory, materializes an isolated `CLAUDE_CONFIG_DIR` (or `CODEX_HOME`) with just that profile's skills/MCPs/plugins, then exec's the real agent. Per-directory pins mean the right loadout follows your project, not your terminal session.
+`cue` is a CLI that sits between your shell and the agent binary. Type `claude` or `codex` and `cue` intercepts: it resolves which profile applies in the current directory, materializes an isolated `CLAUDE_CONFIG_DIR` (or `CODEX_HOME`) with just that profile's skills, MCP servers, and Claude Code plugins, then exec's the real agent. Per-directory pins mean the right loadout follows the project, not the terminal session.
 
-- `profiles/` — one directory per profile; the YAML decides what loads
-- `resources/skills/` — local skill library composed into profiles
-- `resources/mcps/` — MCP server configs composed into profiles
-- `setup/` — per-OS install prompts you can paste into an agent session
+## Why cue?
+
+- **Per-profile isolation.** Skills, MCP servers, and Claude Code plugins are scoped to the active profile. Marketing work doesn't see frontend's MCPs; backend doesn't see design's skills. No more "every session has every tool" overload.
+- **Directory-aware.** Pin a profile to a directory (`.cue-profile`), and every `claude` / `codex` you launch from inside boots with that loadout automatically. No flag wrangling.
+- **Composable.** Profiles inherit from a `core` baseline so cross-session memory (claude-mem) and meta skills are shared by default. Add team-wide tools in one place.
+- **Pre-launch picker.** First time you type `claude` in a fresh directory, a TUI picker opens. Pin or one-shot — your choice.
+- **Materialized, hash-short-circuited.** Each launch rebuilds the runtime only when the resolved profile actually changed. Cold-start cost is a stat + sha256 compare.
+- **No service to run.** No daemon, no background process, no auto-update. Just a Bun CLI and a shim script in `~/.local/bin`.
+
+## Repo layout
+
+- `profiles/` — one directory per profile; a YAML decides what loads. Inheritance chains depth-3, agents=[claude-code|codex] scoping per resource.
+- `resources/skills/` — local skill library composed into profiles. Source for the `skills/local:` field.
+- `resources/mcps/` — MCP server configs (`claude.sanitized.json`, `codex.sanitized.json`) composed into profiles.
+- `plugins/cue/` — the Claude Code plugin shipping `/cue`, `/cue switch`, `/cue reload`, `/cue current` slash commands.
+- `src/` — the Bun CLI itself: `commands/`, `lib/{cwd-resolver,picker,runtime-materializer,...}`.
+- `setup/` — per-OS install prompts you can paste into an agent session.
+- `docs/` — `launch.md` (hot-path flow), `shell-install.md` (shim install + PATH), `superpowers/specs/` (design + plans).
 
 License: [MIT](./LICENSE).
 
