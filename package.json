@@ -1,11 +1,11 @@
 {
-  "name": "soul",
-  "version": "0.1.0",
-  "description": "Profile-driven Claude Code / Codex setup — skills, MCPs, and plugins as composable profiles.",
+  "name": "cue",
+  "version": "0.2.0",
+  "description": "agent profile manager — pick a profile, exec claude/codex with the right skills/MCPs/plugins",
   "private": true,
   "type": "module",
   "bin": {
-    "soul": "bin/soul"
+    "cue": "bin/cue"
   },
   "engines": {
     "bun": ">=1.0.0"

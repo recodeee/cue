@@ -1,4 +1,4 @@
-# soul — Claude Code Lean Setup (macOS)
+# cue — Claude Code Lean Setup (macOS)
 
 > **For Claude Code (the CLI), not Claude Desktop.** Claude Desktop is a chat app and cannot run installs. This prompt needs shell access — only Claude Code has that.
 

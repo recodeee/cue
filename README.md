@@ -1,6 +1,6 @@
-# soul
+# cue
 
-Opinionated lean setup for **Claude Code** — cross-session memory, token compression, a persistent knowledge brain, and native Excel/Word skills. Plus a library of pre-built skills and MCP server configs.
+Agent profile manager — pick a profile, exec Claude Code / Codex with the right skills, MCPs, and plugins. Cross-session memory, token compression, a persistent knowledge brain, and native Excel/Word skills. Plus a library of pre-built skills and MCP server configs.
 
 - `skills/` — installable skills (slash-command surfaces, runnable docs)
 - `mcps/` — MCP server implementations and configs
@@ -115,8 +115,8 @@ Skip this tier if you only ever run one Claude Code window at a time — claude-
 Profiles keep each Claude Code or Codex session lean by materializing only the skills and MCPs needed for the current job.
 
 ```bash
-soul list
-soul use medusa-dev
+cue list
+cue use medusa-dev
 cd profiles/medusa-dev/workspace && claude
 ```
 
@@ -150,7 +150,7 @@ claude-mem (passive) and gbrain (manual wiki) are complementary — both recomme
 ## What's inside the repo
 
 ```
-soul/
+cue/
 ├── skills/         110+ Claude Code / Codex skills
 │   ├── medusa/     building-with-medusa, storefront-best-practices, …
 │   ├── codex-fleet/  bringup, dispatch, supervisors, panes, troubleshoot

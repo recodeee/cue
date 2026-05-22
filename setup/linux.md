@@ -1,4 +1,4 @@
-# soul — Claude Code Lean Setup (Linux)
+# cue — Claude Code Lean Setup (Linux)
 
 > **For Claude Code (the CLI), not Claude Desktop.** This prompt needs shell access — only Claude Code has that.
 

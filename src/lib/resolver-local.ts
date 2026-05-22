@@ -289,12 +289,12 @@ export const _internal = { sep };
  * already exists; it just removes the need for callers to build a fake
  * ResolvedProfile or pass skillsRoot explicitly.
  *
- * Uses SOUL_REPO_ROOT env var as override if set (so tests can inject a
+ * Uses CUE_REPO_ROOT (or legacy SOUL_REPO_ROOT) env var as override if set (so tests can inject a
  * different root without touching the real skills tree).
  */
 export async function resolveLocalSkill(id: string): Promise<string> {
-  const skillsRoot = process.env.SOUL_REPO_ROOT
-    ? join(process.env.SOUL_REPO_ROOT, "resources", "skills", "skills")
+  const skillsRoot = (process.env.CUE_REPO_ROOT ?? process.env.SOUL_REPO_ROOT)
+    ? join((process.env.CUE_REPO_ROOT ?? process.env.SOUL_REPO_ROOT)!, "resources", "skills", "skills")
     : DEFAULT_SKILLS_ROOT;
   const root = resolve(skillsRoot);
   const { categoryIndex, slugIndex, allSlugs } = await walk(root);

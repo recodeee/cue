@@ -1,4 +1,4 @@
-# soul — Parallel Agents Tier (Colony + gitguardex)
+# cue — Parallel Agents Tier (Colony + gitguardex)
 
 > Optional tier *on top of* the lean stack from `setup/macos.md` / `setup/linux.md` / `setup/windows.md`. Pick this if you want to run **multiple Codex/Claude agents in parallel** on the same repo without them stomping on each other's edits.
 

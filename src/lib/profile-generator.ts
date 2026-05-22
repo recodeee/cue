@@ -317,7 +317,7 @@ const STOP_WORDS = new Set([
 ]);
 
 export function defaultProfilesDir(repoRoot = REPO_ROOT): string {
-  return process.env.SOUL_PROFILES_DIR ?? join(repoRoot, "profiles");
+  return process.env.CUE_PROFILES_DIR ?? process.env.SOUL_PROFILES_DIR ?? join(repoRoot, "profiles");
 }
 
 export function defaultSkillsRoot(repoRoot = REPO_ROOT): string {

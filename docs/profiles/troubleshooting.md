@@ -1,6 +1,6 @@
 # Troubleshooting
 
-<!-- TODO: A15 fills this in once `soul doctor` lands -->
+<!-- TODO: A15 fills this in once `cue doctor` lands -->
 
-Maps every error `soul doctor` can emit to the action that fixes it. Until
+Maps every error `cue doctor` can emit to the action that fixes it. Until
 the doctor command lands, this page is a stub.

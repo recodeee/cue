@@ -100,7 +100,7 @@ async function listProfileOptions(): Promise<PickerOption[]> {
 
 async function loadMcpRegistry(agent: "claude-code" | "codex"): Promise<Record<string, unknown>> {
   const file = agent === "claude-code" ? "claude.sanitized.json" : "codex.sanitized.json";
-  const root = process.env.SOUL_REPO_ROOT ?? resolve(
+  const root = process.env.CUE_REPO_ROOT ?? process.env.SOUL_REPO_ROOT ?? resolve(
     new URL(import.meta.url).pathname,
     "..",
     "..",

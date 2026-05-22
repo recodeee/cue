@@ -1,4 +1,4 @@
-# soul — Claude Code Lean Setup (Windows)
+# cue — Claude Code Lean Setup (Windows)
 
 > **For Claude Code (the CLI), not Claude Desktop.** This prompt needs shell access — only Claude Code has that. On Windows you have two options: **native PowerShell** (this file) or **WSL2** (use [setup/linux.md](./linux.md) inside WSL).
 

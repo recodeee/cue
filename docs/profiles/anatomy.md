@@ -38,7 +38,7 @@ mcps:
 `name` must match the directory name exactly. The loader rejects a mismatch
 between `profiles/medusa-dev/` and `name: medusa-dev`.
 
-`description` is the short human label shown by `soul list` and stamped into
+`description` is the short human label shown by `cue list` and stamped into
 the generated workspace docs.
 
 `inherits: core` means `medusa-dev` starts with the shared baseline, then adds
@@ -62,7 +62,7 @@ profile YAML.
 
 ## Inheritance Chain
 
-`soul validate medusa-dev` should report this chain:
+`cue validate medusa-dev` should report this chain:
 
 ```text
 core -> medusa-dev
@@ -72,7 +72,7 @@ core -> medusa-dev
 
 ```yaml
 name: core
-description: Baseline profile for every lean Soul install profile
+description: Baseline profile for every lean Cue install profile
 skills:
   local:
     - meta/analyze

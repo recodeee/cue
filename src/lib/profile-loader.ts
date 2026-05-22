@@ -52,13 +52,14 @@ const REPO_ROOT = resolve(
 const DEFAULT_PROFILES_DIR = join(REPO_ROOT, "profiles");
 
 /**
- * Roots the loader against a profiles/ tree. Honors `SOUL_PROFILES_DIR` so
- * tests can point at a temp directory without monkey-patching. The schema
- * file always comes from the repo's `profiles/schema.json` — it is the
- * canonical contract and does not move with the data root.
+ * Roots the loader against a profiles/ tree. Honors `CUE_PROFILES_DIR` (or
+ * legacy `SOUL_PROFILES_DIR`) so tests can point at a temp directory without
+ * monkey-patching. The schema file always comes from the repo's
+ * `profiles/schema.json` — it is the canonical contract and does not move
+ * with the data root.
  */
 function profilesDir(): string {
-  return process.env.SOUL_PROFILES_DIR ?? DEFAULT_PROFILES_DIR;
+  return process.env.CUE_PROFILES_DIR ?? process.env.SOUL_PROFILES_DIR ?? DEFAULT_PROFILES_DIR;
 }
 
 const SCHEMA_PATH = join(DEFAULT_PROFILES_DIR, "schema.json");

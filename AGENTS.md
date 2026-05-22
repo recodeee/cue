@@ -1,10 +1,10 @@
-# AGENTS — soul bootstrap contract
+# AGENTS — cue bootstrap contract
 
-If you are an AI coding agent (Claude Code, Codex, etc.) helping a human install soul on their machine, this file is your instruction sheet. Read it before touching the shell.
+If you are an AI coding agent (Claude Code, Codex, etc.) helping a human install cue on their machine, this file is your instruction sheet. Read it before touching the shell.
 
 ---
 
-## What soul is
+## What cue is
 
 A lean Claude Code setup:
 - `skills/` — 110+ installable skills (slash-commands + runnable docs)
@@ -103,6 +103,6 @@ If the user opts into `setup/parallel-agents.md`, add these clauses to your oper
 
 ---
 
-## Maintainer note — for the soul/ source layout
+## Maintainer note
 
-The contributor docs (how to add a skill / MCP) used to live here. They moved to `README.md § Contributing`. This file is now scoped to the bootstrap contract above — what an agent doing installs needs to know.
+The contributor docs (how to add a skill / MCP) live in `README.md § Contributing`. This file is scoped to the bootstrap contract above — what an agent doing installs needs to know.

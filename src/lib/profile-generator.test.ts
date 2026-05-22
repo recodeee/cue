@@ -22,15 +22,15 @@ let priorProfilesDir: string | undefined;
 beforeEach(async () => {
   scratchRoot = await mkdtemp(join(tmpdir(), "soul-profile-generator-"));
   profilesRoot = join(scratchRoot, "profiles");
-  priorProfilesDir = process.env.SOUL_PROFILES_DIR;
-  process.env.SOUL_PROFILES_DIR = profilesRoot;
+  priorProfilesDir = process.env.CUE_PROFILES_DIR;
+  process.env.CUE_PROFILES_DIR = profilesRoot;
 });
 
 afterEach(async () => {
   if (priorProfilesDir === undefined) {
-    delete process.env.SOUL_PROFILES_DIR;
+    delete process.env.CUE_PROFILES_DIR;
   } else {
-    process.env.SOUL_PROFILES_DIR = priorProfilesDir;
+    process.env.CUE_PROFILES_DIR = priorProfilesDir;
   }
   await rm(scratchRoot, { recursive: true, force: true });
 });

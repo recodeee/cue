@@ -41,7 +41,7 @@ import {
 import { resolvePlugins } from "./resolver-plugins";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const REPO_ROOT = process.env.SOUL_REPO_ROOT ?? resolve(HERE, "..", "..");
+const REPO_ROOT = process.env.CUE_REPO_ROOT ?? process.env.SOUL_REPO_ROOT ?? resolve(HERE, "..", "..");
 const DEFAULT_PROFILES_DIR = join(REPO_ROOT, "profiles");
 const DEFAULT_SKILLS_ROOT = join(REPO_ROOT, "resources", "skills", "skills");
 const DEFAULT_CONFIGS_ROOT = join(REPO_ROOT, "resources", "mcps", "configs");
@@ -131,11 +131,11 @@ interface RawProfileRecord {
 }
 
 function profilesDir(opts: ProfileLinterOptions): string {
-  return opts.profilesDir ?? process.env.SOUL_PROFILES_DIR ?? DEFAULT_PROFILES_DIR;
+  return opts.profilesDir ?? process.env.CUE_PROFILES_DIR ?? process.env.SOUL_PROFILES_DIR ?? DEFAULT_PROFILES_DIR;
 }
 
 function repoRoot(opts: ProfileLinterOptions): string {
-  return opts.repoRoot ?? process.env.SOUL_REPO_ROOT ?? REPO_ROOT;
+  return opts.repoRoot ?? process.env.CUE_REPO_ROOT ?? process.env.SOUL_REPO_ROOT ?? REPO_ROOT;
 }
 
 function addIssue(
@@ -210,15 +210,22 @@ async function withProfilesDir<T>(
   fn: () => Promise<T>,
 ): Promise<T> {
   if (!profilesRoot) return fn();
-  const prior = process.env.SOUL_PROFILES_DIR;
+  const prior = process.env.CUE_PROFILES_DIR;
+  const priorLegacy = process.env.SOUL_PROFILES_DIR;
+  process.env.CUE_PROFILES_DIR = profilesRoot;
   process.env.SOUL_PROFILES_DIR = profilesRoot;
   try {
     return await fn();
   } finally {
     if (prior === undefined) {
+      delete process.env.CUE_PROFILES_DIR;
+    } else {
+      process.env.CUE_PROFILES_DIR = prior;
+    }
+    if (priorLegacy === undefined) {
       delete process.env.SOUL_PROFILES_DIR;
     } else {
-      process.env.SOUL_PROFILES_DIR = prior;
+      process.env.SOUL_PROFILES_DIR = priorLegacy;
     }
   }
 }
@@ -505,7 +512,7 @@ async function resolveOneNpxSkill(
     });
     return;
   } catch (err) {
-    if (opts.npxOffline || process.env.SOUL_OFFLINE === "1") {
+    if (opts.npxOffline || (process.env.CUE_OFFLINE ?? process.env.SOUL_OFFLINE) === "1") {
       throw err;
     }
     if (!(err instanceof NpxFetchFailed || err instanceof ProfileError)) {

@@ -13,7 +13,7 @@
  *
  * Environment:
  *   SOUL_OFFLINE=1   →  cache miss is a hard failure (NpxFetchFailed).
- *   SOUL_REPO_ROOT   →  override repo root (mirrors bin/cli/index.ts).
+ *   CUE_REPO_ROOT    →  override repo root (legacy: SOUL_REPO_ROOT).
  *
  * Owned by agent A7. Touches only bin/cli/lib/resolver-npx*.ts and cache.ts.
  */
@@ -146,11 +146,11 @@ export const npxFetch: NpxFetchFn = async (repo, pin, skill, destDir) => {
 // ---------------------------------------------------------------------------
 
 export interface ResolveNpxOptions {
-  /** Repo root for the cache layout. Defaults to SOUL_REPO_ROOT or the CLI root. */
+  /** Repo root for the cache layout. Defaults to CUE_REPO_ROOT or the CLI root. */
   repoRoot?: string;
   /** Fetcher; defaults to the real `npx skills add` shellout. */
   fetch?: NpxFetchFn;
-  /** Override offline flag (defaults to SOUL_OFFLINE env). */
+  /** Override offline flag (defaults to CUE_OFFLINE / SOUL_OFFLINE env). */
   offline?: boolean;
 }
 
@@ -196,7 +196,7 @@ export async function resolveNpxDetailed(
 
   const layout: CacheLayout = { repoRoot: opts.repoRoot ?? defaultRepoRoot() };
   const fetcher = opts.fetch ?? npxFetch;
-  const offline = opts.offline ?? process.env.SOUL_OFFLINE === "1";
+  const offline = opts.offline ?? (process.env.CUE_OFFLINE ?? process.env.SOUL_OFFLINE) === "1";
 
   for (const entry of entries) {
     const key = cacheKey(entry.repo, entry.pin);
@@ -322,6 +322,7 @@ function entryId(e: NpxSkillRef): string {
 }
 
 function defaultRepoRoot(): string {
+  if (process.env.CUE_REPO_ROOT) return resolve(process.env.CUE_REPO_ROOT);
   if (process.env.SOUL_REPO_ROOT) return resolve(process.env.SOUL_REPO_ROOT);
   // src/lib/resolver-npx.ts  →  repo root is three levels up (file → lib → src → repo).
   const here = fileURLToPath(import.meta.url);

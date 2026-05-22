@@ -2,7 +2,7 @@
  * Tests for profile-loader.ts.
  *
  * Each test builds an isolated profiles/ tree under a temp dir and points the
- * loader at it via `SOUL_PROFILES_DIR`. The repo's real `profiles/schema.json`
+ * loader at it via `CUE_PROFILES_DIR`. The repo's real `profiles/schema.json`
  * is always used — it is the canonical contract.
  *
  * Run with: `bun test bin/cli/lib/profile-loader.test.ts`
@@ -35,15 +35,15 @@ let priorEnv: string | undefined;
 
 beforeEach(async () => {
   scratchRoot = await mkdtemp(join(tmpdir(), "soul-profile-loader-"));
-  priorEnv = process.env.SOUL_PROFILES_DIR;
-  process.env.SOUL_PROFILES_DIR = scratchRoot;
+  priorEnv = process.env.CUE_PROFILES_DIR;
+  process.env.CUE_PROFILES_DIR = scratchRoot;
 });
 
 afterEach(() => {
   if (priorEnv === undefined) {
-    delete process.env.SOUL_PROFILES_DIR;
+    delete process.env.CUE_PROFILES_DIR;
   } else {
-    process.env.SOUL_PROFILES_DIR = priorEnv;
+    process.env.CUE_PROFILES_DIR = priorEnv;
   }
 });
 

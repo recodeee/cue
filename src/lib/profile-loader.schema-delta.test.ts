@@ -16,21 +16,21 @@ let priorEnv: string | undefined;
 
 beforeEach(async () => {
   scratchRoot = await mkdtemp(join(tmpdir(), "cue-schema-"));
-  priorEnv = process.env.SOUL_PROFILES_DIR;
+  priorEnv = process.env.CUE_PROFILES_DIR;
 });
 
 afterEach(() => {
   if (priorEnv === undefined) {
-    delete process.env.SOUL_PROFILES_DIR;
+    delete process.env.CUE_PROFILES_DIR;
   } else {
-    process.env.SOUL_PROFILES_DIR = priorEnv;
+    process.env.CUE_PROFILES_DIR = priorEnv;
   }
 });
 
 async function fixture(yaml: string): Promise<string> {
   await mkdir(join(scratchRoot, "frontend"), { recursive: true });
   await writeFile(join(scratchRoot, "frontend", "profile.yaml"), yaml);
-  process.env.SOUL_PROFILES_DIR = scratchRoot;
+  process.env.CUE_PROFILES_DIR = scratchRoot;
   return scratchRoot;
 }
 

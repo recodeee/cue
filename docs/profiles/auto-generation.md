@@ -1,7 +1,7 @@
 # Auto-generation
 
-`soul scan` discovers available skills and groups them by inferred work domain.
-`soul new <name> --from-scan` uses the same grouping to write a draft
+`cue scan` discovers available skills and groups them by inferred work domain.
+`cue new <name> --from-scan` uses the same grouping to write a draft
 `profiles/<name>/profile.yaml`.
 
 ## What gets scanned
@@ -12,13 +12,13 @@ The scanner is read-only. It looks at:
 - npx-installed skills under `~/.claude/skills` and `~/.agents/skills`
 - Claude Code plugins under `~/.claude/plugins`
 
-When A10/A11 scanner modules are installed, `soul scan` calls them. If they are
+When A10/A11 scanner modules are installed, `cue scan` calls them. If they are
 not present, the CLI uses compatible fallback scanners so the command still
 works on a real machine.
 
 ## Domain heuristic
 
-For each `SKILL.md`, soul reads YAML frontmatter and normalizes the
+For each `SKILL.md`, cue reads YAML frontmatter and normalizes the
 `description` field. The tokenizer lowercases text, splits punctuation and
 hyphens, removes common stop words, and scores the remaining tokens against
 domain keyword sets.
@@ -45,11 +45,11 @@ exists, generated profiles can inherit it.
 
 ## Generated profile shape
 
-`soul new test --from-scan --auto` writes one schema-valid profile:
+`cue new test --from-scan --auto` writes one schema-valid profile:
 
 ```yaml
 name: "test"
-description: "Auto-generated from soul scan (12 skills)"
+description: "Auto-generated from cue scan (12 skills)"
 agents: [claude-code, codex]
 skills:
   local:
@@ -70,7 +70,7 @@ keeps only that domain. Otherwise it includes all non-core domains. You can also
 force one domain explicitly:
 
 ```bash
-soul new shop-backend --from-scan --auto --domain backend
+cue new shop-backend --from-scan --auto --domain backend
 ```
 
 The generator never overwrites `profiles/<name>/profile.yaml` unless
@@ -89,5 +89,5 @@ The heuristic is deliberately simple. To override it, edit the generated YAML:
 Run validation after editing:
 
 ```bash
-soul validate <name>
+cue validate <name>
 ```

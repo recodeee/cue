@@ -11,11 +11,14 @@ beforeEach(async () => {
   saveCwd = process.cwd();
   home = await mkdtemp(join(tmpdir(), "cue-launch-"));
   process.env.HOME = home;
-  process.env.SOUL_REPO_ROOT = saveCwd; // pretend cwd is the soul repo
+  process.env.CUE_REPO_ROOT = saveCwd; // pretend cwd is the cue repo
+  process.env.SOUL_REPO_ROOT = saveCwd; // legacy fallback
+  process.env.CUE_PROFILES_DIR = join(saveCwd, "profiles");
   process.env.XDG_CONFIG_HOME = join(home, ".config");
 });
 afterEach(async () => {
   process.chdir(saveCwd);
+  delete process.env.CUE_PROFILES_DIR;
   await rm(home, { recursive: true, force: true });
 });
 
@@ -37,7 +40,7 @@ describe("soul launch --dry-run", () => {
     await writeFile(join(cwd, ".cue-profile"), "core\n");
     process.chdir(cwd);
     // Note: the 'core' profile must exist under profiles/core/profile.yaml in the
-    // repo root pointed to by SOUL_REPO_ROOT. The repo's existing core profile fits.
+    // repo root pointed to by CUE_REPO_ROOT. The repo's existing core profile fits.
     const rc = await run(["claude", "--dry-run"]);
     expect(rc).toBe(0);
   });
