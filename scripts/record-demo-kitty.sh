@@ -20,6 +20,26 @@ OUT_MP4=/tmp/cue-demo-raw.mp4
 OUT_PALETTE=/tmp/cue-demo-palette.png
 OUT_GIF=docs/assets/demo.gif
 
+# ── Flashpaste guard ─────────────────────────────────────────────────────────
+# flashpasted mirrors host clipboard into nested Wayland sessions, so kitty
+# inside the recorder picks up image pastes and feeds them to claude as
+# `[Image #N]`. Pause it for the duration of the recording.
+FLASHPASTE_UNITS=(flashpasted.service flashpaste-screenshot-watcher.service)
+FLASHPASTE_STOPPED=()
+stop_flashpaste() {
+  for unit in "${FLASHPASTE_UNITS[@]}"; do
+    if systemctl --user is-active --quiet "$unit" 2>/dev/null; then
+      systemctl --user stop "$unit" 2>/dev/null && FLASHPASTE_STOPPED+=("$unit")
+    fi
+  done
+  [[ ${#FLASHPASTE_STOPPED[@]} -gt 0 ]] && echo "▸ paused flashpaste: ${FLASHPASTE_STOPPED[*]}"
+}
+start_flashpaste() {
+  for unit in "${FLASHPASTE_STOPPED[@]}"; do
+    systemctl --user start "$unit" 2>/dev/null
+  done
+}
+
 # ── Cleanup on exit ──────────────────────────────────────────────────────────
 cleanup() {
   set +e
@@ -28,8 +48,11 @@ cleanup() {
   tmux -L cue-demo kill-server 2>/dev/null
   [[ -n "${XVFB_PID:-}" ]] && kill -TERM "$XVFB_PID" 2>/dev/null
   rm -f /tmp/cue-demo-tmux.conf
+  start_flashpaste
 }
 trap cleanup EXIT INT TERM
+
+stop_flashpaste
 
 # ── 1. Virtual X display ─────────────────────────────────────────────────────
 echo "▸ starting Xvfb on $DISPLAY_NUM (${WIDTH}x${HEIGHT})"
