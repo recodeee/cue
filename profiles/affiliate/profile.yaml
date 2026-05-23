@@ -1,0 +1,67 @@
+name: affiliate
+icon: "💰"
+description: "Affiliate marketing flywheel — 52 skills across research, content, SEO, landing pages, distribution, analytics, and automation"
+inherits: core
+skills:
+  npx:
+    - repo: Affitor/affiliate-skills
+      skills:
+        # S1: Research & Discovery
+        - affiliate-program-search
+        - niche-opportunity-finder
+        - competitor-spy
+        - commission-calculator
+        - monopoly-niche-finder
+        - purple-cow-audit
+        - trending-content-scout
+        - content-angle-ranker
+        - traffic-analyzer
+        # S2: Content Creation
+        - viral-post-writer
+        - twitter-thread-writer
+        - reddit-post-writer
+        - tiktok-script-writer
+        - content-pillar-atomizer
+        - content-research-brief
+        - infographic-generator
+        # S3: Blog & SEO
+        - affiliate-blog-builder
+        - comparison-post-writer
+        - listicle-generator
+        - how-to-tutorial-writer
+        - keyword-cluster-architect
+        - content-moat-calculator
+        - content-decay-detector
+        # S4: Offers & Landing Pages
+        - landing-page-creator
+        - product-showcase-page
+        - squeeze-page-builder
+        - webinar-registration-page
+        - grand-slam-offer
+        - bonus-stack-builder
+        - guarantee-generator
+        - value-ladder-architect
+        # S5: Distribution & Deployment
+        - bio-link-deployer
+        - email-drip-sequence
+        - social-media-scheduler
+        - github-pages-deployer
+        # S6: Analytics & Optimization
+        - conversion-tracker
+        - ab-test-generator
+        - performance-report
+        - seo-audit
+        - internal-linking-optimizer
+        # S7: Automation & Scale
+        - email-automation-builder
+        - content-repurposer
+        - multi-program-manager
+        - paid-ad-copy-writer
+        - proprietary-data-generator
+        # S8: Meta
+        - skill-finder
+        - funnel-planner
+        - compliance-checker
+        - self-improver
+        - category-designer
+mcps: []
