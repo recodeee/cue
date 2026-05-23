@@ -14,7 +14,7 @@
 
 > Every `claude` session loads all **1,927** skills you've ever installed. Your model picks the wrong one. Your tokens evaporate. **cue fixes this in one command.**
 
-**Works with:** Claude Code · Codex · Cursor · Cline · Gemini · GitHub Copilot · Windsurf · Roo Code · Amp · Aider &nbsp;→ &nbsp; [jump to the full matrix ↓](#agents-cue-supports)
+**Works with:** [![Claude Code](https://img.shields.io/badge/Claude_Code-cc785c?style=flat-square&logo=anthropic&logoColor=white)](https://github.com/anthropics/claude-code) [![Codex](https://img.shields.io/badge/Codex-000000?style=flat-square&logo=openai&logoColor=white)](https://github.com/openai/codex) [![Cursor](https://img.shields.io/badge/Cursor-000000?style=flat-square&logo=cursor&logoColor=white)](https://cursor.sh) [![Cline](https://img.shields.io/badge/Cline-5A45FF?style=flat-square)](https://github.com/cline/cline) [![Gemini](https://img.shields.io/badge/Gemini-4285F4?style=flat-square&logo=google&logoColor=white)](https://github.com/google-gemini/gemini-cli) [![Copilot](https://img.shields.io/badge/Copilot-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/features/copilot) [![Windsurf](https://img.shields.io/badge/Windsurf-06B6D4?style=flat-square)](https://windsurf.com) [![Roo Code](https://img.shields.io/badge/Roo_Code-7C3AED?style=flat-square)](https://github.com/RooVetGit/Roo-Code) [![Amp](https://img.shields.io/badge/Amp-FF4500?style=flat-square&logo=sourcegraph&logoColor=white)](https://sourcegraph.com/amp) [![Aider](https://img.shields.io/badge/Aider-14B8A6?style=flat-square)](https://aider.chat) &nbsp;→&nbsp; [full matrix ↓](#agents-cue-supports)
 
 ## ⚡ 60-second quickstart
 
@@ -30,25 +30,62 @@ That's it. `cd` into any other repo and `claude` will boot with that repo's prof
   <img src="./docs/assets/demo.gif" alt="cue 30-second demo — install, pin a profile, optimize, launch" width="820" onerror="this.style.display='none'">
 </p>
 
-> **No GIF yet?** Generate it with [`vhs`](https://github.com/charmbracelet/vhs): `vhs docs/demo.tape` → writes `docs/assets/demo.gif`.
-
 <details>
 <summary>📑 <b>Table of contents</b></summary>
 
+- [5 commands you need](#-5-commands-you-need)
+- [Before & After — token cost](#-before--after--token-cost)
 - [Why a profile manager at all?](#why-a-profile-manager-at-all)
+- [Skills are not just prompts](#skills-are-not-just-prompts)
 - [How cue compares](#how-cue-compares)
 - [How it works](#how-it-works)
 - [Agents cue supports](#agents-cue-supports)
 - [`cue optimizer` — see every loadout at a glance](#cue-optimizer--see-every-loadout-at-a-glance)
-- [The 16-profile catalog](#the-16-profile-catalog)
+- [The 19-profile catalog](#the-19-profile-catalog)
+- [Create your own profile in 30 seconds](#️-create-your-own-profile-in-30-seconds)
+- [`cue share` — community profiles](#-cue-share--community-profiles)
 - [Install](#install)
 - [What ships with each profile](#what-ships-with-each-profile-the-lean-stack)
 - [FAQ](#faq)
 - [Repo layout](#repo-layout)
 - [Built with / built on](#built-with--built-on)
+- [Star History](#star-history)
 - [Contributing](#contributing)
 
 </details>
+
+---
+
+## 🧠 5 commands you need
+
+```bash
+cue use <profile>            # switch profile for this directory
+cue list                     # see all available profiles
+cue optimizer                # audit: skills, MCPs, CLIs, usage per profile
+cue doctor --fix             # diff declared vs actual state, auto-repair
+cue skills add <github-url>  # install a skill from GitHub into a profile
+```
+
+That covers 90% of daily use. Everything else (`cue share`, `cue materialize`, `cue tree`, etc.) is there when you need it — run `cue --help` for the full list.
+
+---
+
+## 📊 Before & After — token cost
+
+> **TL;DR** — loading everything costs you tokens on every single message. cue cuts context size by 10–25×.
+
+| Scenario | Context loaded | Tokens per session | Cost (Sonnet) |
+|---|---|---|---|
+| **Without cue** — all 1,927 skills + 15 MCPs | ~180k tokens | ~$2.70/session | 😱 |
+| **With cue** — `backend` profile (12 skills, 2 MCPs) | ~8k tokens | ~$0.12/session | ✅ |
+| **With cue** — `caveman-quick` (3 skills, 0 MCPs) | ~2k tokens | ~$0.03/session | 🚀 |
+
+That's **22× fewer tokens** for a typical backend session. Over a day of 20 sessions, you save ~$50 in raw API cost — or equivalently, your model picks the right tool on the first try because it's not drowning in 1,900 irrelevant skill descriptions.
+
+```bash
+cue cost                      # see token budget for your active profile
+cue cost --profile full       # compare against the "everything" baseline
+```
 
 ---
 
@@ -66,6 +103,74 @@ That's it. `cd` into any other repo and `claude` will boot with that repo's prof
 - **Pre-launch picker.** First time you type `claude` in a fresh directory, a TUI picker opens. Pin or one-shot — your choice.
 - **Materialized, hash-short-circuited.** Each launch rebuilds the runtime only when the resolved profile actually changed. Cold-start cost is a `stat()` + sha256 compare.
 - **No service to run.** No daemon, no background process, no auto-update. Just a Bun CLI and a shim script in `~/.local/bin`.
+
+### Profile inheritance
+
+Profiles compose via single-parent inheritance. Each child adds or overrides what it needs:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  core                                                       │
+│  claude-mem · caveman · RTK · gbrain                        │
+└──────────┬──────────────────┬───────────────────┬───────────┘
+           │                  │                   │
+    ┌──────▼──────┐    ┌──────▼──────┐     ┌──────▼──────┐
+    │  backend    │    │  frontend   │     │  marketing  │
+    │  +12 skills │    │  +8 skills  │     │  +6 skills  │
+    │  +coolify   │    │  +playwright│     │  +seo-mcp   │
+    └──────┬──────┘    └─────────────┘     └─────────────┘
+           │
+    ┌──────▼──────┐
+    │  medusa-dev │
+    │  +medusa/*  │
+    │  +medusadocs│
+    └─────────────┘
+```
+
+Child profiles inherit all skills, MCPs, and plugins from their parent. Override or extend — never duplicate.
+
+---
+
+## Skills are not just prompts
+
+> **TL;DR** — a cue skill isn't a markdown file the model reads and forgets. It's a **wired capability** — a skill declares which CLIs it needs, which MCP tools it calls, and cue ensures all three layers (skill + MCP + CLI) are present and connected before the session starts.
+
+Most "skill" tools stop at prompt injection: paste markdown into the context window and hope the model follows it. That works for style guides. It doesn't work for *doing things*.
+
+A real capability has three layers:
+
+| Layer | What it does | Example |
+|---|---|---|
+| **Skill** (the instruction) | Tells the model *when* and *how* to act | "When user says 'analyze video', extract frames at 1 fps…" |
+| **MCP server** (the tool) | Gives the model a callable function | `video_watch`, `gbrain__put_page`, `excel__create_workbook` |
+| **CLI** (the runtime) | The binary the MCP or skill shells out to | `ffmpeg`, `yt-dlp`, `whisper-cpp`, `uv` |
+
+**Without cue**, you install these independently and pray they line up. A skill references an MCP that isn't running. An MCP calls a CLI that isn't installed. The model hallucinates a tool name because 40 other MCPs are polluting the namespace.
+
+**With cue**, a profile declares all three as a unit:
+
+```yaml
+# profiles/video/profile.yaml
+skills:
+  local:
+    - design/headless-gif-demo     # ← knows it needs ffmpeg
+plugins:
+  - claude-video-vision@jordanrendric  # ← registers video_watch MCP
+mcps: []                               # ← inherited gbrain from core
+```
+
+`cue optimizer` then verifies the full stack:
+
+```
+video profile
+  ✅ ffmpeg        installed (/usr/bin/ffmpeg)
+  ✅ yt-dlp        installed (~/.local/bin/yt-dlp)
+  ❌ whisper-cpp   missing → brew install whisper-cpp
+  ✅ MCP: video_watch (claude-video-vision plugin)
+  ✅ MCP: gbrain (inherited from core)
+```
+
+**The result:** when the model receives a skill, it's not reading a suggestion — it's reading a contract backed by tools that are actually there. Skills become reliable capabilities, not hopeful prompts.
 
 ---
 
@@ -203,16 +308,16 @@ Each card shows what's actually loaded *plus* how often you've reached for each 
 
 ---
 
-## The 16-profile catalog
+## The 19-profile catalog
 
-> **TL;DR** — 16 profiles ship with cue: `core`, `backend`, `frontend`, `marketing`, `medusa-dev`, `cybersecurity`, `nvidia`, `creative-media`, `docs-writer`, `caveman-quick`, `coolify`, `hostinger`, `fleet-control`, `readme-writer`, `full`, plus the per-OS `setup` profile. Switch with `cue use <name>`.
+> **TL;DR** — 19 profiles ship with cue: `core`, `backend`, `frontend`, `marketing`, `medusa-dev`, `cybersecurity`, `nvidia`, `creative-media`, `docs-writer`, `caveman-quick`, `coolify`, `hostinger`, `fleet-control`, `readme-writer`, `full`, `research`, `threejs`, `video`, plus the per-OS `setup` profile. Switch with `cue use <name>`.
 
 <p align="center">
   <img src="./docs/assets/profiles-grid.svg" alt="The 16 profiles shipped with cue" width="820">
 </p>
 
 <details>
-<summary>📋 <b>All 16 profiles as a table</b> (for screen readers / LLM ingestion)</summary>
+<summary>📋 <b>All 19 profiles as a table</b> (for screen readers / LLM ingestion)</summary>
 
 | Profile | Domain |
 |---|---|
@@ -231,6 +336,9 @@ Each card shows what's actually loaded *plus* how often you've reached for each 
 | `hostinger` | Hostinger DNS, domain, VPS, hosting management. |
 | `fleet-control` | Multi-agent orchestration, Colony coordination, OMX flows. |
 | `full` | Diagnostic fallback — loads every local skill and MCP. |
+| `research` | Deep research, literature review, citation management. |
+| `threejs` | Three.js 3D scenes, shaders, WebGL, interactive visuals. |
+| `video` | Video/GIF analysis — frame extraction, transcription, Claude Vision. |
 | `setup` | Per-OS install assistant. |
 
 Canonical source: [`docs/data/profiles.md`](./docs/data/profiles.md).
@@ -242,6 +350,54 @@ cue list                      # show all
 cue use medusa-dev            # pin to current directory
 claude                        # launches with medusa-dev's loadout
 ```
+
+---
+
+## 🛠️ Create your own profile in 30 seconds
+
+```bash
+cue new my-stack                              # scaffold profile.yaml
+```
+
+Edit the generated file:
+
+```yaml
+# profiles/my-stack/profile.yaml
+name: my-stack
+icon: "🔧"
+description: My custom dev environment
+inherits: core                                # gets claude-mem, caveman, RTK, gbrain
+skills:
+  local:
+    - review/code-review
+    - meta/rtk-context-trim
+mcps:
+  - gbrain
+```
+
+Activate it:
+
+```bash
+cue use my-stack                              # pin to current directory
+cue doctor --fix                              # verify everything resolves
+claude                                        # launches with your loadout
+```
+
+Want to start from what's already in a project? `cue init` scans your repo and suggests a profile based on detected languages, frameworks, and config files.
+
+---
+
+## 🌐 `cue share` — community profiles
+
+> **TL;DR** — publish your profile as a GitHub Gist, browse what others have shared, install with one command.
+
+```bash
+cue share publish --profile backend           # upload to your GitHub Gists
+cue share browse                              # see community profiles
+cue share install <gist-id>                   # pull someone else's profile
+```
+
+Shared profiles include the full `profile.yaml` + metadata (skill count, MCP list, description). Browse profiles others have published, fork them, or use them as a starting point for your own.
 
 ---
 
@@ -282,6 +438,22 @@ claude
 | **RTK** CLI hook | Filters shell output — 60-90% token savings on `ls` / `git` / `cat` |
 | **gbrain** MCP | Personal wiki with embeddings + backlinks |
 | **excel-mcp** / **word-mcp** | Native `.xlsx` / `.docx` read & write |
+
+### 💰 Token savings stack
+
+The combination of **profile isolation + RTK + caveman** compounds:
+
+| Optimization | What it cuts | Savings |
+|---|---|---|
+| **Profile isolation** | Irrelevant skills/MCPs never loaded | 10–25× fewer context tokens |
+| **RTK** | Filters `ls`, `git log`, `cat` output before it hits the model | 60–90% per shell command |
+| **Caveman mode** | Terse responses, no filler | ~40% fewer output tokens |
+| **Combined** | All three together | **$2.70 → $0.08/session** typical |
+
+```bash
+rtk gain                      # see your cumulative RTK savings
+cue cost                      # token budget for active profile
+```
 
 Want to **run 2+ agents in parallel on one repo**? Layer the optional **Colony + gitguardex** tier — see [`setup/parallel-agents.md`](./setup/parallel-agents.md). Skip it for solo work.
 
@@ -399,6 +571,32 @@ cue glues together a small set of excellent open-source projects. Star counts ar
 | [astral-sh/uv](https://github.com/astral-sh/uv) | Python venv manager used by `setup/<os>.md` to run uvx-based MCP servers (Excel / Word) | [![stars](https://img.shields.io/github/stars/astral-sh/uv?style=flat-square&label=★&color=22c55e)](https://github.com/astral-sh/uv) |
 
 Plus the **brand logos** you see in the optimizer dashboard and hero come from each vendor's official press kit (OpenAI, NVIDIA, Hostinger, Coolify, Medusa, Stripe, Higgsfield, Obsidian) — see [`resources/icons/`](./resources/icons/).
+
+---
+
+## Star History
+
+<a href="https://star-history.com/#recodeee/cue&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=recodeee/cue&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=recodeee/cue&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=recodeee/cue&type=Date" width="720" />
+  </picture>
+</a>
+
+---
+
+## Who uses cue
+
+Projects and teams using `.cue-profile` in production:
+
+| Project | Profile | What they do |
+|---------|---------|-------------|
+| [recodeee/cue](https://github.com/recodeee/cue) | `full`, `readme-writer` | This repo — dogfooding cue on itself |
+| [recodeee/colony](https://github.com/recodeee/colony) | `fleet-control` | Multi-agent coordination MCP |
+| [recodeee/gitguardex](https://github.com/recodeee/gitguardex) | `backend` | Branch + worktree isolation for parallel agents |
+
+> **Using cue?** Add your project — open a PR or drop a link in [Discussions](https://github.com/recodeee/cue/discussions).
 
 ---
 

@@ -13,7 +13,8 @@
   "scripts": {
     "cue": "bun src/index.ts",
     "test": "bun test",
-    "build": "bun build src/index.ts --no-bundle"
+    "build": "bun build src/index.ts --no-bundle",
+    "postinstall": "echo '\\n✅ cue installed. Run `cue init` in any project to get started.\\n   Docs: https://github.com/recodeee/cue\\n'"
   },
   "keywords": [
     "claude-code",

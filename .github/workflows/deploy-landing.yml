@@ -1,8 +1,8 @@
-name: Deploy Landing Page
+name: Deploy Landing Page & Registry
 on:
   push:
     branches: [main]
-    paths: ['docs/landing/**']
+    paths: ['docs/landing/**', 'docs/registry/**', 'profiles/*/profile.yaml']
 
 permissions:
   contents: read
@@ -17,6 +17,20 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install deps
+        run: bun install
+
+      - name: Generate registry
+        run: |
+          mkdir -p docs/landing/registry
+          bun src/index.ts skills list --json > docs/landing/registry/index.json 2>/dev/null || echo '[]' > docs/landing/registry/index.json
+          cp docs/registry/index.json docs/landing/registry/index.json 2>/dev/null || true
+
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:
