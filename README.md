@@ -12,7 +12,7 @@
 
 # cue — Agent Profile Manager for Claude Code, Codex & 8 more
 
-> Every `claude` session loads all **1,927** skills you've ever installed. Your model picks the wrong one. Your tokens evaporate. **cue fixes this in one command.**
+> Every `claude` session loads **all** your skills, MCPs, and plugins — every one you've ever installed. Your model picks the wrong tool. Your tokens evaporate. **cue fixes this in one command.**
 
 **Works with:** [![Claude Code](https://img.shields.io/badge/Claude_Code-cc785c?style=flat-square&logo=anthropic&logoColor=white)](https://github.com/anthropics/claude-code) [![Codex](https://img.shields.io/badge/Codex-000000?style=flat-square&logo=openai&logoColor=white)](https://github.com/openai/codex) [![Cursor](https://img.shields.io/badge/Cursor-000000?style=flat-square&logo=cursor&logoColor=white)](https://cursor.sh) [![Cline](https://img.shields.io/badge/Cline-5A45FF?style=flat-square)](https://github.com/cline/cline) [![Gemini](https://img.shields.io/badge/Gemini-4285F4?style=flat-square&logo=google&logoColor=white)](https://github.com/google-gemini/gemini-cli) [![Copilot](https://img.shields.io/badge/Copilot-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/features/copilot) [![Windsurf](https://img.shields.io/badge/Windsurf-06B6D4?style=flat-square)](https://windsurf.com) [![Roo Code](https://img.shields.io/badge/Roo_Code-7C3AED?style=flat-square)](https://github.com/RooVetGit/Roo-Code) [![Amp](https://img.shields.io/badge/Amp-FF4500?style=flat-square&logo=sourcegraph&logoColor=white)](https://sourcegraph.com/amp) [![Aider](https://img.shields.io/badge/Aider-14B8A6?style=flat-square)](https://aider.chat) &nbsp;→&nbsp; [full matrix ↓](#agents-cue-supports)
 
