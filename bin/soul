@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-# DEPRECATED — renamed to "cue". This shim forwards all invocations.
-echo "soul: renamed to 'cue'. Update your PATH/alias." >&2
-exec "$(dirname "$0")/cue" "$@"
