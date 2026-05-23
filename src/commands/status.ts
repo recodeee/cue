@@ -35,20 +35,18 @@ function quickDiagnose(profileName: string, profile: any): Warning[] {
   // Check skills exist on disk
   for (const s of profile.skills.local) {
     const id = s.id ?? s;
-    // Try to find the skill in any category
+    if (typeof id === "string" && id.includes("*")) continue; // skip wildcards
+    // Try direct path first (category/slug format)
+    if (existsSync(join(SKILLS_ROOT, id, "SKILL.md"))) continue;
+    // Try to find the skill in any category (bare slug)
     let found = false;
     try {
       const cats = readdirSync(SKILLS_ROOT, { withFileTypes: true });
       for (const cat of cats) {
         if (!cat.isDirectory()) continue;
-        const skillDir = join(SKILLS_ROOT, cat.name, id);
-        if (existsSync(join(skillDir, "SKILL.md"))) { found = true; break; }
+        if (existsSync(join(SKILLS_ROOT, cat.name, id, "SKILL.md"))) { found = true; break; }
       }
     } catch { /* skip */ }
-    if (!found && typeof id === "string" && !id.includes("/")) {
-      // Could be a category/slug ref — check directly
-      if (existsSync(join(SKILLS_ROOT, id, "SKILL.md"))) found = true;
-    }
     if (!found) {
       warnings.push({ code: "D1", message: `skill "${id}" not found on disk` });
     }

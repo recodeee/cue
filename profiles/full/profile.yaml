@@ -6,7 +6,6 @@ skills:
   local:
     - "*/*"
 mcps:
-  - claude-mem
   - Higgsfield
   - colony
   - coolify
@@ -15,7 +14,6 @@ mcps:
   - hostinger-api
   - letsfg
   - marva-blog
-  - medusadocs
   - obsidian-vault
   - polymarket-live
   - recodee
