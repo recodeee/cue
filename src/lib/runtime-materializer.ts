@@ -290,10 +290,31 @@ async function overlaySourceState(targetDir: string, sourceDir: string): Promise
     return; // source unreadable; nothing to overlay
   }
 
+  // Legacy home-root .claude.json fallback: older Claude Code put session
+  // state at ~/.claude.json (sibling to ~/.claude/), not inside it. If the
+  // canonical inside-dir version is missing but the home-root one exists,
+  // surface it so the runtime looks fully onboarded — otherwise claude
+  // boots into the OAuth flow even with a valid .credentials.json present.
+  // Only kicks in when sourceDir is the user's ~/.claude.
+  if (!entries.includes(".claude.json") && sourceDir === join(homedir(), ".claude")) {
+    const legacy = join(homedir(), ".claude.json");
+    try {
+      const { existsSync } = await import("node:fs");
+      if (existsSync(legacy)) entries.push(".claude.json");
+    } catch { /* skip */ }
+  }
+
   for (const name of entries) {
     if (CUE_MANAGED_ENTRIES.has(name)) continue;
     const targetPath = join(targetDir, name);
-    const sourcePath = join(sourceDir, name);
+    // Special-case the legacy ~/.claude.json fallback above: source is at the
+    // home-root path, not inside sourceDir.
+    const isLegacyClaudeJson =
+      name === ".claude.json" &&
+      sourceDir === join(homedir(), ".claude");
+    const sourcePath = isLegacyClaudeJson
+      ? join(homedir(), ".claude.json")
+      : join(sourceDir, name);
 
     let existingType: "symlink" | "other" | "missing" = "missing";
     try {
@@ -301,19 +322,21 @@ async function overlaySourceState(targetDir: string, sourceDir: string): Promise
       existingType = st.isSymbolicLink() ? "symlink" : "other";
     } catch { /* missing */ }
 
-    if (existingType === "other" && name !== ".credentials.json") continue; // cue override — don't touch
+    // .claude.json gets the same copy-not-symlink treatment as .credentials.json:
+    // claude rewrites it atomically and we want per-profile session state, not
+    // a shared one that gets clobbered when 2 profiles run concurrently.
+    const isCopyFile = name === ".credentials.json" || isLegacyClaudeJson;
 
-    if (existingType === "symlink" || (existingType === "other" && name === ".credentials.json")) {
+    if (existingType === "other" && !isCopyFile) continue; // cue override — don't touch
+
+    if (existingType === "symlink" || (existingType === "other" && isCopyFile)) {
       // Replace if it points elsewhere (e.g. previous account on cache hit).
       try {
         await rm(targetPath, { force: true });
       } catch { continue; }
     }
 
-    // .credentials.json must be COPIED (not symlinked) because Claude Code
-    // refreshes tokens via atomic write (write tmp → rename), which replaces
-    // symlinks with regular files, leaving the source stale.
-    if (name === ".credentials.json") {
+    if (isCopyFile) {
       const { copyFile } = await import("node:fs/promises");
       try {
         await copyFile(sourcePath, targetPath);

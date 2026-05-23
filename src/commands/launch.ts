@@ -323,6 +323,54 @@ async function findRealBinary(name: string): Promise<string | null> {
   return null;
 }
 
+/**
+ * Pick the Claude credentials source for runtime materialization.
+ *
+ * Priority:
+ *   1. $CLAUDE_CONFIG_DIR (explicit override — claude-account2 alias, etc.)
+ *   2. ~/.claude if it has .credentials.json
+ *   3. authmux parallel profile with the freshest .credentials.json mtime
+ *      (so users who manage Claude accounts only via authmux don't have to
+ *      re-login per cue profile — every cue profile inherits whichever
+ *      account they touched most recently)
+ *   4. ~/.claude as last-resort fallback (materializer will skip the copy if
+ *      .credentials.json isn't there)
+ */
+async function resolveClaudeCredentialsSource(): Promise<string> {
+  if (process.env.CLAUDE_CONFIG_DIR) return process.env.CLAUDE_CONFIG_DIR;
+
+  const homeClaude = join(homedir(), ".claude");
+  if (existsSync(join(homeClaude, ".credentials.json"))) return homeClaude;
+
+  try {
+    const { spawnSync } = await import("node:child_process");
+    const { statSync } = await import("node:fs");
+    const res = spawnSync("authmux", ["parallel", "--list", "--json"], {
+      encoding: "utf8", timeout: 3000, stdio: ["ignore", "pipe", "pipe"],
+    });
+    if (res.status === 0 && res.stdout) {
+      const parsed = JSON.parse(res.stdout) as { data?: { profiles?: Array<{ name: string; configDir: string }> } };
+      const profiles = parsed?.data?.profiles ?? [];
+      const withMtime = profiles
+        .map((p) => {
+          const credsPath = join(p.configDir, ".credentials.json");
+          let mtime = 0;
+          try { mtime = statSync(credsPath).mtimeMs; } catch { /* missing */ }
+          return { ...p, mtime };
+        })
+        .filter((p) => p.mtime > 0)
+        .sort((a, b) => b.mtime - a.mtime);
+      const pick = withMtime[0];
+      if (pick) {
+        process.stderr.write(`▸ cue: inheriting auth from authmux profile "${pick.name}"\n`);
+        return pick.configDir;
+      }
+    }
+  } catch { /* authmux not installed or query failed — fall through */ }
+
+  return homeClaude;
+}
+
 // ---------------------------------------------------------------------------
 // Main entry point
 // ---------------------------------------------------------------------------
@@ -435,9 +483,16 @@ export async function run(args: string[]): Promise<number> {
     }
   }
 
-  // Detect pre-set CLAUDE_CONFIG_DIR (e.g. from claude-account2 alias) as credentials source.
+  // Credentials source resolution (Claude only):
+  //   1. Honor explicit CLAUDE_CONFIG_DIR (set by claude-account2 alias, etc.)
+  //   2. Use ~/.claude if it already has .credentials.json
+  //   3. Fall back to authmux's most-recently-used parallel profile — so users
+  //      who manage Claude accounts via authmux don't have to re-login per
+  //      cue profile. authmux's `parallel --list --json` returns each profile's
+  //      configDir; we pick the one whose .credentials.json was touched most
+  //      recently as a proxy for "the one you actually use."
   const credentialsSource = agentKind === "claude-code"
-    ? (process.env.CLAUDE_CONFIG_DIR || join(homedir(), ".claude"))
+    ? await resolveClaudeCredentialsSource()
     : undefined;
 
   // Skill conflict detection is opt-in via `cue skills conflicts` — the

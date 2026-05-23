@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 600" fill="none" role="img" aria-label="Profile inheritance: core inherits to backend, frontend, marketing; backend extends to medusa-dev">
+  <style>
+    .t-h      { font: 700 18px -apple-system, system-ui, sans-serif; fill: #f1f5f9; }
+    .t-sub    { font: 13px -apple-system, system-ui, sans-serif; fill: #94a3b8; }
+    .t-eyebrow{ font: 700 10px 'SF Mono', monospace; letter-spacing: 2px; }
+    .t-card-h { font: 700 17px -apple-system, system-ui, sans-serif; fill: #f1f5f9; }
+    .t-card-s { font: 11px -apple-system, system-ui, sans-serif; fill: #94a3b8; }
+    .t-mono   { font: 11px 'SF Mono', monospace; fill: #e2e8f0; }
+    .t-mono-d { font: 10px 'SF Mono', monospace; fill: #64748b; }
+    .t-chip   { font: 10px 'SF Mono', monospace; fill: #e2e8f0; }
+    .t-add    { font: 700 12px 'SF Mono', monospace; }
+    .t-foot   { font: 11px -apple-system, system-ui, sans-serif; fill: #94a3b8; }
+  </style>
+
+  <defs>
+    <marker id="inhArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#818cf8"/>
+    </marker>
+    <marker id="inhArrowVio" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#a78bfa"/>
+    </marker>
+    <linearGradient id="gradCore" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#6366f1" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.04"/>
+    </linearGradient>
+    <linearGradient id="gradBackend" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#8b5cf6" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.04"/>
+    </linearGradient>
+    <linearGradient id="gradFrontend" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#06b6d4" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.04"/>
+    </linearGradient>
+    <linearGradient id="gradMarketing" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#f59e0b" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.04"/>
+    </linearGradient>
+    <linearGradient id="gradMedusa" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#f43f5e" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#f43f5e" stop-opacity="0.04"/>
+    </linearGradient>
+  </defs>
+
+  <!-- header -->
+  <text x="40" y="36" class="t-h">Profile inheritance</text>
+  <text x="40" y="56" class="t-sub">Single-parent tree. Each child inherits everything from its parent — and adds only the delta.</text>
+
+  <!-- ===== ROOT: core ===== -->
+  <g transform="translate(140,80)">
+    <rect width="600" height="96" rx="14" fill="url(#gradCore)" stroke="#818cf8" stroke-opacity="0.6" stroke-width="1.5"/>
+    <text x="20" y="26" class="t-eyebrow" fill="#a5b4fc">ROOT · INHERITED BY EVERY PROFILE</text>
+    <text x="20" y="50" class="t-card-h">core</text>
+    <text x="20" y="66" class="t-card-s">Shared baseline — cross-session memory, token thrift, knowledge graph.</text>
+    <!-- chip row -->
+    <g transform="translate(20,76)">
+      <g>
+        <rect width="86" height="18" rx="4" fill="#0f172a" stroke="#818cf8" stroke-opacity="0.5"/>
+        <text x="43" y="13" text-anchor="middle" class="t-chip">claude-mem</text>
+      </g>
+      <g transform="translate(94,0)">
+        <rect width="72" height="18" rx="4" fill="#0f172a" stroke="#818cf8" stroke-opacity="0.5"/>
+        <text x="36" y="13" text-anchor="middle" class="t-chip">caveman</text>
+      </g>
+      <g transform="translate(174,0)">
+        <rect width="48" height="18" rx="4" fill="#0f172a" stroke="#818cf8" stroke-opacity="0.5"/>
+        <text x="24" y="13" text-anchor="middle" class="t-chip">RTK</text>
+      </g>
+      <g transform="translate(230,0)">
+        <rect width="62" height="18" rx="4" fill="#0f172a" stroke="#818cf8" stroke-opacity="0.5"/>
+        <text x="31" y="13" text-anchor="middle" class="t-chip">gbrain</text>
+      </g>
+      <text x="304" y="13" class="t-mono-d">+ 8 meta skills</text>
+    </g>
+  </g>
+
+  <!-- ===== bus connectors from core down to children ===== -->
+  <!-- core bottom y = 176; bus at y = 200; child tops at y = 236 -->
+  <path d="M440 176 V200" stroke="#818cf8" stroke-opacity="0.55" stroke-width="1.5" fill="none"/>
+  <path d="M210 200 H670" stroke="#818cf8" stroke-opacity="0.55" stroke-width="1.5" fill="none"/>
+  <path d="M210 200 V232" stroke="#818cf8" stroke-width="2" marker-end="url(#inhArrow)" fill="none"/>
+  <path d="M440 200 V232" stroke="#818cf8" stroke-width="2" marker-end="url(#inhArrow)" fill="none"/>
+  <path d="M670 200 V232" stroke="#818cf8" stroke-width="2" marker-end="url(#inhArrow)" fill="none"/>
+
+  <!-- ===== CHILD: backend ===== -->
+  <g transform="translate(120,236)">
+    <rect width="180" height="170" rx="14" fill="url(#gradBackend)" stroke="#a78bfa" stroke-opacity="0.6" stroke-width="1.5"/>
+    <text x="16" y="24" class="t-eyebrow" fill="#c4b5fd">CHILD · DEPTH 1</text>
+    <text x="16" y="46" class="t-card-h">backend</text>
+    <text x="16" y="62" class="t-card-s">APIs, infra, CI, DB.</text>
+    <line x1="16" y1="74" x2="164" y2="74" stroke="#a78bfa" stroke-opacity="0.3"/>
+    <text x="16" y="90" class="t-mono-d">inherits all of core</text>
+    <text x="16" y="114" class="t-add" fill="#c4b5fd">+ 12 skills</text>
+    <text x="16" y="132" class="t-add" fill="#c4b5fd">+ coolify mcp</text>
+    <text x="16" y="150" class="t-add" fill="#c4b5fd">+ guardrails</text>
+  </g>
+
+  <!-- ===== CHILD: frontend ===== -->
+  <g transform="translate(350,236)">
+    <rect width="180" height="170" rx="14" fill="url(#gradFrontend)" stroke="#22d3ee" stroke-opacity="0.6" stroke-width="1.5"/>
+    <text x="16" y="24" class="t-eyebrow" fill="#67e8f9">CHILD · DEPTH 1</text>
+    <text x="16" y="46" class="t-card-h">frontend</text>
+    <text x="16" y="62" class="t-card-s">UI, design, browser tests.</text>
+    <line x1="16" y1="74" x2="164" y2="74" stroke="#22d3ee" stroke-opacity="0.3"/>
+    <text x="16" y="90" class="t-mono-d">inherits all of core</text>
+    <text x="16" y="114" class="t-add" fill="#67e8f9">+ 8 skills</text>
+    <text x="16" y="132" class="t-add" fill="#67e8f9">+ playwright mcp</text>
+    <text x="16" y="150" class="t-add" fill="#67e8f9">+ design tokens</text>
+  </g>
+
+  <!-- ===== CHILD: marketing ===== -->
+  <g transform="translate(580,236)">
+    <rect width="180" height="170" rx="14" fill="url(#gradMarketing)" stroke="#f59e0b" stroke-opacity="0.6" stroke-width="1.5"/>
+    <text x="16" y="24" class="t-eyebrow" fill="#fcd34d">CHILD · DEPTH 1</text>
+    <text x="16" y="46" class="t-card-h">marketing</text>
+    <text x="16" y="62" class="t-card-s">Copy, SEO, growth, social.</text>
+    <line x1="16" y1="74" x2="164" y2="74" stroke="#f59e0b" stroke-opacity="0.3"/>
+    <text x="16" y="90" class="t-mono-d">inherits all of core</text>
+    <text x="16" y="114" class="t-add" fill="#fcd34d">+ 6 skills</text>
+    <text x="16" y="132" class="t-add" fill="#fcd34d">+ seo mcp</text>
+    <text x="16" y="150" class="t-add" fill="#fcd34d">+ x/twitter mcp</text>
+  </g>
+
+  <!-- ===== stem from backend down to medusa-dev ===== -->
+  <!-- backend bottom y = 236+170 = 406; medusa top y = 442 -->
+  <path d="M210 406 V442" stroke="#a78bfa" stroke-width="2" marker-end="url(#inhArrowVio)" fill="none"/>
+
+  <!-- ===== GRANDCHILD: medusa-dev ===== -->
+  <g transform="translate(120,446)">
+    <rect width="180" height="140" rx="14" fill="url(#gradMedusa)" stroke="#fb7185" stroke-opacity="0.6" stroke-width="1.5"/>
+    <text x="16" y="24" class="t-eyebrow" fill="#fda4af">GRANDCHILD · DEPTH 2</text>
+    <text x="16" y="46" class="t-card-h">medusa-dev</text>
+    <text x="16" y="62" class="t-card-s">Medusa v2 commerce work.</text>
+    <line x1="16" y1="74" x2="164" y2="74" stroke="#fb7185" stroke-opacity="0.3"/>
+    <text x="16" y="90" class="t-mono-d">inherits core + backend</text>
+    <text x="16" y="112" class="t-add" fill="#fda4af">+ medusa/* skills</text>
+    <text x="16" y="130" class="t-add" fill="#fda4af">+ medusadocs mcp</text>
+  </g>
+
+  <!-- ===== Side panel: the rule ===== -->
+  <g transform="translate(350,446)">
+    <rect width="410" height="140" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+    <text x="20" y="26" class="t-eyebrow" fill="#94a3b8">THE RULE</text>
+    <text x="20" y="50" class="t-card-h">Override or extend — never duplicate</text>
+    <text x="20" y="72" class="t-card-s">Add a tool to <tspan font-family="'SF Mono', monospace" fill="#e2e8f0">core</tspan> and every profile gets it for free.</text>
+    <text x="20" y="88" class="t-card-s">Add it to <tspan font-family="'SF Mono', monospace" fill="#e2e8f0">backend</tspan> and only backend + descendants do.</text>
+
+    <!-- legend -->
+    <g transform="translate(20,106)">
+      <rect width="10" height="10" rx="2" fill="#818cf8" fill-opacity="0.55"/>
+      <text x="18" y="9" class="t-mono">inherited (no cost)</text>
+      <g transform="translate(170,0)">
+        <rect width="10" height="10" rx="2" fill="#fcd34d" fill-opacity="0.85"/>
+        <text x="18" y="9" class="t-mono">added by this profile</text>
+      </g>
+    </g>
+    <text x="20" y="130" class="t-mono-d">Resolution: one walk up the parent chain. Cached after first run.</text>
+  </g>
+</svg>

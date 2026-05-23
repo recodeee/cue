@@ -108,24 +108,9 @@ cue cost --profile full       # compare against the "everything" baseline
 
 Profiles compose via single-parent inheritance. Each child adds or overrides what it needs:
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  core                                                       │
-│  claude-mem · caveman · RTK · gbrain                        │
-└──────────┬──────────────────┬───────────────────┬───────────┘
-           │                  │                   │
-    ┌──────▼──────┐    ┌──────▼──────┐     ┌──────▼──────┐
-    │  backend    │    │  frontend   │     │  marketing  │
-    │  +12 skills │    │  +8 skills  │     │  +6 skills  │
-    │  +coolify   │    │  +playwright│     │  +seo-mcp   │
-    └──────┬──────┘    └─────────────┘     └─────────────┘
-           │
-    ┌──────▼──────┐
-    │  medusa-dev │
-    │  +medusa/*  │
-    │  +medusadocs│
-    └─────────────┘
-```
+<p align="center">
+  <img src="docs/assets/profile-inheritance.svg" alt="Profile inheritance: core inherits to backend, frontend, marketing; backend extends to medusa-dev" width="800">
+</p>
 
 Child profiles inherit all skills, MCPs, and plugins from their parent. Override or extend — never duplicate.
 
