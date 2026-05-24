@@ -11,26 +11,11 @@
  */
 
 import { spawn } from "node:child_process";
-import { resolve } from "node:path";
-import { homedir } from "node:os";
 
-async function findRealClaude(): Promise<string | null> {
-  const shimDir = resolve(homedir(), ".local", "bin");
-  const pathEnv = process.env.PATH ?? "";
-  for (const dir of pathEnv.split(":")) {
-    if (resolve(dir) === shimDir) continue;
-    const candidate = resolve(dir, "claude");
-    try {
-      const { stat } = await import("node:fs/promises");
-      const st = await stat(candidate);
-      if (st.isFile() && (st.mode & 0o111) !== 0) return candidate;
-    } catch { /* not here */ }
-  }
-  return null;
-}
+import { findRealClaudeBin } from "../lib/claude-binary";
 
 export async function run(args: string[]): Promise<number> {
-  const realBin = await findRealClaude();
+  const realBin = findRealClaudeBin();
   if (!realBin) {
     process.stderr.write("cue quick: couldn't find the real 'claude' binary on PATH\n");
     return 127;
