@@ -530,7 +530,7 @@ cue glues together a small set of excellent open-source projects. Star counts ar
 
 **Runtime & dependencies (the CLI itself):**
 
-| Project | What we use it for | |
+| Project | What we use it for | Stars |
 |---|---|---|
 | [oven-sh/bun](https://github.com/oven-sh/bun) | TypeScript runtime that ships `bin/cue` | [![stars](https://img.shields.io/github/stars/oven-sh/bun?style=flat-square&label=★&color=6366f1)](https://github.com/oven-sh/bun) |
 | [natemoo-re/clack](https://github.com/natemoo-re/clack) | `@clack/prompts` powers the TUI profile picker | [![stars](https://img.shields.io/github/stars/natemoo-re/clack?style=flat-square&label=★&color=6366f1)](https://github.com/natemoo-re/clack) |
@@ -539,20 +539,20 @@ cue glues together a small set of excellent open-source projects. Star counts ar
 
 **Built-in terminal integration:**
 
-| Project | What we use it for | |
+| Project | What we use it for | Stars |
 |---|---|---|
 | [kovidgoyal/kitty](https://github.com/kovidgoyal/kitty) | **Kitty graphics protocol** — inline brand logos & profile icons rendered directly in the terminal (see [`src/lib/kitty-image.ts`](./src/lib/kitty-image.ts), spec [here](https://sw.kovidgoyal.net/kitty/graphics-protocol/)). Auto-detected; falls back to emoji if you're not on Kitty. | [![stars](https://img.shields.io/github/stars/kovidgoyal/kitty?style=flat-square&label=★&color=22c55e)](https://github.com/kovidgoyal/kitty) |
 
 **Agents we shim:**
 
-| Project | Role | |
+| Project | Role | Stars |
 |---|---|---|
 | [anthropics/claude-code](https://github.com/anthropics/claude-code) | The `claude` binary cue intercepts and re-launches with `CLAUDE_CONFIG_DIR` | [![stars](https://img.shields.io/github/stars/anthropics/claude-code?style=flat-square&label=★&color=f59e0b)](https://github.com/anthropics/claude-code) |
 | [openai/codex](https://github.com/openai/codex) | The `codex` binary cue intercepts and re-launches with `CODEX_HOME` | [![stars](https://img.shields.io/github/stars/openai/codex?style=flat-square&label=★&color=f59e0b)](https://github.com/openai/codex) |
 
 **Skill packs & sister tools:**
 
-| Project | Role | |
+| Project | Role | Stars |
 |---|---|---|
 | [mukul975/Anthropic-Cybersecurity-Skills](https://github.com/mukul975/Anthropic-Cybersecurity-Skills) | 754 cybersecurity skills (red/blue team, forensics, DFIR) loaded by the `cybersecurity` profile | [![stars](https://img.shields.io/github/stars/mukul975/Anthropic-Cybersecurity-Skills?style=flat-square&label=★&color=ef4444)](https://github.com/mukul975/Anthropic-Cybersecurity-Skills) |
 | [recodeee/colony](https://github.com/recodeee/colony) | Local-first MCP for multi-agent coordination — used by the `fleet-control` profile | [![stars](https://img.shields.io/github/stars/recodeee/colony?style=flat-square&label=★&color=ec4899)](https://github.com/recodeee/colony) |
