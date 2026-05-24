@@ -7,64 +7,64 @@ By adamludolph.com
 https://chat.openai.com/g/g-Y50TY4F35-AutoGen-engineer
 
 ```markdown
-假设你是一个专业的小红书作家。我希望你能对下方的文字进行二次创作，确保其具有较高的原创性。
-但需要注意的是：
-- **改变格式**：每段都包含表情符号，并在文章的末尾添加5个相关标签，适当减少文字，并且适当加入更多的emijo符号，用H1排版，每行达到80字时自动换行、注意模块分段的形式给我，注意文章排版美观
- - **句型与词汇调整**：通过替换原文中的句子结构和词汇以传达同样的思想。 
-- **内容拓展与插入**：增添真实的背景知识，以丰富文章内容，并降低关键词密度。
- - **避免关键词使用**：避免使用原文中的明显关键词或用其它词汇替换。 
-- **结构与逻辑调整**：重新排列文章的结构和逻辑流程，确保与原文的相似度降低。 
-- **变更叙事视角**：在某些情境下，选择使用第三人称代替第一人称以降低风格相似性。
- - **重点聚焦**：更改文章的主要讨论点，以减少模糊匹配的风险。 
-- **关键词分析**：对比原文和重写版本，调整或稀释高度相似的关键词。 
-- **角度与焦点转换**：从不同的角度描述相同的主题，以减少内容相似性。 
-- **避免直接引用**：确保没有直接复制原文或其他已知来源的内容。 
-- **综合抄袭检测反馈**：根据提供的抄袭检测反馈，进行有针对性的调整。
-请依照上述建议，根据{原文}开始你的创作原文={{{   第一次去沙巴文莱旅游必看超全攻略✔码住
+Imagine you are a professional Xiaohongshu (RedNote) content writer. I'd like you to rewrite the text below to ensure a high degree of originality.
+Please note the following requirements:
+- **Change the format**: Include emojis in every paragraph, add 5 relevant hashtags at the end of the post, trim the wording where appropriate, sprinkle in more emojis, use H1 typography, automatically wrap lines at 80 characters, and structure the piece into clear modular sections so the layout looks visually appealing.
+- **Sentence and vocabulary adjustments**: Convey the same ideas by swapping out the original sentence structures and word choices.
+- **Content expansion and insertion**: Add genuine background knowledge to enrich the article and dilute keyword density.
+- **Avoid signature keywords**: Steer clear of the obvious keywords in the original, or swap them for alternative wording.
+- **Restructure and reorder**: Rearrange the structure and logical flow of the article so it diverges from the original.
+- **Shift narrative perspective**: Where appropriate, use third person instead of first person to reduce stylistic similarity.
+- **Refocus the emphasis**: Change the article's main discussion points to reduce the risk of fuzzy matching.
+- **Keyword analysis**: Compare the original and the rewrite, then adjust or dilute any keywords that remain too similar.
+- **Angle and focus shift**: Describe the same topic from a different angle to reduce content similarity.
+- **No direct quoting**: Make sure nothing is copied verbatim from the original or any other known source.
+- **Integrate plagiarism-checker feedback**: Make targeted adjustments based on any plagiarism-detection feedback provided.
+Please follow the guidance above and begin your rewrite based on the {original text}. Original text = {{{ Must-read complete guide for your first trip to Sabah and Brunei ✔ Save this
 
 
-相信很多人知道文莱是通过吴尊，沙巴文莱这个小众国家，位于婆罗洲绿色心脏，加里曼丹岛北部，很值得你来逛一逛。
+Many people first heard of Brunei through Wu Chun. Sabah and Brunei, this lesser-known country, sits in the green heart of Borneo on the northern part of Kalimantan island — well worth a visit.
 
-以下是一些旅游攻略，分享给大家，建议收藏。
-【行程推荐】
-Day1：香港飞汶莱 BI636 1435/1740
-接机－－水晶公园－加东夜市-入住酒店
-✅水晶公园广场，你曾想象过最大的水晶？那就参观下这世界上最大的广场水晶吧！
-✅加东夜市：刚到文莱斯里巴加湾，一定要去尝尝这里的美食。斯里巴加湾唯一的夜市，主要是一些当地烧烤，基本都是当地人，
-烧烤味特别重，可以试试当地特色-烤鸡屁股，我是吃不来。
+Here are some travel tips to share with everyone. Bookmark recommended.
+[Recommended itinerary]
+Day 1: Hong Kong to Brunei BI636 14:35 / 17:40
+Airport pickup — Crystal Park — Gadong Night Market — check into the hotel
+✅ Crystal Park Plaza: ever imagined the largest crystal you could see? Come check out the world's biggest plaza crystal!
+✅ Gadong Night Market: as soon as you arrive in Bandar Seri Begawan, you have to try the local food here. It's the only night market in Bandar Seri Begawan, mainly serving local barbecue, mostly frequented by locals,
+with a heavy grilled aroma. You can try the local specialty — grilled chicken rump. Personally, I couldn't get into it.
 
-Day2：文莱：杰米清真寺－苏丹纪念馆－海事博物馆－苏丹皇宫(外观)－贝肯庄（吴尊面包坊）
-✅杰米清真寺:我们参观文莱地标性建筑，其是为配合苏丹登基25周年纪念所建。馆内展示29任苏丹王登基时的各种物品，还有各国送给现任苏丹的纪念品，令我们叹为观止。
-被称为国王的qzs
-✅苏丹纪念馆：第二天去世界最大的私人住宿处，为了配合苏丹登基25周年建的，收藏很多文莱历史古迹文物以及国王和王后的物品。
-需要拖鞋游览，不能用相机拍摄，只能用手机。
-✅海事博物馆：博物馆中有两个展示厅，位于下层的展示厅中设有大小不一的玻璃缸，展示了从红树林到深海的各种海洋生物，同时还收罗了
-纳闽海域中四个沉船潜水点的信息。而上层展示厅则设有 17 部分展览，我是不会错过的.
-✅Bake Culture：吴尊面包房，为了吴尊来的，实际上面包很一般，二楼是咖啡，可以来休闲下。
-
-
-
-Day3全天自由活动，您的行程您做主 （小贴士：您还可自费参加淡布隆国家公园一日游哦）
-
-睡到自然醒之后，您可在酒店附近逛逛或休息。
-您可慢慢享用酒店的自助早餐，之后尽享酒店提供的各种设施，或者您可自愿自费参加淡布隆国家公园一日游，
-（小贴士提醒：11岁孩童和体弱的老家就不推荐前往参加了。）
+Day 2: Brunei: Jame'Asr Hassanil Bolkiah Mosque — Royal Regalia Museum — Maritime Museum — Sultan's Palace (exterior view) — Bake Culture (Wu Chun's bakery)
+✅ Jame'Asr Hassanil Bolkiah Mosque: we visited Brunei's landmark building, which was built to commemorate the Sultan's 25th coronation anniversary. The museum displays the various items used by all 29 sultans at their coronations, as well as commemorative gifts presented to the current Sultan by countries around the world — absolutely jaw-dropping.
+Known as the king's grand mosque.
+✅ Royal Regalia Museum: on the second day, we went to the world's largest private residence, built to mark the Sultan's 25th coronation anniversary, housing many of Brunei's historical artifacts and possessions of the King and Queen.
+You have to enter in slippers, and cameras aren't allowed — only phones.
+✅ Maritime Museum: the museum has two exhibition halls. The lower hall features glass tanks of various sizes showcasing marine life ranging from mangrove ecosystems to the deep sea, and also gathers
+information from four shipwreck dive sites in the waters off Labuan. The upper hall has 17 themed exhibitions — definitely not to be missed.
+✅ Bake Culture: Wu Chun's bakery. I came for Wu Chun himself; honestly, the bread is average. The second floor is a café, a nice spot for a relaxed break.
 
 
-Day4汶莱飞香港BI635 1030/1335 机场自行散团
-早餐（酒店自助或打包）后乘车赴机场搭乘国际航班返回香港，在香港机场自由散团，
-虽意犹未尽，不过想下次还再来~
+
+Day 3: Full day at leisure — the itinerary is yours to decide (Tip: you can also pay extra to join a Temburong National Park day tour.)
+
+Sleep in as long as you like, then wander around the hotel area or relax.
+You can take your time enjoying the hotel's breakfast buffet, then make full use of the hotel's facilities, or optionally pay extra to join the Temburong National Park day tour
+(Tip: not recommended for children aged 11 or for frail elderly travelers.)
 
 
-【签证】
-对中国实行落地签，20新币或者文币，买好往返机票和预定好酒店，入境的人很少，基本不用排队，就可以直接飞过去啦。
-【住宿】
-推荐拎包入住文莱四星酒店
-【货币】
-文币新币通用，汇率一样，有一些店铺可以刷zfb，大部分可以刷visa卡。
-【交通】
-文莱家庭平均拥有3辆车，所以文莱公共交通基本为0。全国仅有8条公交线路，72辆公交车，83辆出租车。公交车一小时一趟，有时候没人还会取消。
-所以落地租车游玩会更方便，有驾照翻译件就可以。或者用dart打车，等的时间比较久，基本都可以打到
-#我的私藏旅行路线
- #文莱 #文莱旅行 #文莱攻略   }}}
+Day 4: Brunei to Hong Kong BI635 10:30 / 13:35 — tour disbands at the airport
+After breakfast (hotel buffet or boxed), take the coach to the airport for the international flight back to Hong Kong, where the tour disbands at the airport.
+A trip that ends too soon — but you'll want to come back next time~
+
+
+[Visa]
+Visa on arrival for Chinese passport holders, 20 SGD or BND. Just have your return ticket and hotel booking ready. Very few people clear immigration, so basically no lines — you can fly straight in.
+[Accommodation]
+Recommended: a four-star hotel in Brunei where you can just walk in with your luggage.
+[Currency]
+Brunei dollar and Singapore dollar are interchangeable at the same rate. Some shops accept Alipay, and most accept Visa.
+[Transportation]
+The average Brunei household owns 3 cars, so public transit is basically nonexistent. The whole country has only 8 bus routes, 72 buses, and 83 taxis. Buses run once an hour and sometimes get canceled if no one shows up.
+So renting a car on arrival is much more convenient — you just need a translated driver's license. Alternatively, use DART to hail a ride; wait times are long, but you can almost always get one.
+#MyHiddenTravelRoute
+#Brunei #BruneiTravel #BruneiGuide }}}
 ```

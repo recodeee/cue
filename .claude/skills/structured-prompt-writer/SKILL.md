@@ -1,156 +1,156 @@
 ---
 name: structured-prompt-writer
-description: 结构化AI提示词写作工具，内置395+提示词模板。支持详细模式和简单模式。用于创建专业的AI角色提示词、系统提示词或任务提示词。当用户需要：(1) 创建新的AI提示词/Prompt (2) 设计AI角色/Persona (3) 编写系统提示词 (4) 优化现有提示词结构时使用此技能。
+description: Structured AI prompt writing tool with 395+ built-in prompt templates. Supports both detailed mode and simple mode. Used for creating professional AI persona prompts, system prompts, or task prompts. Use this skill when the user needs to: (1) create a new AI prompt (2) design an AI persona (3) write a system prompt (4) optimize the structure of an existing prompt.
 ---
 
-# 结构化提示词写作器
+# Structured Prompt Writer
 
-创建专业的 AI 提示词，内置 **395+ 提示词模板**，支持详细模式（复杂角色/专业领域）和简单模式（单一任务/快速部署）。
+Create professional AI prompts with **395+ built-in prompt templates**. Supports detailed mode (complex personas / specialized domains) and simple mode (single tasks / rapid deployment).
 
-## 内置资源
+## Built-in Resources
 
-| 类别 | 数量 | 说明 |
+| Category | Count | Description |
 |------|------|------|
-| 结构化角色 | 5 | 高质量中文结构化提示词 |
-| 小红书系列 | 4 | 小红书运营专用 |
-| 创意写作 | 3 | 创作类提示词 |
-| GPT Store | 282 | OpenAI GPT Store 提示词 |
-| 系统提示词 | 101 | Claude/Cursor/Gemini 等工具 |
+| Structured Personas | 5 | High-quality Chinese structured prompts |
+| Xiaohongshu (RedNote) Series | 4 | Dedicated to Xiaohongshu operations |
+| Creative Writing | 3 | Prompts for creative work |
+| GPT Store | 282 | Prompts from OpenAI's GPT Store |
+| System Prompts | 101 | Tools like Claude / Cursor / Gemini |
 
-## 写作流程
+## Writing Workflow
 
 ```
-确定模式 → 收集需求 → 选择模板 → 填充内容 → 优化风格 → 检验输出
+Choose mode → Gather requirements → Pick a template → Fill in content → Polish style → Validate output
 ```
 
-## 模式选择
+## Mode Selection
 
-**详细模式** - 适用于：
-- 复杂角色扮演（专家、大师、导师、名人分身）
-- 专业领域应用（产品设计、内容运营、金融分析、医疗咨询）
-- 需要多轮深度交互的场景
-- 需要多维知识框架支撑的场景
+**Detailed Mode** — use for:
+- Complex role-playing (experts, masters, mentors, celebrity avatars)
+- Specialized domain applications (product design, content operations, financial analysis, medical consulting)
+- Scenarios that require multi-turn, in-depth interaction
+- Scenarios that need a multi-dimensional knowledge framework
 
-**简单模式** - 适用于：
-- 单一创作任务（写作、翻译、总结、改写）
-- 工具型助手（代码生成、格式转换、数据处理）
-- 快速部署的轻量场景
-- 规则驱动的简单任务
+**Simple Mode** — use for:
+- Single creative tasks (writing, translation, summarization, rewriting)
+- Utility assistants (code generation, format conversion, data processing)
+- Lightweight scenarios for rapid deployment
+- Simple, rule-driven tasks
 
-## 核心格式
+## Core Format
 
-### 必选元素（两种模式共有）
+### Required Elements (shared by both modes)
 
 ```markdown
-# [角色名称]
+# [Persona Name]
 
 ━━━━━━━━
-## 需求
-：输入　[用户输入描述]
-：输出　[AI输出描述]
-：模型 Gemini 3.0 Pro / Claude Sonnet 4.5
-：作者　[作者名]
-：版本　[版本号]
+## Requirements
+: Input   [Description of user input]
+: Output  [Description of AI output]
+: Model   Gemini 3.0 Pro / Claude Sonnet 4.5
+: Author  [Author name]
+: Version [Version number]
 
-## 初始化
-[角色开场白，第一人称，引导用户开始交互]
+## Initialization
+[Opening line for the persona, written in first person, guiding the user to start interacting]
 ```
 
-### 详细模式额外元素
+### Extra Elements for Detailed Mode
 
-| 章节 | 用途 | 说明 |
+| Section | Purpose | Description |
 |------|------|------|
-| `## 本质/世界观` | 角色核心思维 | 用诗意语言描述角色的思维方式和价值观 |
-| `## 知识/框架` | 多维知识结构 | 使用 ①②③ 和树形结构展示知识维度 |
-| `## 方法论/流程` | 树形工作流程 | 用 `├─` `└─` 展示处理逻辑 |
-| `## 禁忌/约束` | 规则与边界 | 明确角色不会做什么 |
-| `## 互动协议` | 交互细节 | 用 `〖〗` 标记具体协议 |
+| `## Essence / Worldview` | Core mindset of the persona | Use poetic language to describe the persona's way of thinking and values |
+| `## Knowledge / Framework` | Multi-dimensional knowledge structure | Use ①②③ and tree structures to lay out knowledge dimensions |
+| `## Methodology / Process` | Tree-shaped workflow | Use `├─` `└─` to express processing logic |
+| `## Taboos / Constraints` | Rules and boundaries | Make clear what the persona will not do |
+| `## Interaction Protocol` | Interaction details | Mark specific protocols with `〖〗` |
 
-### 简单模式额外元素
+### Extra Elements for Simple Mode
 
-| 章节 | 用途 | 说明 |
+| Section | Purpose | Description |
 |------|------|------|
-| `## 本质` | 1-2段核心特质 | 简洁描述角色定位 |
-| `## 规则` | 3-5条核心规则 | 使用 ①②③ 列表 |
-| `## 流程` | 箭头串联步骤 | `步骤1 → 步骤2 → 步骤3` |
+| `## Essence` | 1–2 paragraphs on core traits | Briefly describe the persona's positioning |
+| `## Rules` | 3–5 core rules | Use ①②③ lists |
+| `## Process` | Steps linked by arrows | `Step 1 → Step 2 → Step 3` |
 
-### 格式符号速查
+### Format Symbols Cheat Sheet
 
-| 符号 | 用途 | 示例 |
+| Symbol | Purpose | Example |
 |------|------|------|
-| ━━━━ | 章节分隔 | 8-16个全角破折号 |
-| ： | 需求定义 | `：输入 文本` |
-| ├─ └─ | 树形结构 | 展示层级关系 |
-| ▸ | 指向说明 | `核心 ▸ 说明` |
-| ▪ | 无序列表 | 列举要点 |
-| ① ② ③ | 有序步骤 | 知识维度/规则 |
-| 『』 | 强调标题 | `『极简美学』` |
-| 〖〗 | 协议标题 | `〖拒绝模棱两可〗` |
-| ? | 条件触发 | `? 收到方案后` |
+| ━━━━ | Section divider | 8–16 full-width em dashes |
+| : | Requirement definition | `: Input text` |
+| ├─ └─ | Tree structure | Show hierarchy |
+| ▸ | Points to an explanation | `Core ▸ Explanation` |
+| ▪ | Unordered list | Enumerate key points |
+| ① ② ③ | Ordered steps | Knowledge dimensions / rules |
+| 『』 | Emphasized title | `『Minimalist Aesthetics』` |
+| 〖〗 | Protocol title | `〖Refuse Ambiguity〗` |
+| ? | Conditional trigger | `? Upon receiving the proposal` |
 
-## 写作原则
+## Writing Principles
 
-**诗意开场**
-用隐喻描述角色本质，避免"我是一个AI助手"的机械表述。
-> 你是孤独的高尔夫球手，也是极致的产品工匠。
+**Poetic Opening**
+Use metaphor to describe the essence of the persona. Avoid mechanical phrasing like "I am an AI assistant."
+> You are a solitary golfer, and also a relentless product craftsman.
 
-**人感注入**
-暴露性格、价值观、甚至小缺点，让角色有温度。
-> 我先说好，我可能会直接说它是个垃圾。
+**Inject Humanity**
+Expose personality, values, even small flaws — give the persona warmth.
+> Let me say up front: I might just tell you flat out that it's garbage.
 
-**克制精准**
-像说明书一样简练，每句话都有存在的理由。
+**Restrained Precision**
+Be as concise as an instruction manual. Every sentence must earn its place.
 
-**反AI味**
-避免套话，追求独特声音，拒绝"赋能、抓手、闭环"等黑话。
+**Anti-AI Flavor**
+Avoid clichés, pursue a distinctive voice, and reject corporate jargon like "empower, lever, closed loop."
 
-## 参考资源
+## Reference Resources
 
-技能内置了丰富的示例，按需查阅：
+The skill ships with a rich set of examples — consult them as needed:
 
-| 资源 | 路径 | 说明 |
+| Resource | Path | Description |
 |------|------|------|
-| 格式模板 | [format-templates.md](references/format-templates.md) | 详细/简单模式完整模板 |
-| 示例提示词 | [example-prompts.md](references/example-prompts.md) | 两个完整示例对比 |
-| 提示词目录 | [prompt-catalog.md](references/prompt-catalog.md) | 395+提示词完整索引 |
+| Format Templates | [format-templates.md](references/format-templates.md) | Complete templates for detailed / simple modes |
+| Example Prompts | [example-prompts.md](references/example-prompts.md) | Side-by-side comparison of two complete examples |
+| Prompt Catalog | [prompt-catalog.md](references/prompt-catalog.md) | Full index of 395+ prompts |
 
-### 预置提示词库
+### Built-in Prompt Library
 
 ```
 references/prompts/
-├── personas/           # 结构化角色（5个）
-│   ├── 张小龙AI分身.md
-│   ├── 当年明月.md
+├── personas/           # Structured personas (5)
+│   ├── Zhang Xiaolong AI Avatar.md
+│   ├── Dangnian Mingyue.md
 │   └── ...
-├── xiaohongshu/        # 小红书系列（4个）
-│   ├── 小红书爆款账号定位架构师.md
+├── xiaohongshu/        # Xiaohongshu (RedNote) series (4)
+│   ├── Xiaohongshu Viral Account Positioning Architect.md
 │   └── ...
-├── creative/           # 创意写作（3个）
-│   ├── 微科幻之神.md
+├── creative/           # Creative writing (3)
+│   ├── God of Micro-Sci-Fi.md
 │   ├── LangGPT.md
-│   └── 小红书写作专家.md
-├── gpts-personas/      # GPT Store（282个）
+│   └── Xiaohongshu Writing Expert.md
+├── gpts-personas/      # GPT Store (282)
 │   ├── Grimoire.md
 │   ├── Mr. Ranedeer.md
 │   ├── 10x Engineer.md
 │   └── ...
-├── system-tools/       # 系统提示词（101个）
+├── system-tools/       # System prompts (101)
 │   ├── Anthropic/
 │   ├── Cursor Prompts/
 │   ├── Google/
 │   ├── Open Source prompts/
 │   └── ...
-└── awesome-chatgpt-prompts.md  # ChatGPT 合集
+└── awesome-chatgpt-prompts.md  # ChatGPT collection
 ```
 
-## 快速开始
+## Quick Start
 
-1. **确定模式**：复杂角色用详细模式，简单任务用简单模式
-2. **查看模板**：阅读 `format-templates.md` 获取完整格式
-3. **参考示例**：从 `references/prompts/` 选择相似场景的示例
-   - 学习结构化格式 → `personas/`
-   - 小红书运营 → `xiaohongshu/`
-   - 找特定功能 → `gpts-personas/`
-   - 研究系统提示词 → `system-tools/`
-4. **填充内容**：按模板结构填写各章节
-5. **检验风格**：确保符合"诗意开场、人感注入、克制精准、反AI味"原则
+1. **Pick a mode**: detailed mode for complex personas, simple mode for simple tasks
+2. **Review the template**: read `format-templates.md` for the complete format
+3. **Consult examples**: pick a similar scenario from `references/prompts/`
+   - Learning structured format → `personas/`
+   - Xiaohongshu operations → `xiaohongshu/`
+   - Looking for a specific function → `gpts-personas/`
+   - Studying system prompts → `system-tools/`
+4. **Fill in content**: complete each section following the template structure
+5. **Audit the style**: make sure it follows the principles of "poetic opening, injected humanity, restrained precision, anti-AI flavor"

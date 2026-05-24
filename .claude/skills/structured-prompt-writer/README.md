@@ -1,45 +1,40 @@
-# Structured Prompt Writer / 结构化提示词写作器
+# Structured Prompt Writer
 
 A Claude Code skill for creating professional AI prompts with structured formats. Includes **395+ prompt templates**.
 
-用于创建专业结构化 AI 提示词的 Claude Code 技能，内置 **395+ 提示词模板**。
+## Features
 
-## Features / 特性
+- **Dual Mode Support**
+  - Detailed Mode: For complex personas, expert roles, and deep multi-turn interactions
+  - Simple Mode: For single tasks, utility assistants, and quick deployments
 
-- **Two Modes / 双模式支持**
-  - Detailed Mode: For complex personas, expert roles, multi-turn interactions
-  - Simple Mode: For single tasks, utility assistants, quick deployments
-  - 详细模式：复杂角色、专家人设、多轮深度交互
-  - 简单模式：单一任务、工具型助手、快速部署
-
-- **395+ Built-in Templates / 内置模板**
+- **395+ Built-in Templates**
   | Category | Count | Description |
   |----------|-------|-------------|
   | Structured Personas | 5 | High-quality Chinese prompts |
-  | Xiaohongshu | 4 | Social commerce prompts |
+  | Xiaohongshu (RedNote) | 4 | Social commerce prompts |
   | Creative Writing | 3 | Writing templates |
   | GPT Store | 282 | OpenAI GPT Store prompts |
   | System Prompts | 101 | Claude/Cursor/Gemini tools |
 
-- **Structured Format / 结构化格式**
+- **Structured Format**
   - Tree-structured knowledge frameworks (├─ └─)
   - Conditional logic flows (? triggers)
   - Visual separators and markers
-  - 树形知识框架、条件逻辑流程、视觉分隔符
 
-## Installation / 安装
+## Installation
 
 ### For Claude Code Users
 
 1. Download the `.skill` file or clone this repository
-2. Place in your Claude Code skills directory
-3. The skill will be available when you need to create prompts
+2. Place it in your Claude Code skills directory
+3. The skill will be available whenever you need to create prompts
 
 ### Manual Usage
 
-Copy the SKILL.md content as a system prompt for any LLM.
+Copy the SKILL.md content and use it as a system prompt for any LLM.
 
-## Directory Structure / 目录结构
+## Directory Structure
 
 ```
 structured-prompt-writer/
@@ -51,7 +46,7 @@ structured-prompt-writer/
     ├── prompt-catalog.md        # Full prompt catalog
     └── prompts/                 # 395+ built-in prompts
         ├── personas/            # Structured personas (5)
-        ├── xiaohongshu/         # Xiaohongshu series (4)
+        ├── xiaohongshu/         # Xiaohongshu (RedNote) series (4)
         ├── creative/            # Creative writing (3)
         ├── gpts-personas/       # GPT Store prompts (282)
         ├── system-tools/        # System prompts (101)
@@ -63,28 +58,28 @@ structured-prompt-writer/
         └── awesome-chatgpt-prompts.md
 ```
 
-## Quick Start / 快速开始
+## Quick Start
 
 1. Choose a mode based on complexity
-2. Reference format-templates.md for structure
+2. Refer to format-templates.md for structure
 3. Browse prompts/ for similar examples:
    - Learn structured format → `personas/`
-   - Xiaohongshu operations → `xiaohongshu/`
+   - Xiaohongshu (RedNote) operations → `xiaohongshu/`
    - Find specific functions → `gpts-personas/`
    - Study system prompts → `system-tools/`
-4. Fill in sections following the template
-5. Apply writing principles
+4. Fill in the sections following the template
+5. Apply the writing principles
 
-## Writing Principles / 写作原则
+## Writing Principles
 
 | Principle | Description |
 |-----------|-------------|
-| 诗意开场 | Use metaphors, avoid "I am an AI assistant" |
-| 人感注入 | Show personality, values, even flaws |
-| 克制精准 | Concise like a manual, every word matters |
-| 反AI味 | Unique voice, reject buzzwords |
+| Poetic Opening | Use metaphors; avoid "I am an AI assistant" |
+| Human Touch | Show personality, values, and even flaws |
+| Restrained Precision | Concise like a manual — every word matters |
+| Anti-AI Flavor | Distinctive voice; reject buzzwords |
 
-## Format Symbols / 格式符号
+## Format Symbols
 
 | Symbol | Usage |
 |--------|-------|
@@ -97,7 +92,7 @@ structured-prompt-writer/
 | 『』 | Emphasis title |
 | 〖〗 | Protocol title |
 
-## Included System Prompts / 包含的系统提示词
+## Included System Prompts
 
 - **Anthropic**: Claude Code, Claude for Chrome
 - **Code Editors**: Cursor, Windsurf, VSCode Agent
@@ -111,6 +106,6 @@ MIT
 ## Credits
 
 - Prompt templates inspired by [Awesome Gemini Prompts](https://github.com/langgptai/awesome-gemini-prompts)
-- GPT Store prompts from community contributions
-- System prompts from respective tool documentation
-- Author: 云中江树 and contributors
+- GPT Store prompts contributed by the community
+- System prompts sourced from the respective tool documentation
+- Author: Yun Zhong Jiang Shu and contributors

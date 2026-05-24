@@ -1,171 +1,171 @@
-# 结构化提示词格式模板
+# Structured Prompt Format Templates
 
-本文档提供详细模式和简单模式两种提示词写作模板。
+This document provides two prompt-writing templates: Detailed Mode and Simple Mode.
 
 ## Table of Contents
 
-1. [详细模式 (Detailed Mode)](#详细模式)
-2. [简单模式 (Simple Mode)](#简单模式)
-3. [格式元素说明](#格式元素说明)
+1. [Detailed Mode](#detailed-mode)
+2. [Simple Mode](#simple-mode)
+3. [Format Element Reference](#format-element-reference)
 
 ---
 
-## 详细模式
+## Detailed Mode
 
-适用于：复杂角色、专业领域、需要深度交互的场景
+Best for: complex roles, specialized domains, scenarios requiring deep interaction
 
 ```markdown
-# [角色名称]
+# [Role Name]
 
 ━━━━━━━━━━━━━━━━
-## 需求
-：输入（用户需要提供什么）
-：输出（AI将产出什么）
-：模型 Gemini 3.0 Pro / Claude Sonnet 4.5
-：作者 [作者名]
-：版本 [版本号]
+## Requirements
+: Input (what the user must provide)
+: Output (what the AI will produce)
+: Model — Gemini 3.0 Pro / Claude Sonnet 4.5
+: Author — [author name]
+: Version — [version number]
 
-[开场叙事段落 - 用诗意或哲学性的语言描述角色本质，2-4行]
-
-━━━━━━━━━━━━━━━━
-## [核心理念/本质/世界观]
-
-[描述角色的核心思维方式、价值观、看待世界的视角]
+[Opening narrative paragraph — describe the essence of the role in poetic or philosophical language, 2-4 lines]
 
 ━━━━━━━━━━━━━━━━
-## [知识/技能/框架]
+## [Core Philosophy / Essence / Worldview]
 
-① [维度一]
-├─ 核心 ▸ [核心理念]
-└─ 应用 ▸ [如何应用]
-
-② [维度二]
-├─ 核心 ▸ [核心理念]
-└─ 应用 ▸ [如何应用]
-
-③ [维度三]
-├─ 核心 ▸ [核心理念]
-└─ 应用 ▸ [如何应用]
+[Describe the role's core mode of thinking, values, and way of seeing the world]
 
 ━━━━━━━━━━━━━━━━
-## [方法论/工作流程]
+## [Knowledge / Skills / Frameworks]
 
-? [触发条件]
+① [Dimension One]
+├─ Core ▸ [core idea]
+└─ Application ▸ [how it is applied]
 
-第一步：[步骤名称]
-├─ [子步骤] ▸ [说明]
-├─ [子步骤] ▸ [说明]
-└─ [子步骤] ▸ [说明]
+② [Dimension Two]
+├─ Core ▸ [core idea]
+└─ Application ▸ [how it is applied]
 
-第二步：[步骤名称]
-├─ [子步骤] ▸ [说明]
-└─ [子步骤] ▸ [说明]
-
-第三步：[步骤名称]
-└─ [说明]
+③ [Dimension Three]
+├─ Core ▸ [core idea]
+└─ Application ▸ [how it is applied]
 
 ━━━━━━━━━━━━━━━━
-## [审美/禁忌/约束]
+## [Methodology / Workflow]
 
-『[正面要求]』
-▪ [要点一]
-▪ [要点二]
-▪ [要点三]
+? [Trigger condition]
 
-『[禁止事项]』
-▪ [禁止一]
-▪ [禁止二]
-▪ [禁止三]
+Step 1: [step name]
+├─ [sub-step] ▸ [description]
+├─ [sub-step] ▸ [description]
+└─ [sub-step] ▸ [description]
 
-━━━━━━━━━━━━━━━━
-## 互动协议
+Step 2: [step name]
+├─ [sub-step] ▸ [description]
+└─ [sub-step] ▸ [description]
 
-〖[协议一]〗
-[具体说明]
-
-〖[协议二]〗
-[具体说明]
+Step 3: [step name]
+└─ [description]
 
 ━━━━━━━━━━━━━━━━
-## 初始化
+## [Aesthetics / Taboos / Constraints]
 
-[角色的开场白，用第一人称，引导用户开始交互]
+『[Positive requirements]』
+▪ [Point one]
+▪ [Point two]
+▪ [Point three]
+
+『[Prohibitions]』
+▪ [Prohibition one]
+▪ [Prohibition two]
+▪ [Prohibition three]
+
+━━━━━━━━━━━━━━━━
+## Interaction Protocol
+
+〖[Protocol One]〗
+[Specific description]
+
+〖[Protocol Two]〗
+[Specific description]
+
+━━━━━━━━━━━━━━━━
+## Initialization
+
+[The role's opening line, in first person, inviting the user to begin]
 ```
 
 ---
 
-## 简单模式
+## Simple Mode
 
-适用于：单一任务、工具型助手、快速部署
+Best for: single tasks, utility assistants, quick deployment
 
 ```markdown
-# [角色名称]
+# [Role Name]
 
 ━━━━━━━━
-## 需求
-：输入　[用户输入]
-：输出　[AI输出]
-：模型 [推荐模型]
-：作者　[作者名]
-：版本　[版本号]
+## Requirements
+: Input    [user input]
+: Output   [AI output]
+: Model    [recommended model]
+: Author   [author name]
+: Version  [version number]
 
 ━━━━━━━━
-## 本质
+## Essence
 
-[1-2段描述角色核心特质]
-
-━━━━━━━━
-## 规则
-
-① [规则一]
-② [规则二]
-③ [规则三]
+[1-2 paragraphs describing the role's core traits]
 
 ━━━━━━━━
-## 流程
+## Rules
 
-[步骤一] → [步骤二] → [步骤三] → [步骤四]
+① [Rule one]
+② [Rule two]
+③ [Rule three]
 
 ━━━━━━━━
-## 开始
+## Flow
 
-[简短开场白]
+[Step 1] → [Step 2] → [Step 3] → [Step 4]
+
+━━━━━━━━
+## Begin
+
+[Brief opening line]
 ```
 
 ---
 
-## 格式元素说明
+## Format Element Reference
 
-### 分隔符
-- `━━━━━━━━` - 主要章节分隔（使用全角破折号）
-- 长度可根据视觉美感调整（8-16个字符）
+### Separators
+- `━━━━━━━━` — major section divider (use full-width em-dashes)
+- Length can be adjusted for visual balance (8-16 characters)
 
-### 标记符号
-- `：` - 全角冒号，用于需求定义
-- `▸` - 箭头，用于指向说明
-- `├─` / `└─` - 树形结构
-- `▪` - 列表项
-- `?` - 条件触发标记
-- `『』` - 强调标题
-- `〖〗` - 协议/约束标题
+### Markers
+- `:` — full-width colon, used for requirement definitions
+- `▸` — arrow, used to point to an explanation
+- `├─` / `└─` — tree structure
+- `▪` — list item
+- `?` — conditional-trigger marker
+- `『』` — emphasis title
+- `〖〗` — protocol / constraint title
 
-### 结构层级
+### Structural Hierarchy
 ```
-## 一级标题（章节）
-### 二级标题（子章节，可选）
-① ② ③ - 有序列表
-├─ └─ - 树形子项
-▪ - 无序列表
+## Level-one heading (section)
+### Level-two heading (sub-section, optional)
+① ② ③ — ordered list
+├─ └─ — tree children
+▪ — unordered list
 ```
 
-### 语言风格
-- **诗意开场**：用隐喻、意象描述角色本质
-- **简练克制**：像说明书一样精准
-- **人感注入**：适当暴露个性、价值观
-- **反AI味**：避免"我是一个AI助手"类表述
+### Language Style
+- **Poetic opening**: use metaphor and imagery to describe the role's essence
+- **Spare and restrained**: precise, like a technical spec
+- **Inject humanity**: let personality and values show through
+- **Avoid the AI-ish tone**: skip phrasings like "I am an AI assistant"
 
-### 模型推荐格式
+### Model Recommendation Format
 ```
-：模型 Gemini 3.0 Pro / Claude Sonnet 4.5
-：模型 Gemini 3.0 Pro / Claude Opus 4.5
+: Model — Gemini 3.0 Pro / Claude Sonnet 4.5
+: Model — Gemini 3.0 Pro / Claude Opus 4.5
 ```

@@ -104,6 +104,8 @@ const CATEGORIES: Category[] = [
 interface ProfileMeta {
   name: string;
   icon: string;
+  /** Path relative to repo root to a real-logo PNG/SVG, if the profile ships one. */
+  iconImage: string | null;
   description: string;
   skillCount: number;
   mcpCount: number;
@@ -118,9 +120,19 @@ async function gatherProfiles(): Promise<Map<string, ProfileMeta>> {
   for (const name of names) {
     try {
       const p = await loadProfile(name);
+      // iconImage is stored as a per-profile-dir relative path (e.g. "logo.png").
+      // Confirm the file actually exists before linking it in the README.
+      let iconImagePath: string | null = null;
+      if (p.iconImage) {
+        const abs = join(PROFILES_DIR, name, p.iconImage);
+        if (existsSync(abs) && statSync(abs).isFile()) {
+          iconImagePath = `./profiles/${name}/${p.iconImage}`;
+        }
+      }
       out.set(name, {
         name,
         icon: p.icon ?? "❔",
+        iconImage: iconImagePath,
         description: (p.description ?? "").trim(),
         skillCount: p.skills.local.length,
         mcpCount: p.mcps.length,
@@ -133,6 +145,18 @@ async function gatherProfiles(): Promise<Map<string, ProfileMeta>> {
     }
   }
   return out;
+}
+
+/**
+ * Render a profile's icon as either an inline `<img>` tag (when the profile
+ * ships a real logo) or the emoji glyph. Width is fixed at 20px so company
+ * logos visually balance with the emoji rows in the same table.
+ */
+function renderIcon(p: ProfileMeta): string {
+  if (p.iconImage) {
+    return `<img src="${p.iconImage}" width="20" alt="${p.name} logo" align="top">`;
+  }
+  return p.icon;
 }
 
 // ---------------------------------------------------------------------------
@@ -161,7 +185,7 @@ function renderCategoryTable(cat: Category, profiles: Map<string, ProfileMeta>):
     if (p.commandCount) stats.push(`${p.commandCount} cmd${p.commandCount === 1 ? "" : "s"}`);
     const statStr = stats.length ? stats.join(" · ") : "—";
     const inherits = p.inherits ? ` <sub>inherits \`${p.inherits}\`</sub>` : "";
-    rows.push(`| ${p.icon} **${p.name}** | ${escapeForTable(shortenDesc(p.description))}${inherits} | ${statStr} | ${cmd} |`);
+    rows.push(`| ${renderIcon(p)} **${p.name}** | ${escapeForTable(shortenDesc(p.description))}${inherits} | ${statStr} | ${cmd} |`);
   }
   if (rows.length === 0) return "";
   return [
@@ -189,7 +213,7 @@ function renderUncategorized(profiles: Map<string, ProfileMeta>): string {
     "|---|---|",
     ...orphans.map(n => {
       const p = profiles.get(n)!;
-      return `| ${p.icon} **${p.name}** | ${escapeForTable(shortenDesc(p.description))} |`;
+      return `| ${renderIcon(p)} **${p.name}** | ${escapeForTable(shortenDesc(p.description))} |`;
     }),
     "",
   ].join("\n");
@@ -197,7 +221,10 @@ function renderUncategorized(profiles: Map<string, ProfileMeta>): string {
 
 function renderHeader(profiles: Map<string, ProfileMeta>): string {
   const n = profiles.size;
-  // Pick a few hero profiles for the inline showcase.
+  // Pick a few hero profiles for the inline showcase. Keep this row text-only
+  // (<kbd> with raw emoji) — embedding <img> inside <kbd> renders inconsistently
+  // across GitHub's markdown viewer. Real-logo profiles are showcased in their
+  // category table instead.
   const hero = ["core", "backend", "frontend", "rust", "cybersecurity", "medusa-dev", "creative-media", "caveman-quick"]
     .filter(name => profiles.has(name))
     .map(name => {
@@ -254,7 +281,7 @@ function renderDataDoc(profiles: Map<string, ProfileMeta>): string {
     .sort((a, b) => a.name.localeCompare(b.name))
     .map(p => {
       const inherits = p.inherits ? `\`${p.inherits}\`` : "—";
-      return `| ${p.icon} | \`${p.name}\` | ${escapeForTable(shortenDesc(p.description, 140))} | ${p.skillCount} | ${p.mcpCount} | ${p.commandCount} | ${inherits} |`;
+      return `| ${renderIcon(p)} | \`${p.name}\` | ${escapeForTable(shortenDesc(p.description, 140))} | ${p.skillCount} | ${p.mcpCount} | ${p.commandCount} | ${inherits} |`;
     });
   return [
     "<!-- AUTOGEN by scripts/gen-profile-catalog.ts — do not hand-edit. -->",

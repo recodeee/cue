@@ -2,7 +2,7 @@
 
 # All cue profiles (flat list)
 
-**34 profiles** total. For the categorized presentation, see the [README](../../README.md#-the-34-profile-catalog).
+**35 profiles** total. For the categorized presentation, see the [README](../../README.md#-the-35-profile-catalog).
 
 | Icon | Profile | Description | Skills | MCPs | Commands | Inherits |
 |---|---|---|---:|---:|---:|---|
@@ -10,7 +10,7 @@
 | 🐻 | `backend` | APIs, webhooks, security review, CI, package, database, and deploy work | 23 | 2 | 4 | `core` |
 | 💼 | `career` | Job hunting, resume optimization, interview prep, salary negotiation, and career development | 17 | 1 | 4 | `core` |
 | 🐆 | `caveman-quick` | Fast low-context edits, summaries, reviews, notes, and commit prep | 18 | 1 | 4 | `core` |
-| 🧊 | `coolify` | Coolify deploys, server config, app env vars, and CI | 17 | 3 | 4 | `core` |
+| <img src="./profiles/coolify/logo.png" width="20" alt="coolify logo" align="top"> | `coolify` | Coolify deploys, server config, app env vars, and CI | 17 | 3 | 4 | `core` |
 | 🐢 | `core` | Baseline shared by every cue profile — essentials only | 11 | 1 | 4 | — |
 | 🦚 | `creative-media` | Image, video, product asset, brand, and visual generation workflows | 23 | 3 | 4 | `core` |
 | 🔒 | `cybersecurity` | Skills from mukul975/Anthropic-Cybersecurity-Skills + agentshield (agent config auditor) | 14 | 4 | 4 | `core` |
@@ -21,11 +21,12 @@
 | 🦋 | `frontend` | Frontend UI implementation, redesign, screenshots, testing, and visual polish | 21 | 1 | 4 | `core` |
 | 🦄 | `full` | Diagnostic fallback profile that loads every local skill and MCP | 12 | 14 | 4 | `core` |
 | 🐹 | `go-api` | Go API development — net/http, gin/echo/chi, GORM, migrations, testing | 13 | 1 | 4 | `core` |
-| 🏠 | `hostinger` | Hostinger DNS, domain, VPS, and hosting management | 16 | 3 | 4 | `core` |
+| <img src="./profiles/hostinger/logo.png" width="20" alt="hostinger logo" align="top"> | `hostinger` | Hostinger DNS, domain, VPS, and hosting management | 16 | 3 | 4 | `core` |
 | 🦜 | `marketing` | Marketing — copywriting, SEO, CRO, growth, channels, brand, awesome-list outreach, X/Twitter, Reddit, paid ads audit, AI video | 19 | 7 | 4 | `core` |
 | 🦊 | `medusa-dev` | Medusa v2 backend, storefront, admin, migration, and shop setup work | 23 | 3 | 4 | `core` |
 | ▲ | `nextjs` | Next.js full-stack — App Router, Server Components, API routes, Vercel deploy | 22 | 1 | 4 | `frontend` |
-| 🎮 | `nvidia` | NVIDIA cuOpt: routing, LP/MILP, GPU-accelerated optimization (12 skills) | 22 | 1 | 4 | `core` |
+| <img src="./profiles/nvidia/logo.png" width="20" alt="nvidia logo" align="top"> | `nvidia` | NVIDIA cuOpt: routing, LP/MILP, GPU-accelerated optimization (12 skills) | 22 | 1 | 4 | `core` |
+| 🔮 | `predict-everything` | Multi-agent prediction & simulation — digital sandbox rehearsals, swarm intelligence, "what if" scenarios via MiroFish / OASIS-style engines | 13 | 1 | 4 | `core` |
 | 🐍 | `python-api` | Python API development — FastAPI, Django, Flask, SQLAlchemy, Alembic, pytest | 12 | 1 | 4 | `core` |
 | 🎨 | `readme-writer` | Beautiful README design with SVG diagrams — architecture flows, terminal mockups, and editorial visuals | 13 | 1 | 4 | `core` |
 | 🦉 | `research` | Source-backed lookup, extraction, keyword, browser, crate, and market research | 21 | 3 | 4 | `core` |
