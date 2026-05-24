@@ -1,0 +1,37 @@
+name: Refresh discovered.md
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # nightly at 3am UTC
+  workflow_dispatch: # manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - name: Run cue discover search
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bun run src/index.ts discover search --limit 200 --min-score 3
+
+      - name: Export to docs/discovered.md
+        run: bun run src/index.ts discover --export
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/discovered.md
+          git diff --cached --quiet || git commit -m "docs: refresh discovered.md [skip ci]"
+          git push

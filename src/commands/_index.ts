@@ -149,6 +149,14 @@ export const COMMANDS = {
     summary: "Trace why skills/MCPs aren't loading — full resolution chain",
     load: () => import("./debug"),
   },
+  cli: {
+    summary: "List or install the system CLIs a profile's skills need",
+    load: () => import("./cli"),
+  },
+  "lint-skill": {
+    summary: "Validate a SKILL.md against the skill spec (R001-R008); --fix to auto-correct",
+    load: () => import("./lint-skill"),
+  },
   snapshot: {
     summary: "Export/restore current profile state as portable YAML",
     load: () => import("./snapshot"),
@@ -260,6 +268,10 @@ export const COMMANDS = {
   sources: {
     summary: "Show GitHub repos that provide skills for a profile",
     load: () => import("./sources"),
+  },
+  discover: {
+    summary: "Find hidden gem skill repos on GitHub and export docs/discovered.md",
+    load: () => import("./discover"),
   },
   sponsor: {
     summary: "Star the repo / show support links",

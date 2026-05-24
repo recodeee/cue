@@ -5,6 +5,8 @@ inherits: core
 skills:
   local:
     - security/agentshield
+    - offensive-osint
+    - osint-methodology
   npx:
     - repo: mukul975/Anthropic-Cybersecurity-Skills
       skills:
@@ -762,6 +764,9 @@ skills:
         - triaging-security-incident-with-ir-playbook
         - triaging-vulnerabilities-with-ssvc-framework
         - validating-backup-integrity-for-recovery
+        - hydra
+        - Claude-OSINT
+
 mcps:
   - agentshield    # AgentShield scanner — audit .claude/, settings.json, mcp.json, hooks, agents (scan / scan_summary / list_rules tools)
   - mitre-attack    # MITRE ATT&CK knowledge base — 50+ tools for techniques, tactics, threat actors, malware, navigator layers
