@@ -127,7 +127,7 @@ A real capability has three layers:
 | Layer | What it does | Example |
 |---|---|---|
 | **Skill** (the instruction) | Tells the model *when* and *how* to act | "When user says 'analyze video', extract frames at 1 fps…" |
-| **MCP server** (the tool) | Gives the model a callable function | `video_watch`, `gbrain__put_page`, `excel__create_workbook` |
+| **MCP server** (the tool + context) | Gives the model callable functions *and* domain knowledge — tools for action, resources/prompts for expertise | `video_watch`, `gbrain__put_page`, `reddit__search_reddit` |
 | **CLI** (the runtime) | The binary the MCP or skill shells out to | `ffmpeg`, `yt-dlp`, `whisper-cpp`, `uv` |
 
 **Without cue**, you install these independently and pray they line up. A skill references an MCP that isn't running. An MCP calls a CLI that isn't installed. The model hallucinates a tool name because 40 other MCPs are polluting the namespace.
