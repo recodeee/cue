@@ -1,16 +1,34 @@
 name: rust
 icon: "🦀"
-description: General Rust development — async, serde, tracing, perf, docs, testing, releases
+description: All-in-one Rust profile — async, web, CLI/TUI, embedded, FFI, WASM, game, perf, docs, releases
 inherits: rust-core
 skills:
   local:
-    # Runtime + serialization stack (everything non-trivial pulls these in)
+    # Runtime + serialization
     - rust/async-tokio
     - rust/serde
     - rust/tracing
-    # Docs
-    - rust/mdbook
-    - rust/cargo-readme
+    # Web services
+    - rust/axum-api
+    - rust/reqwest
+    - rust/sqlx-cli
+    - rust/cargo-chef
+    # CLI / TUI
+    - rust/clap-cli
+    - rust/ratatui-tui
+    # Embedded / no_std
+    - rust/embedded
+    - rust/no-std
+    # FFI (Python / Node / Kotlin+Swift / C)
+    - rust/pyo3
+    - rust/napi-rs
+    - rust/uniffi
+    - rust/bindgen
+    - rust/cbindgen
+    # WASM
+    - rust/wasm-rust
+    # Game / simulation
+    - rust/bevy
     # Perf
     - rust/cargo-flamegraph
     # Quality (beyond the gates in rust-core)
@@ -20,7 +38,10 @@ skills:
     - rust/snapshot-testing
     - rust/property-testing
     - rust/typos-spellcheck
-    # Releases + version mgmt
+    # Docs
+    - rust/mdbook
+    - rust/cargo-readme
+    # Releases + cross-platform
     - rust/release-plz
     - rust/cargo-msrv
     - rust/cross-compile

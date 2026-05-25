@@ -1,0 +1,8 @@
+name: python
+icon: "🐍"
+description: General Python development — FastAPI/Django/Flask APIs, SQLAlchemy/Alembic, pytest, packaging
+inherits: core
+skills:
+  local:
+    - review/code-review
+mcps: []

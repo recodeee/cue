@@ -1,8 +1,0 @@
-name: python-api
-icon: "🐍"
-description: Python API development — FastAPI, Django, Flask, SQLAlchemy, Alembic, pytest
-inherits: core
-skills:
-  local:
-    - review/code-review
-mcps: []
