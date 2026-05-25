@@ -32,6 +32,7 @@ import {
   type ResolvedPlugin,
   type ResolvedProfile,
   type ResolvedSkill,
+  type SkillCondition,
   type SkillRef,
   SchemaViolation,
 } from "../../profiles/_types";
@@ -211,11 +212,14 @@ function normalizeMCPRef(raw: MCPRef): ResolvedMCP {
 }
 
 /**
- * Normalize a raw SkillRef (string or {id, agents?}) to ResolvedSkill form.
+ * Normalize a raw SkillRef (string or {id, agents?, when?}) to ResolvedSkill form.
  */
 function normalizeSkillRef(raw: SkillRef): ResolvedSkill {
   if (typeof raw === "string") return { id: raw };
-  return raw.agents ? { id: raw.id, agents: raw.agents } : { id: raw.id };
+  const result: ResolvedSkill = { id: raw.id };
+  if (raw.agents) result.agents = raw.agents;
+  if (raw.when) result.when = raw.when;
+  return result;
 }
 
 /**
@@ -310,6 +314,13 @@ const DEFAULT_AGENTS: ResolvedProfile["agents"] = ["claude-code", "codex"];
 /**
  * Walk the `inherits` chain root-first. Returns `[oldestAncestor, ..., self]`.
  * Detects cycles and enforces a max depth (parent count) of 3.
+ *
+ * Supports both single-parent (`inherits: "core"`) and multi-parent
+ * (`inherits: ["core", "rust-core"]`). Multi-parent profiles resolve each
+ * parent's full chain independently, then fold them left-to-right before
+ * appending the child. Merge semantics: skills/MCPs/hooks/rules/commands are
+ * unioned (deduped), persona is last-wins (last parent's persona wins, child
+ * overrides all).
  */
 async function buildInheritanceChain(name: string): Promise<Profile[]> {
   const chainNames: string[] = [];
@@ -324,7 +335,39 @@ async function buildInheritanceChain(name: string): Promise<Profile[]> {
 
     const profile = await readRawProfile(current);
     chain.push(profile);
-    current = profile.inherits;
+
+    // Multi-inherit: if inherits is an array, resolve each parent and flatten
+    const inherits = profile.inherits;
+    if (Array.isArray(inherits)) {
+      // Resolve each parent chain independently, fold them, then prepend
+      const parentChains: Profile[][] = [];
+      for (const parentName of inherits) {
+        if (chainNames.includes(parentName)) {
+          throw new InheritanceCycle([...chainNames, parentName]);
+        }
+        const parentChain = await buildInheritanceChain(parentName);
+        parentChains.push(parentChain);
+      }
+      // Flatten: all parent chains concatenated (dedup happens in foldChain via merge helpers)
+      const allParents: Profile[] = [];
+      const seen = new Set<string>();
+      for (const pc of parentChains) {
+        for (const p of pc) {
+          if (!seen.has(p.name)) {
+            seen.add(p.name);
+            allParents.push(p);
+          }
+        }
+      }
+      // Total chain: parents (in order) + self
+      const totalChain = [...allParents, profile];
+      if (totalChain.length - 1 > MAX_INHERITANCE_DEPTH + 2) {
+        throw new InheritanceDepthExceeded(totalChain.map(p => p.name));
+      }
+      return totalChain;
+    }
+
+    current = typeof inherits === "string" ? inherits : undefined;
   }
 
   // chainNames is [child, parent, grandparent, ...]; parents = total - 1.

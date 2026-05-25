@@ -1,0 +1,16 @@
+id: 02-prisma-n-plus-one
+category: perf
+severity_target: MODERATE
+source:
+  origin: hand-crafted
+  inspired_by: "Prisma N+1 eager-loading anti-pattern"
+submodule:
+  path: bench/repos/prisma-sample
+  sha: "PLACEHOLDER_UNTIL_TASK_35"
+description: |
+  PR refactors a user-posts query to call findMany() inside a loop
+  instead of using Prisma's include option. This produces N+1 database
+  queries where N is the number of users, causing severe performance
+  degradation under load.
+expected_issue_class: performance_degradation
+expected_severity: MODERATE

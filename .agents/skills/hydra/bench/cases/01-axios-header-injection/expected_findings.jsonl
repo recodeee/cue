@@ -1,0 +1,1 @@
+{"title":"Unvalidated Authorization header forwarded","file":"src/interceptors/auth.ts","lines":"14-28","severity":"SERIOUS","issue_class":"auth_bypass","position":"REJECT","mandatory":true}

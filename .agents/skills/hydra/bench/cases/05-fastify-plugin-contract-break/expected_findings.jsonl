@@ -1,0 +1,1 @@
+{"title":"onRequest hook converted to async but done() never called — request hangs","file":"src/plugins/rate-limit.ts","lines":"16-28","severity":"MODERATE","issue_class":"api_break","position":"CONCERN","mandatory":true}

@@ -17,7 +17,22 @@ persona: |
     Maintainers should be able to apply your suggestion without thinking.
 inherits: core
 skills:
-  local: []
+  local:
+    - review/wtf
+    # gstack
+    - gstack/autoplan
+    - gstack/benchmark-models
+    - gstack/codex
+    - gstack/health
+    - gstack/investigate
+    - gstack/office-hours
+    - gstack/plan-ceo-review
+    - gstack/plan-eng-review
+    - gstack/plan-devex-review
+    - gstack/retro
+    - gstack/review
+    - gstack/ship
+    - gstack/land-and-deploy
 rules:
   - common/code-review
   - common/coding-style

@@ -198,8 +198,17 @@ export const COMMANDS = {
     load: () => import("./import-profile"),
   },
   export: {
-    summary: "Export a profile as portable YAML",
-    load: () => import("./import-profile"),
+    summary: "Export a profile as portable YAML or Dockerfile (--docker)",
+    load: async () => ({
+      run: async (args: string[]) => {
+        if (args.includes("--docker")) {
+          const { run } = await import("./export-docker");
+          return run(args.filter(a => a !== "--docker"));
+        }
+        const { run } = await import("./import-profile");
+        return run(args);
+      },
+    }),
   },
   share: {
     summary: "Publish & browse community profiles on the marketplace",
@@ -262,12 +271,20 @@ export const COMMANDS = {
     load: () => import("./migrate"),
   },
   suggest: {
-    summary: "Profile recommendations based on usage patterns",
+    summary: "Skill recommendations based on session transcript analysis",
     load: () => import("./suggest"),
   },
   watch: {
     summary: "Auto-switch profile notification on cd (shell hook)",
     load: () => import("./watch"),
+  },
+  "watch-live": {
+    summary: "File watcher for auto-rematerialization on profile/skill changes",
+    load: () => import("./watch-live"),
+  },
+  audit: {
+    summary: "Profile audit: --security checks tools, MCPs, hooks, gates",
+    load: () => import("./audit"),
   },
   benchmark: {
     summary: "Measure profile efficiency: tokens, skill usage, cost",
@@ -284,6 +301,14 @@ export const COMMANDS = {
   discover: {
     summary: "Find hidden gem skill repos on GitHub and export docs/discovered.md",
     load: () => import("./discover"),
+  },
+  playground: {
+    summary: "Try a skill in an isolated temp environment without modifying your profile",
+    load: () => import("./playground"),
+  },
+  workspace: {
+    summary: "Select a workspace (sub-config) within the active profile",
+    load: () => import("./workspace"),
   },
   evolve: {
     summary: "Auto-evolve profiles: detect gaps, suggest skills, prune unused",

@@ -17,4 +17,5 @@ skills:
     - nvidia/numerical-optimization-formulation
     - nvidia/routing-formulation
     - nvidia/skill-evolution
+    - nvidia/aiq-research
 mcps: []

@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_CONFIG_DIR}/hooks/careful-mode.sh",
+            "description": "Opt-in: stricter block on rm -rf non-build paths, DROP/TRUNCATE, git force-push/reset --hard, kubectl/docker destructive. Activated by /careful.",
+            "id": "cue:pre:bash:careful-mode"
+          }
+        ]
+      }
+    ]
+  }
+}

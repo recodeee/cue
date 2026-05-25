@@ -11,6 +11,7 @@ skills:
     - content/trend-to-thread   # end-to-end pipeline: trendradar → article → X thread → Higgsfield → Postiz draft
     - content/article-writer    # topic-agnostic long-form writer (5 presets + voice library + source-discipline)
     - content/article-to-everywhere   # fan-out finished article → X + LinkedIn + Substack + Reddit derivatives
+    - content/engagement-feedback     # /engagement-report — Postiz analytics ↔ voice/preset/topic correlator
   npx:
     - repo: gitroomhq/postiz-agent
       skills: [postiz-agent]

@@ -1,0 +1,16 @@
+id: 03-oauth-pkce-downgrade
+category: security
+severity_target: SERIOUS
+source:
+  origin: hand-crafted
+  inspired_by: "OAuth 2.1 PKCE downgrade attack (RFC 7636 §4.4.1)"
+submodule:
+  path: bench/repos/oauth-sample
+  sha: "PLACEHOLDER_UNTIL_TASK_35"
+description: |
+  PR weakens the OAuth PKCE flow by changing code_challenge_method from
+  S256 to plain in the authorization request, and skipping the
+  code_verifier hash comparison in the callback handler. An attacker who
+  intercepts the authorization code can now forge the verifier.
+expected_issue_class: auth_bypass
+expected_severity: SERIOUS

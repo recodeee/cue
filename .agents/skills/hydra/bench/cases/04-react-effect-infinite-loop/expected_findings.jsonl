@@ -1,0 +1,1 @@
+{"title":"useEffect depends on inline object reference — causes infinite render loop","file":"src/components/ProductList.tsx","lines":"19-29","severity":"SERIOUS","issue_class":"logic_error","position":"REJECT","mandatory":true}

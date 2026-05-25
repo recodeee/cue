@@ -1,5 +1,6 @@
 name: medusa-dev
 icon: "🦊"
+iconImage: "logo.png"
 description: Medusa v2 backend, storefront, admin, migration, and shop setup work
 inherits: core
 skills:
@@ -16,6 +17,8 @@ skills:
     - medusa/new-admin-via-api
     - medusa/medusa-shop-setup
     - medusa/woocommerce-to-medusa-import
+    - medusa/gh-submodule-publish
+    - medusa/medusa-local-dev
+    - medusa/provision-medusa-s3-bucket
 mcps:
-  - medusadocs
   - coolify

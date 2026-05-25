@@ -767,9 +767,9 @@ Each card shows what's actually loaded *plus* how often you've reached for each 
 </p>
 
 <!-- AUTOGEN:PROFILES:START -->
-## 🎯 The 35-profile catalog
+## 🎯 The 33-profile catalog
 
-> **One repo. 35 pre-built expert agents.** Pin one with `cue use <name>` and `claude` launches with that profile's skills, MCPs, hooks, and commands materialized into a per-profile `CLAUDE_CONFIG_DIR`. Profiles inherit, so a focused profile like `rust-cli` gets `rust-core`'s foundations + `core`'s baselines for free.
+> **One repo. 33 pre-built expert agents.** Pin one with `cue use <name>` and `claude` launches with that profile's skills, MCPs, hooks, and commands materialized into a per-profile `CLAUDE_CONFIG_DIR`. Profiles inherit, so a focused profile like `rust-cli` gets `rust-core`'s foundations + `core`'s baselines for free.
 
 <p align="center"><kbd>🐢 core</kbd> <kbd>🐻 backend</kbd> <kbd>🦋 frontend</kbd> <kbd>🦀 rust</kbd> <kbd>🔒 cybersecurity</kbd> <kbd>🦊 medusa-dev</kbd> <kbd>🦚 creative-media</kbd> <kbd>🐆 caveman-quick</kbd></p>
 
@@ -786,8 +786,8 @@ claude                        # launches with that profile's loadout
 
 | Profile | What it's for | Loadout | Pin it |
 |---|---|---|---|
-| 🐢 **core** | Baseline shared by every cue profile — essentials only | 11 skills · 1 MCP · 4 cmds | `cue use core` |
-| 🦄 **full** | Diagnostic fallback profile that loads every local skill and MCP <sub>inherits `core`</sub> | 12 skills · 14 MCPs · 4 cmds | `cue use full` |
+| 🐢 **core** | Baseline shared by every cue profile — essentials only | 30 skills · 1 MCP · 8 cmds | `cue use core` |
+| 🦄 **full** | Diagnostic fallback profile that loads every local skill and MCP <sub>inherits `core`</sub> | 30 skills · 14 MCPs · 8 cmds | `cue use full` |
 
 ### 🐻 Backend & Languages
 
@@ -795,17 +795,10 @@ claude                        # launches with that profile's loadout
 
 | Profile | What it's for | Loadout | Pin it |
 |---|---|---|---|
-| 🐻 **backend** | APIs, webhooks, security review, CI, package, database, and deploy work <sub>inherits `core`</sub> | 23 skills · 2 MCPs · 4 cmds | `cue use backend` |
-| 🐍 **python-api** | Python API development — FastAPI, Django, Flask, SQLAlchemy, Alembic, pytest <sub>inherits `core`</sub> | 12 skills · 1 MCP · 4 cmds | `cue use python-api` |
-| 🐹 **go-api** | Go API development — net/http, gin/echo/chi, GORM, migrations, testing <sub>inherits `core`</sub> | 13 skills · 1 MCP · 4 cmds | `cue use go-api` |
-| 🦀 **rust** | General Rust development — async, serde, tracing, perf, docs, testing, releases <sub>inherits `rust-core`</sub> | 39 skills · 1 MCP · 8 cmds | `cue use rust` |
-| 🦀 **rust-core** | Foundation shared by every rust sub-profile — toolchain essentials, gates, discovery <sub>inherits `core`</sub> | 24 skills · 1 MCP · 8 cmds | `cue use rust-core` |
-| ⌨️ **rust-cli** | Rust command-line tools — clap, ratatui TUIs, snapshot testing, cross-platform releases <sub>inherits `rust-core`</sub> | 31 skills · 1 MCP · 8 cmds | `cue use rust-cli` |
-| 🕸️ **rust-web** | Rust web services — axum HTTP APIs, reqwest, sqlx, serde, tracing, container deploys <sub>inherits `rust-core`</sub> | 34 skills · 1 MCP · 8 cmds | `cue use rust-web` |
-| 🔗 **rust-ffi** | Rust foreign-function interface — Python (pyo3), Node (napi-rs), Kotlin/Swift (uniffi), C… <sub>inherits `rust-core`</sub> | 30 skills · 1 MCP · 8 cmds | `cue use rust-ffi` |
-| 🕸️ **rust-wasm** | Rust → WebAssembly — wasm-pack libraries, Trunk/Dioxus SPAs, no_std considerations <sub>inherits `rust-core`</sub> | 28 skills · 1 MCP · 8 cmds | `cue use rust-wasm` |
-| 🎮 **rust-game** | Rust game / simulation development — Bevy ECS, perf profiling, asset pipelines <sub>inherits `rust-core`</sub> | 28 skills · 1 MCP · 8 cmds | `cue use rust-game` |
-| 📟 **rust-embedded** | Rust on microcontrollers — probe-rs, embassy async, no_std patterns, cross-compile to… <sub>inherits `rust-core`</sub> | 28 skills · 1 MCP · 8 cmds | `cue use rust-embedded` |
+| 🐻 **backend** | APIs, webhooks, security review, CI, package, database, and deploy work <sub>inherits `core`</sub> | 53 skills · 2 MCPs · 8 cmds | `cue use backend` |
+| 🐹 **go-api** | Go API development — net/http, gin/echo/chi, GORM, migrations, testing <sub>inherits `core`</sub> | 32 skills · 1 MCP · 8 cmds | `cue use go-api` |
+| 🦀 **rust** | All-in-one Rust profile — async, web, CLI/TUI, embedded, FFI, WASM, game, perf, docs, releases <sub>inherits `rust-core`</sub> | 73 skills · 1 MCP · 12 cmds | `cue use rust` |
+| 🦀 **rust-core** | Foundation shared by every rust sub-profile — toolchain essentials, gates, discovery <sub>inherits `core`</sub> | 43 skills · 1 MCP · 12 cmds | `cue use rust-core` |
 
 ### 🦋 Frontend & 3D
 
@@ -813,9 +806,9 @@ claude                        # launches with that profile's loadout
 
 | Profile | What it's for | Loadout | Pin it |
 |---|---|---|---|
-| 🦋 **frontend** | Frontend UI implementation, redesign, screenshots, testing, and visual polish <sub>inherits `core`</sub> | 21 skills · 1 MCP · 4 cmds | `cue use frontend` |
-| ▲ **nextjs** | Next.js full-stack — App Router, Server Components, API routes, Vercel deploy <sub>inherits `frontend`</sub> | 22 skills · 1 MCP · 4 cmds | `cue use nextjs` |
-| 🎲 **threejs** | Three.js 3D development — geometry, materials, shaders, animation, postprocessing, and… <sub>inherits `core`</sub> | 11 skills · 1 MCP · 4 cmds | `cue use threejs` |
+| 🦋 **frontend** | Frontend UI implementation, redesign, screenshots, testing, and visual polish <sub>inherits `core`</sub> | 49 skills · 1 MCP · 8 cmds | `cue use frontend` |
+| ▲ **nextjs** | Next.js full-stack — App Router, Server Components, API routes, Vercel deploy <sub>inherits `frontend`</sub> | 50 skills · 1 MCP · 8 cmds | `cue use nextjs` |
+| 🎲 **threejs** | Three.js 3D development — geometry, materials, shaders, animation, postprocessing, and… <sub>inherits `core`</sub> | 30 skills · 1 MCP · 8 cmds | `cue use threejs` |
 
 ### 🧊 Infra & Ops
 
@@ -823,9 +816,9 @@ claude                        # launches with that profile's loadout
 
 | Profile | What it's for | Loadout | Pin it |
 |---|---|---|---|
-| <img src="./profiles/coolify/logo.png" width="20" alt="coolify logo" align="top"> **coolify** | Coolify deploys, server config, app env vars, and CI <sub>inherits `core`</sub> | 17 skills · 3 MCPs · 4 cmds | `cue use coolify` |
-| <img src="./profiles/hostinger/logo.png" width="20" alt="hostinger logo" align="top"> **hostinger** | Hostinger DNS, domain, VPS, and hosting management <sub>inherits `core`</sub> | 16 skills · 3 MCPs · 4 cmds | `cue use hostinger` |
-| 🐺 **fleet-control** | Multi-agent orchestration, Colony coordination, OMX flows, and gx safety <sub>inherits `core`</sub> | 23 skills · 3 MCPs · 4 cmds | `cue use fleet-control` |
+| <img src="./profiles/coolify/logo.png" width="20" alt="coolify logo" align="top"> **coolify** | Coolify deploys, server config, app env vars, and CI <sub>inherits `core`</sub> | 36 skills · 3 MCPs · 8 cmds | `cue use coolify` |
+| <img src="./profiles/hostinger/logo.png" width="20" alt="hostinger logo" align="top"> **hostinger** | Hostinger DNS, domain, VPS, and hosting management <sub>inherits `core`</sub> | 35 skills · 3 MCPs · 8 cmds | `cue use hostinger` |
+| 🐺 **fleet-control** | Multi-agent orchestration, Colony coordination, OMX flows, and gx safety <sub>inherits `core`</sub> | 45 skills · 3 MCPs · 8 cmds | `cue use fleet-control` |
 
 ### 🔒 Security & Research
 
@@ -833,8 +826,8 @@ claude                        # launches with that profile's loadout
 
 | Profile | What it's for | Loadout | Pin it |
 |---|---|---|---|
-| 🔒 **cybersecurity** | Skills from mukul975/Anthropic-Cybersecurity-Skills + agentshield (agent config auditor) <sub>inherits `core`</sub> | 14 skills · 4 MCPs · 4 cmds | `cue use cybersecurity` |
-| 🦉 **research** | Source-backed lookup, extraction, keyword, browser, crate, and market research <sub>inherits `core`</sub> | 21 skills · 3 MCPs · 4 cmds | `cue use research` |
+| 🔒 **cybersecurity** | Skills from mukul975/Anthropic-Cybersecurity-Skills + agentshield (agent config auditor) <sub>inherits `core`</sub> | 32 skills · 4 MCPs · 8 cmds | `cue use cybersecurity` |
+| 🦉 **research** | Source-backed lookup, extraction, keyword, browser, crate, and market research <sub>inherits `core`</sub> | 43 skills · 3 MCPs · 8 cmds | `cue use research` |
 
 ### 🎨 Media & Docs
 
@@ -842,11 +835,11 @@ claude                        # launches with that profile's loadout
 
 | Profile | What it's for | Loadout | Pin it |
 |---|---|---|---|
-| 🦚 **creative-media** | Image, video, product asset, brand, and visual generation workflows <sub>inherits `core`</sub> | 23 skills · 3 MCPs · 4 cmds | `cue use creative-media` |
-| 🎬 **video** | Video and GIF analysis — frame extraction, audio transcription, and visual understanding via… <sub>inherits `core`</sub> | 12 skills · 1 MCP · 4 cmds | `cue use video` |
-| 🐝 **docs-writer** | Documentation, Markdown, PDF, Obsidian, and structured writing work <sub>inherits `core`</sub> | 19 skills · 3 MCPs · 4 cmds | `cue use docs-writer` |
-| 🎨 **readme-writer** | Beautiful README design with SVG diagrams — architecture flows, terminal mockups, and… <sub>inherits `core`</sub> | 13 skills · 1 MCP · 4 cmds | `cue use readme-writer` |
-| 💌 **event-design** | Event collateral design — wedding invitations, save-the-dates, programs, menus, place cards… <sub>inherits `core`</sub> | 14 skills · 1 MCP · 4 cmds | `cue use event-design` |
+| 🦚 **creative-media** | Image, video, product asset, brand, and visual generation workflows <sub>inherits `core`</sub> | 43 skills · 3 MCPs · 8 cmds | `cue use creative-media` |
+| 🎬 **video** | Video and GIF analysis — frame extraction, audio transcription, and visual understanding via… <sub>inherits `core`</sub> | 31 skills · 1 MCP · 8 cmds | `cue use video` |
+| 🐝 **docs-writer** | Documentation, Markdown, PDF, Obsidian, and structured writing work <sub>inherits `core`</sub> | 41 skills · 3 MCPs · 8 cmds | `cue use docs-writer` |
+| 🎨 **readme-writer** | Beautiful README design with SVG diagrams — architecture flows, terminal mockups, and… <sub>inherits `core`</sub> | 32 skills · 1 MCP · 8 cmds | `cue use readme-writer` |
+| 💌 **event-design** | Event collateral design — wedding invitations, save-the-dates, programs, menus, place cards… <sub>inherits `core`</sub> | 33 skills · 1 MCP · 8 cmds | `cue use event-design` |
 
 ### 💰 Growth & Career
 
@@ -854,10 +847,10 @@ claude                        # launches with that profile's loadout
 
 | Profile | What it's for | Loadout | Pin it |
 |---|---|---|---|
-| 🦜 **marketing** | Marketing — copywriting, SEO, CRO, growth, channels, brand, awesome-list outreach, X/Twitter… <sub>inherits `core`</sub> | 19 skills · 7 MCPs · 4 cmds | `cue use marketing` |
-| 💰 **affiliate** | Affiliate marketing flywheel — 52 skills across research, content, SEO, landing pages… <sub>inherits `core`</sub> | 11 skills · 1 MCP · 4 cmds | `cue use affiliate` |
-| 📡 **trendradar** | TrendRadar — news aggregation, trend analysis, AI-powered filtering, and notification… <sub>inherits `core`</sub> | 13 skills · 2 MCPs · 4 cmds | `cue use trendradar` |
-| 💼 **career** | Job hunting, resume optimization, interview prep, salary negotiation, and career development <sub>inherits `core`</sub> | 17 skills · 1 MCP · 4 cmds | `cue use career` |
+| 🦜 **marketing** | Marketing — copywriting, SEO, CRO, growth, channels, brand, awesome-list outreach, X/Twitter… <sub>inherits `core`</sub> | 38 skills · 7 MCPs · 8 cmds | `cue use marketing` |
+| 💰 **affiliate** | Affiliate marketing flywheel — 52 skills across research, content, SEO, landing pages… <sub>inherits `core`</sub> | 30 skills · 1 MCP · 8 cmds | `cue use affiliate` |
+| 📡 **trendradar** | TrendRadar — news aggregation, trend analysis, AI-powered filtering, and notification… <sub>inherits `core`</sub> | 33 skills · 2 MCPs · 8 cmds | `cue use trendradar` |
+| 💼 **career** | Job hunting, resume optimization, interview prep, salary negotiation, and career development <sub>inherits `core`</sub> | 30 skills · 1 MCP · 8 cmds | `cue use career` |
 
 ### 🦊 Verticals
 
@@ -865,9 +858,9 @@ claude                        # launches with that profile's loadout
 
 | Profile | What it's for | Loadout | Pin it |
 |---|---|---|---|
-| 🦊 **medusa-dev** | Medusa v2 backend, storefront, admin, migration, and shop setup work <sub>inherits `core`</sub> | 23 skills · 3 MCPs · 4 cmds | `cue use medusa-dev` |
-| <img src="./profiles/nvidia/logo.png" width="20" alt="nvidia logo" align="top"> **nvidia** | NVIDIA cuOpt: routing, LP/MILP, GPU-accelerated optimization (12 skills) <sub>inherits `core`</sub> | 22 skills · 1 MCP · 4 cmds | `cue use nvidia` |
-| 🦅 **ecc** | Everything Claude Code patterns — code review, dev workflow, language-specific rules <sub>inherits `core`</sub> | 11 skills · 1 MCP · 7 cmds | `cue use ecc` |
+| <img src="./profiles/medusa-dev/logo.png" width="20" alt="medusa-dev logo" align="top"> **medusa-dev** | Medusa v2 backend, storefront, admin, migration, and shop setup work <sub>inherits `core`</sub> | 45 skills · 2 MCPs · 8 cmds | `cue use medusa-dev` |
+| <img src="./profiles/nvidia/logo.png" width="20" alt="nvidia logo" align="top"> **nvidia** | NVIDIA cuOpt: routing, LP/MILP, GPU-accelerated optimization (12 skills) <sub>inherits `core`</sub> | 42 skills · 1 MCP · 8 cmds | `cue use nvidia` |
+| 🦅 **ecc** | Everything Claude Code patterns — code review, dev workflow, language-specific rules <sub>inherits `core`</sub> | 44 skills · 1 MCP · 11 cmds | `cue use ecc` |
 
 ### 🐆 Modes
 
@@ -875,7 +868,7 @@ claude                        # launches with that profile's loadout
 
 | Profile | What it's for | Loadout | Pin it |
 |---|---|---|---|
-| 🐆 **caveman-quick** | Fast low-context edits, summaries, reviews, notes, and commit prep <sub>inherits `core`</sub> | 18 skills · 1 MCP · 4 cmds | `cue use caveman-quick` |
+| 🐆 **caveman-quick** | Fast low-context edits, summaries, reviews, notes, and commit prep <sub>inherits `core`</sub> | 37 skills · 1 MCP · 8 cmds | `cue use caveman-quick` |
 
 ### Uncategorized
 
@@ -883,11 +876,16 @@ claude                        # launches with that profile's loadout
 
 | Profile | What it's for |
 |---|---|
+| ✍️ **blog-writer** | SEO + GEO blog writing — keyword research, AI-citation optimization, content audits, schema… |
+| <img src="./profiles/google-ads/logo.png" width="20" alt="google-ads logo" align="top"> **google-ads** | Google Ads — live GAQL API queries via official MCP + multi-platform paid ads audit (250+… |
+| <img src="./profiles/instagram/logo.png" width="20" alt="instagram logo" align="top"> **instagram** | Instagram automation via instagrapi — login/session, scraping, uploads, stories, DMs, notes… |
+| <img src="./profiles/postizz/logo.png" width="20" alt="postizz logo" align="top"> **postizz** | Postiz — AI social media scheduling, posting, analytics across 32+ platforms via MCP + CLI |
 | 🔮 **predict-everything** | Multi-agent prediction & simulation — digital sandbox rehearsals, swarm intelligence, "what… |
+| 🐍 **python** | General Python development — FastAPI/Django/Flask APIs, SQLAlchemy/Alembic, pytest, packaging |
 
 ---
 
-**Don't see a fit?** Run `cue auto-detect` in your project for a suggestion, or `cue ai "describe your stack"` to scaffold a new profile from natural language. Canonical machine-readable list: [`docs/data/profiles.md`](./docs/data/profiles.md). Total: **35 profiles** generated by `scripts/gen-profile-catalog.ts`.
+**Don't see a fit?** Run `cue auto-detect` in your project for a suggestion, or `cue ai "describe your stack"` to scaffold a new profile from natural language. Canonical machine-readable list: [`docs/data/profiles.md`](./docs/data/profiles.md). Total: **33 profiles** generated by `scripts/gen-profile-catalog.ts`.
 
 <!-- AUTOGEN:PROFILES:END -->
 

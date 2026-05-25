@@ -1,0 +1,1 @@
+{"title":"PKCE downgrade: code_challenge_method weakened from S256 to plain","file":"src/auth/oauth-callback.ts","lines":"22-35","severity":"SERIOUS","issue_class":"auth_bypass","position":"REJECT","mandatory":true}

@@ -1,0 +1,18 @@
+--- a/src/components/ProductList.tsx
++++ b/src/components/ProductList.tsx
+@@ -14,6 +14,15 @@ interface Props {
+ export function ProductList({ categoryId }: Props) {
+   const [products, setProducts] = useState<Product[]>([]);
+
++  // filters is recreated on every render — new object reference each time
++  const filters = { categoryId, active: true };
++
++  useEffect(() => {
++    fetchProducts(filters).then((data) => {
++      setProducts(data);
++    });
++  }, [filters]); // filters changes every render → infinite loop
++
+   return (
+     <ul>
+       {products.map((p) => (

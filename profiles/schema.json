@@ -34,9 +34,11 @@
       "default": ["claude-code", "codex"]
     },
     "inherits": {
-      "type": "string",
-      "pattern": "^[a-z][a-z0-9-]{1,63}$",
-      "description": "Single parent profile name. Depth ≤ 3, cycles forbidden."
+      "oneOf": [
+        { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,63}$" },
+        { "type": "array", "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,63}$" }, "minItems": 1 }
+      ],
+      "description": "Parent profile name(s). Single string or array. Depth ≤ 3, cycles forbidden."
     },
     "recommends": {
       "type": "array",

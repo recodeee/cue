@@ -28,4 +28,14 @@ skills:
     - design/imagegen-frontend-mobile
     - design/minimalist-ui
     - design/industrial-brutalist-ui
+    - browser/playwright
+    # gstack
+    - gstack/benchmark
+    - gstack/canary
+    - gstack/design-consultation
+    - gstack/design-review
+    - gstack/plan-design-review
+    - gstack/scrape
+    - gstack/skillify
+    - gstack/setup-browser-cookies
 mcps: []

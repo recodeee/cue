@@ -3,7 +3,7 @@
  * Scans cwd for project signals and scores against known profiles.
  */
 
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 interface Signal {
@@ -38,6 +38,7 @@ const SIGNALS: Signal[] = [
   { file: "drizzle.config.ts", weight: 4, profile: "backend" },
   { file: "src/server.ts", weight: 3, profile: "backend" },
   { file: "src/index.ts", weight: 1, profile: "backend" },
+  { file: ".github/workflows/", weight: 1, profile: "backend" },
 
   // Python API
   { file: "pyproject.toml", weight: 4, profile: "python-api" },
@@ -56,6 +57,10 @@ const SIGNALS: Signal[] = [
   { file: "src/main.rs", weight: 4, profile: "rust" },
   { file: "src/lib.rs", weight: 3, profile: "rust" },
   { file: ".cargo/config.toml", weight: 2, profile: "rust" },
+
+  // Rust CLI sub-profile
+  { file: "src/main.rs", weight: 3, profile: "rust-cli" },
+  { file: "Cargo.toml", weight: 3, profile: "rust-cli" },
 
   // Go API
   { file: "go.mod", weight: 5, profile: "go-api" },
@@ -91,6 +96,13 @@ const SIGNALS: Signal[] = [
 
   // Three.js
   { file: "three.js", weight: 4, profile: "threejs" },
+
+  // ECC
+  { file: "CLAUDE.md", weight: 2, profile: "ecc" },
+  { file: ".claude/", weight: 2, profile: "ecc" },
+
+  // Full (meta)
+  { file: "profiles/", weight: 2, profile: "full" },
 ];
 
 export interface DetectionResult {
@@ -99,6 +111,75 @@ export interface DetectionResult {
   maxScore: number;
   confidence: number; // 0-100
   signals: string[];  // which files matched
+}
+
+/**
+ * V2 detection result with 0-1 confidence and reasons array.
+ */
+export interface DetectionResultV2 {
+  profile: string;
+  confidence: number; // 0.0 - 1.0
+  reasons: string[];
+}
+
+/**
+ * Read package.json dependencies to boost detection.
+ */
+function readPackageDeps(cwd: string): { deps: Set<string>; devDeps: Set<string> } {
+  const deps = new Set<string>();
+  const devDeps = new Set<string>();
+  try {
+    const raw = readFileSync(join(cwd, "package.json"), "utf8");
+    const pkg = JSON.parse(raw);
+    if (pkg.dependencies) for (const k of Object.keys(pkg.dependencies)) deps.add(k);
+    if (pkg.devDependencies) for (const k of Object.keys(pkg.devDependencies)) devDeps.add(k);
+  } catch { /* no package.json or invalid */ }
+  return { deps, devDeps };
+}
+
+/**
+ * Enhanced v2 detection with package.json awareness and 0-1 confidence.
+ */
+export function detectProfileV2(cwd: string): DetectionResultV2[] {
+  const results = new Map<string, { confidence: number; reasons: string[] }>();
+
+  function add(profile: string, confidence: number, reason: string) {
+    const entry = results.get(profile) ?? { confidence: 0, reasons: [] };
+    entry.confidence = Math.max(entry.confidence, confidence);
+    entry.reasons.push(reason);
+    results.set(profile, entry);
+  }
+
+  // File-based signals
+  if (existsSync(join(cwd, "Cargo.toml"))) {
+    add("rust", 0.9, "Cargo.toml");
+    if (existsSync(join(cwd, "src/main.rs"))) add("rust-cli", 0.7, "src/main.rs");
+  }
+  if (existsSync(join(cwd, "go.mod"))) add("go-api", 0.8, "go.mod");
+  if (existsSync(join(cwd, "pyproject.toml"))) add("python-api", 0.7, "pyproject.toml");
+  if (existsSync(join(cwd, "requirements.txt"))) add("python-api", 0.7, "requirements.txt");
+  if (existsSync(join(cwd, "docker-compose.yml")) || existsSync(join(cwd, "Dockerfile"))) {
+    add("backend", 0.5, "docker-compose.yml/Dockerfile");
+  }
+  if (existsSync(join(cwd, ".github/workflows"))) add("backend", 0.3, ".github/workflows/");
+  if (existsSync(join(cwd, "CLAUDE.md")) || existsSync(join(cwd, ".claude"))) {
+    add("ecc", 0.4, "CLAUDE.md or .claude/");
+  }
+  if (existsSync(join(cwd, "profiles"))) add("full", 0.3, "profiles/ dir");
+
+  // package.json-based signals
+  if (existsSync(join(cwd, "package.json"))) {
+    const { deps, devDeps } = readPackageDeps(cwd);
+    const allDeps = new Set([...deps, ...devDeps]);
+    if (allDeps.has("next")) add("nextjs", 0.9, "package.json has next");
+    else if (allDeps.has("react")) add("frontend", 0.8, "package.json has react");
+    else add("backend", 0.6, "package.json (no framework)");
+  }
+
+  return [...results.entries()]
+    .map(([profile, { confidence, reasons }]) => ({ profile, confidence, reasons }))
+    .sort((a, b) => b.confidence - a.confidence)
+    .slice(0, 5);
 }
 
 export function detectProfile(cwd: string): DetectionResult[] {

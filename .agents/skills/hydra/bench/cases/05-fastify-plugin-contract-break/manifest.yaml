@@ -1,0 +1,16 @@
+id: 05-fastify-plugin-contract-break
+category: api
+severity_target: MODERATE
+source:
+  origin: hand-crafted
+  inspired_by: "Fastify plugin async-hook contract violation"
+submodule:
+  path: bench/repos/fastify-sample
+  sha: "PLACEHOLDER_UNTIL_TASK_35"
+description: |
+  PR converts an onRequest hook from callback-style to an async function
+  without removing the done parameter. The async function returns before
+  done() is ever called, causing Fastify to silently hang on every request
+  that passes through this plugin.
+expected_issue_class: api_break
+expected_severity: MODERATE

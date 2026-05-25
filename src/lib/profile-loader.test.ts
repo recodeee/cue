@@ -20,7 +20,7 @@ import {
   ProfileNotFound,
   SchemaViolation,
 } from "../../profiles/_types";
-import { listProfiles, loadProfile } from "./profile-loader";
+import { isCompositeSelector, listProfiles, loadProfile, parseProfileSelector } from "./profile-loader";
 
 // ---------------------------------------------------------------------------
 // Test harness
@@ -332,5 +332,126 @@ describe("listProfiles", () => {
     process.env.SOUL_PROFILES_DIR = join(scratchRoot, "does-not-exist");
     const names = await listProfiles();
     expect(names).toEqual([]);
+  });
+});
+
+describe("parseProfileSelector", () => {
+  test("plain name returns single-element array", () => {
+    expect(parseProfileSelector("postizz")).toEqual(["postizz"]);
+  });
+
+  test("composite splits on +", () => {
+    expect(parseProfileSelector("a+b+c")).toEqual(["a", "b", "c"]);
+  });
+
+  test("whitespace around parts is trimmed", () => {
+    expect(parseProfileSelector(" a + b ")).toEqual(["a", "b"]);
+  });
+
+  test("empty parts are dropped (trailing +)", () => {
+    expect(parseProfileSelector("a+")).toEqual(["a"]);
+  });
+
+  test("fully empty selector throws", () => {
+    expect(() => parseProfileSelector("+++")).toThrow(/empty/i);
+  });
+
+  test("isCompositeSelector recognizes ≥2 parts", () => {
+    expect(isCompositeSelector("postizz")).toBe(false);
+    expect(isCompositeSelector("postizz+trendradar")).toBe(true);
+    expect(isCompositeSelector("a+")).toBe(false); // collapses to single
+  });
+});
+
+describe("loadProfile (composite)", () => {
+  test("a+b unions skills, mcps, rules and synthesizes name", async () => {
+    await writeProfile(
+      "alpha",
+      [
+        "name: alpha",
+        "description: Alpha profile",
+        "icon: 🅰️",
+        "skills:",
+        "  local:",
+        "    - foo/one",
+        "    - foo/two",
+        "mcps:",
+        "  - alpha-mcp",
+        "rules:",
+        "  - alpha/rule",
+        "env:",
+        '  SHARED: "from-alpha"',
+        '  ALPHA_ONLY: "yes"',
+        "persona: |",
+        "  alpha persona text",
+      ].join("\n"),
+    );
+    await writeProfile(
+      "beta",
+      [
+        "name: beta",
+        "description: Beta profile",
+        "icon: 🅱️",
+        "skills:",
+        "  local:",
+        "    - foo/two", // overlaps with alpha → dedupes
+        "    - bar/three",
+        "mcps:",
+        "  - beta-mcp",
+        "rules:",
+        "  - beta/rule",
+        "env:",
+        '  SHARED: "from-beta"', // collision → later wins
+        '  BETA_ONLY: "yes"',
+        "persona: |",
+        "  beta persona text",
+      ].join("\n"),
+    );
+
+    const merged = await loadProfile("alpha+beta");
+
+    expect(merged.name).toBe("alpha+beta");
+    expect(merged.description).toBe("Alpha profile + Beta profile");
+    expect(merged.icon).toBe("🅰️"); // first-non-empty wins
+    expect(merged.skills.local.map((s) => s.id)).toEqual([
+      "foo/one",
+      "foo/two",
+      "bar/three",
+    ]);
+    expect(merged.mcps.map((m) => m.id)).toEqual(["alpha-mcp", "beta-mcp"]);
+    expect(merged.rules).toEqual(["alpha/rule", "beta/rule"]);
+    expect(merged.env).toEqual({
+      SHARED: "from-beta",
+      ALPHA_ONLY: "yes",
+      BETA_ONLY: "yes",
+    });
+    expect(merged.persona).toContain("## alpha");
+    expect(merged.persona).toContain("alpha persona text");
+    expect(merged.persona).toContain("## beta");
+    expect(merged.persona).toContain("beta persona text");
+    expect(merged.inheritanceChain).toEqual(["alpha", "beta"]);
+    expect(merged.inherits).toBeUndefined();
+  });
+
+  test("missing component throws ProfileNotFound for that part", async () => {
+    await writeProfile(
+      "alpha",
+      "name: alpha\ndescription: Alpha\n",
+    );
+
+    await expect(loadProfile("alpha+ghost")).rejects.toBeInstanceOf(
+      ProfileNotFound,
+    );
+  });
+
+  test("single-element composite (a+) loads like plain a", async () => {
+    await writeProfile(
+      "alpha",
+      "name: alpha\ndescription: Alpha\nicon: 🅰️\n",
+    );
+
+    const merged = await loadProfile("alpha+");
+    expect(merged.name).toBe("alpha"); // not "alpha+"; collapses to single-part
+    expect(merged.icon).toBe("🅰️");
   });
 });

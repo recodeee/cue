@@ -1,124 +1,42 @@
 ---
 title: "Claude Code Skills for python-api"
-description: "8 community Claude Code skills curated by cue for the python-api profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
+description: "2 community Claude Code skills curated by cue for the python-api profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
 layout: page
-updated: 2026-05-25
+updated: 2026-05-24
 tags: [claude-code, python-api, skills, mcp, ai-agents]
 ---
 
 # Claude Code Skills for `python-api`
 
-> 8 community-built skills curated by [cue](https://github.com/opencue/cue) for the **python-api** profile.
+> 2 community-built skills curated by [cue](https://github.com/opencue/cue) for the **python-api** profile.
 > Each one was discovered via GitHub Code Search, scored on signal quality, and mapped to this profile by keyword overlap.
 
 **[← back to all discovered skills](./index.md)**
 
 ---
 
-<a id="beggarticksarthurtatum121-reddit-skills"></a>
-## 💎 [beggarticksarthurtatum121/reddit-skills](https://github.com/beggarticksarthurtatum121/reddit-skills)
+<a id="dcellison-kai"></a>
+## 💎 [dcellison/kai](https://github.com/dcellison/kai)
 
-**★ 2** · exceptional (score 16) · Python · tags: agent-skills, ai, ai-agent, ai-prompts, ai-skill
+**★ 31** · exceptional (score 13.1) · Python · tags: ai-agent, ai-assistant, anthropic, automation, claude
 
-Automate Reddit tasks using your actual browser and account with support for AI agents and the SKILL.md format.
-
-✅ SKILL.md
+Agentic AI coding assistant on Telegram, powered by multiple persistent back ends. Runs locally with shell access, automated PR reviews, layered security, persistent memory, and scheduled jobs. Your machine, your data, your rules.
 
 ```bash
-cue skills add beggarticksarthurtatum121/reddit-skills --profile python-api
+cue skills add dcellison/kai --profile python-api
 ```
 
 ---
 
-<a id="georgiannebedded725-zenodo-skill"></a>
-## 💎 [Georgiannebedded725/zenodo-skill](https://github.com/Georgiannebedded725/zenodo-skill)
+<a id="coldjeffry12-ai-code-review-assistant"></a>
+## 🔹 [coldjeffry12/ai-code-review-assistant](https://github.com/coldjeffry12/ai-code-review-assistant)
 
-**★ 0** · exceptional (score 13) · tags: agent-skills, barriers-to-adoption, chi-square-test, claude-code, claude-code-skill
+**★ 0** · potential (score 4) · Python · tags: ai, ai-assisted-development, code-review, fastapi, portfolio
 
-Manage Zenodo research artifacts, automate deposits, and generate citable DOIs directly from Claude Code or OpenClaw using this Zenodo REST API skill.
-
-✅ SKILL.md
+Full-stack AI Code Review Assistant using React, TypeScript, Python FastAPI, fallback review logic, test cases, and screenshots.
 
 ```bash
-cue skills add Georgiannebedded725/zenodo-skill --profile python-api
-```
-
----
-
-<a id="fusedio-skills"></a>
-## ✨ [fusedio/skills](https://github.com/fusedio/skills)
-
-**★ 4** · strong (score 6.8) · Python · tags: claude-skill, codex-skill, data, data-science, fused
-
-Fused skills and plugins for AIs like Claude
-
-```bash
-cue skills add fusedio/skills --profile python-api
-```
-
----
-
-<a id="blackwell-systems-knowing"></a>
-## ✨ [blackwell-systems/knowing](https://github.com/blackwell-systems/knowing)
-
-**★ 3** · strong (score 6.7) · Go · tags: ai-agents, audit, code-graph, code-intelligence, code-memory
-
-Permanent code intelligence layer. Learns what matters, expires what changed, proves what existed. Content-addressed graph with Merkle proofs, 25 extractors, 23 MCP tools. Gets smarter with use.
-
-```bash
-cue skills add blackwell-systems/knowing --profile python-api
-```
-
----
-
-<a id="hermeticormus-python-conventions-skills"></a>
-## ✨ [HermeticOrmus/python-conventions-skills](https://github.com/HermeticOrmus/python-conventions-skills)
-
-**★ 0** · strong (score 6) · tags: asyncio, claude, claude-code, cursor, modern-python
-
-A CLAUDE.md for modern Python (3.11+) conventions — type discipline, pathlib over os.path, async patterns, structlog, ruff + mypy strict + pytest defaults. Drop into any Python project.
-
-```bash
-cue skills add HermeticOrmus/python-conventions-skills --profile python-api
-```
-
----
-
-<a id="ktech7moon-hn-jobs-learning-scraper"></a>
-## ✨ [ktech7moon/hn-jobs-learning-scraper](https://github.com/ktech7moon/hn-jobs-learning-scraper)
-
-**★ 0** · strong (score 5.4) · Python · tags: ai-agent, anthropic, autobrowse, browser-automation, claude
-
-AI agent learns to scrape a website, graduates a reusable SKILL.md, then skips the slow browser path. Demo on Hacker News Who's Hiring.
-
-```bash
-cue skills add ktech7moon/hn-jobs-learning-scraper --profile python-api
-```
-
----
-
-<a id="earthlike-hopper1684-llm-wiki"></a>
-## ✨ [Earthlike-hopper1684/llm_wiki](https://github.com/Earthlike-hopper1684/llm_wiki)
-
-**★ 0** · strong (score 5) · tags: claude-code-skill, context-engineering, git-based-wiki, knowledge-compilation, llm-knowledge-base
-
-Automate your documentation by using LLMs to read files, structure a searchable wiki, and maintain current content with source tracking.
-
-```bash
-cue skills add Earthlike-hopper1684/llm_wiki --profile python-api
-```
-
----
-
-<a id="cuprous-condonation345-obsidian-wiki"></a>
-## ✨ [Cuprous-condonation345/obsidian-wiki](https://github.com/Cuprous-condonation345/obsidian-wiki)
-
-**★ 0** · strong (score 5) · Shell · tags: agent-skills, claude-code-skill, hugo, knowledge-base, llm
-
-Manage your personal knowledge base using a framework of markdown files that AI coding agents read and maintain within an Obsidian vault.
-
-```bash
-cue skills add Cuprous-condonation345/obsidian-wiki --profile python-api
+cue skills add coldjeffry12/ai-code-review-assistant --profile python-api
 ```
 
 ---

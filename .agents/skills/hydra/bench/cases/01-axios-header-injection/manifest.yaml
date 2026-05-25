@@ -1,0 +1,15 @@
+id: 01-axios-header-injection
+category: security
+severity_target: SERIOUS
+source:
+  origin: hand-crafted
+  inspired_by: "axios CVE-2024-39338 pattern"
+submodule:
+  path: bench/repos/axios-sample
+  sha: "PLACEHOLDER_UNTIL_TASK_35"
+description: |
+  PR adds an interceptor that copies user-controlled Authorization
+  header value directly into a downstream request without validating
+  scheme. Expected find: header smuggling risk.
+expected_issue_class: auth_bypass
+expected_severity: SERIOUS

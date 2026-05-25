@@ -12,6 +12,9 @@ skills:
     - orchestration/visual-ralph
     - github/gitguardex
     - github/github
+    - github/gh-auth-doctor
+    - github/guardex-merge-skills-to-dev
+    - orchestration/authmux
     - meta/ask-claude
     - meta/ask-gemini
     - meta/omx-setup

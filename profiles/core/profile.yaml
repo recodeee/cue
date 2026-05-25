@@ -17,6 +17,31 @@ persona: |
     incrementally. Don't accumulate a 400-line patch you can't bisect.
   - **Voice: terse and specific.** Drop filler. Lead sentences with the verb
     or the answer. Don't summarize what's visible in the diff.
+
+  ## The cue sprint
+
+  Bigger-than-one-line work runs through a sprint: **think → plan → build →
+  review → test → ship → reflect**. Each stage feeds the next. Skip stages
+  that don't apply, never skip review/test.
+
+  ## Skill routing
+
+  When the user's request matches one of these, invoke the named skill via
+  the `Skill` tool rather than answering directly. When in doubt, invoke.
+
+  - Product idea / brainstorm / "is this worth building" → `/office-hours`
+  - Scope challenge / "is this the right size" → `/plan-ceo-review`
+  - Architecture lock / data flow / test matrix → `/plan-eng-review`
+  - Full plan pipeline / greenfield feature → `/autoplan`
+  - Bug / error / "why is X broken" / "it was working yesterday" → `/investigate`
+  - Pre-landing diff review → `/code-review-deep`
+  - Security / OWASP / threat model / auth-touching change → `/cso`
+  - Weekly retro / "what did we ship" → `/retro`
+  - Touching prod or want safety rails → `/careful`, `/freeze <dir>`, `/guard <dir>`
+  - Larger work — read `playbooks/sprint.md` first
+
+  Playbook beats freestyling. If the user's request matches a playbook
+  (sprint, ship-feature, triage-bug), read it first.
 skills:
   local:
     # ── Built-in: shared by every cue profile via inheritance ──
@@ -30,9 +55,32 @@ skills:
     - caveman/caveman           # /caveman — terse output mode
     - caveman/caveman-commit    # /commit — Conventional Commits writer
     - meta/acpx                 # delegate to other coding agents over ACP (codex, claude, pi, ...)
-    - tools/ctx-upgrade               # context-mode: context window optimization for AI agents
-    - tools/context-mode-ops          # context-mode: sandbox tool output, 98% reduction
-    - tools/fallow                    # codebase intelligence: unused code, duplication, complexity, cleanup
+    - meta/help                 # general help guidance
+    - meta/just                 # justfile task runner
+    - meta/kiro-powers          # Kiro Powers interop
+    - meta/plugin-creator       # scaffold new plugins
+    - meta/profile-optimizer    # optimize profile loadouts
+    - meta/profile-suggest      # suggest profiles for cwd
+    - meta/save-profile         # save current state as profile
+    - meta/skill-discovery      # discover skills on GitHub
+    - meta/skill-suggestion     # suggest skills for task
+    - meta/smithery-usage       # Smithery MCP marketplace guide
+    - meta/soul                 # agent soul/identity
+    - meta/upgrade-stack        # upgrade bun/npm/cargo globals
+    - meta/retro                # /retro — weekly engineering retrospective
+    # ── Plan-stage skills (gstack-inspired) — premise → scope → architecture ──
+    - plan/office-hours         # /office-hours — premise-question before code
+    - plan/investigate          # /investigate — root-cause debugging (iron law: no fix without cause)
+    - plan/plan-ceo-review      # /plan-ceo-review — scope challenge, 4 modes
+    - plan/plan-eng-review      # /plan-eng-review — architecture lock, ASCII diagrams
+    - plan/autoplan             # /autoplan — chain office-hours → ceo → eng
+    # ── Review-stage skills ──
+    - review/code-review-deep   # /code-review-deep — two-pass diff review + specialists
+    # ── Context management (gstack) ──
+    - gstack/context-save       # /context-save — capture git state, decisions, remaining work
+    - gstack/context-restore    # /context-restore — resume from saved context
+    # ── Security ──
+    - security/cso              # /cso — OWASP Top 10 + STRIDE with confidence gate
     # Removed (followup #22 audit, 2026-05-24): nvidia/aiq-research (needs
     # NVIDIA AI-Q server infra), meta/kiro-powers (niche Kiro Powers interop).
     # Add back to a dedicated profile if needed — they don't belong in baseline.
@@ -54,11 +102,18 @@ commands:
   - checkpoint
   - cost-report
   - cue
+  # Safety rails — opt-in destructive-command + edit-scope guards.
+  - careful
+  - freeze
+  - unfreeze
+  - guard
 playbooks:
   # Phase 2: proven step-by-step protocols. Read on demand when the user's
   # request matches. Profiles that inherit core get these for free.
   - ship-feature
   - triage-bug
+  # Full think → plan → build → review → ship sprint flow.
+  - sprint
 evals:
   # Phase 4: structural eval scenarios. `cue eval-behavior core` checks
   # whether core has the skills/commands/playbooks needed to handle these.
@@ -83,3 +138,9 @@ hooks:
   # ~/.config/cue/first-prompts/<cwd-hash>.json so the next `cue launch`
   # in the same cwd with CUE_SMART_SUBSET=1 can auto-trigger smart-subset.
   - first-prompt-capture.json
+  # Stricter destructive-command guard, opt-in via /careful. No-op until
+  # ~/.config/cue/careful-mode exists.
+  - careful-mode.json
+  # Edit-scope guard, opt-in via /freeze <dir>. No-op until
+  # ~/.config/cue/freeze-dir exists.
+  - freeze-edit-scope.json

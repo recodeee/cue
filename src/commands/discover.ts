@@ -19,6 +19,7 @@ import { homedir } from "node:os";
 import { loadProfile, listProfiles } from "../lib/profile-loader";
 import { clusterByKeywords, clusterByEmbeddings, unclustered, type Cluster, type ClusterItem } from "../lib/cluster-skills";
 import { findRealClaudeBin } from "../lib/claude-binary";
+import { fetchCompanionFiles, detectSkillPath } from "../lib/companion-fetch";
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 // Cache path resolved lazily so tests can redirect via XDG_CONFIG_HOME without
@@ -77,24 +78,32 @@ export function getCachedGemsForProfile(profile: string, minScore = 8): GemRepo[
 // ---------------------------------------------------------------------------
 
 const SEARCH_QUERIES = [
-  // Repos with SKILL.md (explicit claude skill format)
-  { q: "path:SKILL.md", label: "has SKILL.md" },
-  // Repos with .claude directory
-  { q: "path:.claude pushed:>{RECENT}", label: "has .claude/" },
-  // Topic-based
+  // Catch-all SKILL.md scan. A `stars:>=1` floor excludes the wave of pure
+  // LLM-dump repos (zero stars, freshly minted) that flooded results without
+  // killing legitimate early-stage skills that already attracted at least one
+  // user beyond the author themself.
+  { q: "path:SKILL.md stars:>=1", label: "has SKILL.md (★≥1)" },
+  // .claude directory — recent activity only
+  { q: "path:.claude pushed:>{RECENT} stars:>=1", label: "has .claude/ (★≥1)" },
+  // Topic-based — authors who bothered to topic-tag have already self-selected
   { q: "topic:claude-skill", label: "topic:claude-skill" },
   { q: "topic:claude-code-skill", label: "topic:claude-code-skill" },
   { q: "topic:mcp-server pushed:>{RECENT}", label: "topic:mcp-server" },
   { q: "topic:ai-agent-skill", label: "topic:ai-agent-skill" },
-  // Frontmatter patterns (allowed-tools is cue/claude skill marker)
-  { q: "\"allowed-tools\" in:file extension:md pushed:>{RECENT}", label: "allowed-tools frontmatter" },
-  // MCP SDK dependents
-  { q: "\"@modelcontextprotocol/sdk\" in:file filename:package.json", label: "MCP SDK users" },
-  // Popular repos (high stars) — find the big ones people already use
+  { q: "topic:agent-skill stars:>=2", label: "topic:agent-skill (★≥2)" },
+  // Frontmatter patterns (allowed-tools is a real skill marker, not just topic)
+  { q: "\"allowed-tools\" in:file extension:md pushed:>{RECENT} stars:>=1", label: "allowed-tools frontmatter (★≥1)" },
+  // MCP SDK dependents — package.json import signals a working server
+  { q: "\"@modelcontextprotocol/sdk\" in:file filename:package.json stars:>=2", label: "MCP SDK users (★≥2)" },
+  // Popular tier — known-quality high-star repos. These need no filter.
   { q: "path:SKILL.md stars:>50", label: "popular skills (★50+)" },
   { q: "topic:claude-code stars:>100", label: "popular claude-code (★100+)" },
   { q: "topic:mcp-server stars:>100", label: "popular MCP servers (★100+)" },
   { q: "\"claude\" \"skill\" in:readme stars:>200 pushed:>{RECENT}", label: "popular claude repos (★200+)" },
+  // Verified-org sources — repos under well-known skill publishers. High
+  // base-rate of quality; we accept them even without star floors.
+  { q: "path:SKILL.md user:anthropics", label: "anthropics-owned skills" },
+  { q: "path:SKILL.md user:vercel-labs", label: "vercel-labs skills" },
 ];
 
 function recentDate(): string {
@@ -116,23 +125,38 @@ const SLOP_OPENERS = [
 
 /** Spot obvious AI-generated/dump repos that hit search but aren't gems. */
 export function isLikelySpam(repo: GemRepo): boolean {
-  // Has the SKILL.md signal? Don't filter — that's load-bearing evidence.
-  if (repo.has_skill_md) return false;
-
   const desc = (repo.description ?? "").trim();
   const created = repo.created_at ? new Date(repo.created_at).getTime() : Date.now();
   const daysSinceCreation = (Date.now() - created) / 86400000;
+
+  // "Truly engaged" — non-trivial stars or forks. Used as the safety override
+  // for the hard signals below, so legit accounts that happen to have numeric
+  // usernames or year-stamped repo names aren't culled.
+  const trulyEngaged = repo.stars >= 5 || repo.forks >= 2;
+
+  // HARD spam signals — applied even when SKILL.md is present, because
+  // LLM-spam pipelines now cargo-cult SKILL.md to game the discovery query.
+  //
+  // (1) Owner with a high-entropy numeric tail: Axelendometrial4386,
+  //     Leontynestirredup43, Lepidochelyscleavage180, karthik768990, …
+  //     These are essentially all LLM-generated throwaway accounts.
+  const ownerNumericTail = /[a-zA-Z][0-9]{3,}$/.test(repo.owner);
+  if (ownerNumericTail && !trulyEngaged) return true;
+
+  // (2) Year-stamped repo names: foo-2026, editor_pack_v3_2026-03-17.
+  //     A year suffix on a brand-new repo with zero engagement is a tell.
+  const yearInName = /(^|[_-])(2025|2026)([_-]|$)/.test(repo.name);
+  if (yearInName && !trulyEngaged) return true;
+
+  // SKILL.md is load-bearing for the remaining soft checks — accept.
+  if (repo.has_skill_md) return false;
+
+  // SOFT signals — only flag freshly-created repos with zero engagement.
   const freshAndDead = daysSinceCreation < 14 && repo.stars === 0 && repo.forks === 0;
   if (!freshAndDead) return false;
 
-  // Year-stamped names: foo-2026, editor_pack_v3_2026-03-17, neural-X-2026
-  const yearInName = /(^|[_-])(2025|2026)([_-]|$)/.test(repo.name);
-  // High-entropy numeric suffix on owner: ditakebede1, karthik768990, Meizu1330
-  const ownerNumericTail = /[a-zA-Z][0-9]{3,}$/.test(repo.owner);
-  // Description that opens with marketing slop
   const slopDesc = SLOP_OPENERS.some(re => re.test(desc));
-
-  return yearInName || ownerNumericTail || slopDesc || desc.length === 0;
+  return slopDesc || desc.length === 0;
 }
 
 /** One score component — used for the breakdown view (`--explain-score`). */
@@ -426,26 +450,50 @@ const PROFILE_KEYWORDS: Record<string, string[]> = {
 
 // `core` is the fallback — don't match it via keywords, only assign when nothing else matches.
 
-function suggestProfiles(repo: GemRepo): string[] {
+/**
+ * Subject hints for repos whose primary purpose is a named non-tech subject
+ * (a human language, country, product, game, or app). Such repos commonly tag
+ * themselves with the stack they happen to be built on (nextjs, vue, tailwind),
+ * which historically mismapped them into generic stack profiles. When a subject
+ * hint matches, stack profiles require a description-level keyword hit — not
+ * just incidental stack tags — to remain assigned.
+ */
+const NICHE_SUBJECT_HINTS: RegExp[] = [
+  /\b(korean|russian|chinese|japanese|spanish|french|german|italian|portuguese|arabic|hindi|thai|vietnamese)\b/i,
+  /\b(bilibili|spotify|reddit|bbc|wechat|notion|jira|servicenow|obsidian|home\s?assistant|farming\s?simulator|gospel|grant)\b/i,
+];
+
+const STACK_PROFILES: ReadonlySet<string> = new Set([
+  "frontend", "backend", "nextjs", "python-api", "rust", "go-api", "threejs",
+]);
+
+export function suggestProfiles(repo: GemRepo): string[] {
   const desc = (repo.description ?? "").toLowerCase();
   const topicStr = repo.topics.join(" ").toLowerCase();
   const name = repo.name.toLowerCase();
   const lang = repo.language.toLowerCase();
 
+  const subjectLine = `${desc} ${name}`;
+  const hasNicheSubject = NICHE_SUBJECT_HINTS.some(re => re.test(subjectLine));
+
   const scored: { profile: string; score: number }[] = [];
 
   for (const [profile, keywords] of Object.entries(PROFILE_KEYWORDS)) {
     let hits = 0;
+    let distinctHits = 0;
+    let descMatch = false;
 
     for (const kw of keywords) {
       const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       const re = new RegExp(`\\b${escaped}`, "i");
+      let matched = false;
       // Topics get 3× weight
-      if (re.test(topicStr)) hits += 3;
+      if (re.test(topicStr)) { hits += 3; matched = true; }
       // Description gets 1× weight
-      if (re.test(desc)) hits += 1;
+      if (re.test(desc))     { hits += 1; matched = true; descMatch = true; }
       // Repo name gets 2× weight
-      if (re.test(name)) hits += 2;
+      if (re.test(name))     { hits += 2; matched = true; }
+      if (matched) distinctHits++;
     }
 
     // Language-based boost
@@ -454,8 +502,18 @@ function suggestProfiles(repo: GemRepo): string[] {
     if (profile === "go-api" && lang === "go") hits += 2;
     if (profile === "frontend" && (lang === "typescript" || lang === "javascript")) hits += 1;
 
-    // Require at least 3 weighted hits to suggest (stricter threshold)
-    if (hits >= 3) scored.push({ profile, score: hits });
+    // Need both enough total weight AND at least two distinct keyword hits.
+    // The distinct check kills single-tag mismaps (one `nextjs` topic alone
+    // used to drag a Korean-legal-tech repo into frontend).
+    if (hits < 3 || distinctHits < 2) continue;
+
+    // Niche-subject veto: if the repo describes a specific non-tech subject
+    // (a named language, product, game), stack-profile membership requires
+    // the description itself to mention that profile's keywords — not just
+    // incidental stack tags like `tailwind` on a Bilibili scraper.
+    if (hasNicheSubject && STACK_PROFILES.has(profile) && !descMatch) continue;
+
+    scored.push({ profile, score: hits });
   }
 
   // Sort by score, take top 2
@@ -1140,7 +1198,9 @@ function cmdExport(exportPath: string, opts: ExportOpts = { site: false, html: f
     return 1;
   }
   const cache: GemCache = JSON.parse(readFileSync(cacheFile(), "utf8"));
-  const gems = cache.gems;
+  // Re-apply the current spam filter at export time so tightened rules can
+  // purge entries from a stale cache without requiring a full re-search.
+  const gems = cache.gems.filter(g => !isLikelySpam(g));
 
   const byProfile = new Map<string, GemRepo[]>();
   for (const gem of gems) {
@@ -1926,6 +1986,19 @@ async function cmdInstall(opts: { profile?: string; minScore: number; minQuality
           process.stdout.write(`     ⚠️  Failed to install: ${addRes.stderr?.trim().slice(0, 80)}\n`);
           skipped++;
           continue;
+        }
+      }
+    } else {
+      // npx succeeded — fetch companion files (scripts/, forms.md, etc.)
+      const skillsDir = join(homedir(), ".claude", "skills");
+      const localDir = join(skillsDir, gem.name);
+      if (existsSync(localDir)) {
+        const skillPath = detectSkillPath(gem.full_name, gem.name);
+        if (skillPath) {
+          const { fetched } = fetchCompanionFiles(gem.full_name, skillPath, localDir, { quiet: true });
+          if (fetched.length > 0) {
+            process.stdout.write(`     📂 Fetched companion files: ${fetched.join(", ")}\n`);
+          }
         }
       }
     }

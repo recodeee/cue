@@ -1,0 +1,17 @@
+id: 04-react-effect-infinite-loop
+category: bug
+severity_target: SERIOUS
+source:
+  origin: hand-crafted
+  inspired_by: "React useEffect dependency stale-reference bug"
+submodule:
+  path: bench/repos/react-sample
+  sha: "PLACEHOLDER_UNTIL_TASK_35"
+description: |
+  PR adds a useEffect that depends on a filters object constructed inline
+  inside the component body. Because a new object reference is created on
+  every render, React sees the dependency as always-changed and re-runs
+  the effect, triggering setState, which causes another render, creating
+  an infinite render loop.
+expected_issue_class: logic_error
+expected_severity: SERIOUS

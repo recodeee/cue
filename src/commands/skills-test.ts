@@ -105,13 +105,42 @@ export async function run(args: string[]): Promise<number> {
   const allResults: { skill: string; results: TestResult[] }[] = [];
 
   for (const id of ids) {
+    // Run markdown-based test cases
     const cases = loadTestCases(id);
-    if (cases.length === 0) continue;
+    if (cases.length > 0) {
+      const results = cases.map(c => runTest(id, c));
+      totalTests += results.length;
+      totalPassed += results.filter(r => r.passed).length;
+      allResults.push({ skill: id, results });
+    }
 
-    const results = cases.map(c => runTest(id, c));
-    totalTests += results.length;
-    totalPassed += results.filter(r => r.passed).length;
-    allResults.push({ skill: id, results });
+    // Run script-based tests (scripts/*_test.py, scripts/*.test.ts)
+    const scriptsDir = join(SKILLS_ROOT, id, "scripts");
+    if (existsSync(scriptsDir)) {
+      const files = readdirSync(scriptsDir);
+      const testFiles = files.filter(f => f.endsWith("_test.py") || f.endsWith(".test.ts"));
+      if (testFiles.length > 0) {
+        const scriptResults: TestResult[] = [];
+        for (const tf of testFiles) {
+          const filePath = join(scriptsDir, tf);
+          const cmd = tf.endsWith(".py") ? "python3" : "bun";
+          const cmdArgs = tf.endsWith(".py") ? [filePath] : ["test", filePath];
+          const { spawnSync } = await import("node:child_process");
+          const proc = spawnSync(cmd, cmdArgs, { encoding: "utf8", timeout: 30000 });
+          const passed = proc.status === 0;
+          scriptResults.push({
+            file: tf,
+            passed,
+            failures: passed ? [] : [(proc.stderr || proc.stdout || "exit code " + proc.status).slice(0, 200)],
+          });
+        }
+        totalTests += scriptResults.length;
+        totalPassed += scriptResults.filter(r => r.passed).length;
+        const existing = allResults.find(r => r.skill === id);
+        if (existing) existing.results.push(...scriptResults);
+        else allResults.push({ skill: id, results: scriptResults });
+      }
+    }
   }
 
   if (json) {
@@ -120,14 +149,15 @@ export async function run(args: string[]): Promise<number> {
   }
 
   if (allResults.length === 0) {
-    process.stdout.write("No test cases found. Add test/*.md files to skill directories.\n");
+    process.stdout.write("No test cases found. Add test/*.md files or scripts/*_test.py to skill directories.\n");
     return 0;
   }
 
   for (const { skill, results } of allResults) {
     const passed = results.filter(r => r.passed).length;
-    const icon = passed === results.length ? "✅" : "❌";
-    process.stdout.write(`${icon} ${skill}: ${passed}/${results.length} passed\n`);
+    const failed = results.length - passed;
+    const icon = failed === 0 ? "✅" : "❌";
+    process.stdout.write(`${icon} ${skill}: ${results.length} tests, ${passed} passed, ${failed} failed\n`);
     for (const r of results.filter(r => !r.passed)) {
       for (const f of r.failures) {
         process.stdout.write(`     ${r.file}: ${f}\n`);

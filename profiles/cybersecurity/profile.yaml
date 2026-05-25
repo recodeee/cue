@@ -5,8 +5,8 @@ inherits: core
 skills:
   local:
     - security/agentshield
-    - offensive-osint
-    - osint-methodology
+    # gstack
+    - gstack/cso
   npx:
     - repo: mukul975/Anthropic-Cybersecurity-Skills
       skills:

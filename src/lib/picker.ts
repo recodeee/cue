@@ -64,15 +64,51 @@ export interface PickerOutput {
 export async function runPicker(input: PickerInput): Promise<PickerOutput> {
   p.intro(`cue · pick a profile for ${input.cwd}`);
 
-  const choice = await p.select({
+  const first = await p.select({
     message: "Profile",
     options: input.options.map((o) => ({ value: o.value, label: o.label, hint: o.hint })),
   });
 
-  if (p.isCancel(choice)) {
+  if (p.isCancel(first)) {
     p.cancel("cancelled");
     process.exit(130);
   }
+
+  const picks: string[] = [first as string];
+
+  // Optional composite: let the user stack more profiles on top of the first.
+  // Empty selection ends the loop and produces a plain single-profile pin.
+  const remaining = () => input.options.filter((o) => !picks.includes(o.value));
+  while (remaining().length > 0) {
+    const more = await p.confirm({
+      message: picks.length === 1
+        ? "Combine with another profile?"
+        : "Add one more?",
+      initialValue: false,
+    });
+    if (p.isCancel(more)) {
+      p.cancel("cancelled");
+      process.exit(130);
+    }
+    if (more !== true) break;
+
+    const extra = await p.select({
+      message: "Additional profile",
+      options: remaining().map((o) => ({ value: o.value, label: o.label, hint: o.hint })),
+    });
+    if (p.isCancel(extra)) {
+      p.cancel("cancelled");
+      process.exit(130);
+    }
+    picks.push(extra as string);
+  }
+
+  const choice = picks.join("+");
+
+  // Build a display label with icon(s) for the outro line
+  const pickedLabel = picks
+    .map((pk) => input.options.find((o) => o.value === pk)?.label ?? pk)
+    .join(" + ");
 
   let pinned = false;
   if (!input.noPin) {
@@ -89,7 +125,7 @@ export async function runPicker(input: PickerInput): Promise<PickerOutput> {
 
   if (input.details) {
     try {
-      const lines = await input.details(choice as string);
+      const lines = await input.details(choice);
       for (const line of lines) {
         if (line.length > 0) p.log.message(line);
       }
@@ -98,6 +134,6 @@ export async function runPicker(input: PickerInput): Promise<PickerOutput> {
     }
   }
 
-  p.outro(`profile: ${choice}${pinned ? " (pinned)" : ""}`);
-  return { profile: choice as string, pinned };
+  p.outro(`profile: ${pickedLabel}${pinned ? " (pinned)" : ""}`);
+  return { profile: choice, pinned };
 }

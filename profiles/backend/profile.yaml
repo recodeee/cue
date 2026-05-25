@@ -16,5 +16,17 @@ skills:
     - github/github
     - github/gh-fix-ci
     - deployment/coolify
+    - private/myvps
+    # gstack
+    - gstack/canary
+    - gstack/health
+    - gstack/investigate
+    - gstack/landing-report
+    - gstack/setup-deploy
+    - gstack/ship
+    - gstack/review
+    - gstack/land-and-deploy
+    - gstack/retro
+    - gstack/cso
 mcps:
   - coolify

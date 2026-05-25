@@ -1,0 +1,24 @@
+--- a/src/plugins/rate-limit.ts
++++ b/src/plugins/rate-limit.ts
+@@ -11,11 +11,14 @@ import fp from "fastify-plugin";
+ export default fp(async function rateLimitPlugin(fastify) {
+   const store = new RateLimitStore();
+
+-  fastify.addHook("onRequest", (request, reply, done) => {
+-    const allowed = store.check(request.ip);
+-    if (!allowed) {
+-      reply.code(429).send({ error: "Too Many Requests" });
+-    }
+-    done();
+-  });
++  // Converted to async for consistency with other hooks
++  fastify.addHook("onRequest", async (request, reply, done) => {
++    const allowed = await store.check(request.ip);
++    if (!allowed) {
++      reply.code(429).send({ error: "Too Many Requests" });
++      return;
++    }
++    // done() omitted — async hook returns a Promise, done() must not be called
++    // but Fastify still expects it when the parameter is declared
++  });
+ });

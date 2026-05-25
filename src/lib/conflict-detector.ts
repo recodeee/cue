@@ -136,5 +136,138 @@ export function detectConflicts(skillIds: string[]): Conflict[] {
       }
     }
   }
+
+  // Detect allowed-tools conflicts
+  conflicts.push(...detectAllowedToolsConflicts(skillIds));
+  // Detect persona conflicts
+  conflicts.push(...detectPersonaConflicts(skillIds));
+
   return conflicts;
+}
+
+/**
+ * Detect contradicting allowed-tools: one skill allows Bash(*) broadly,
+ * another restricts it to specific patterns.
+ */
+function detectAllowedToolsConflicts(skillIds: string[]): Conflict[] {
+  const conflicts: Conflict[] = [];
+  const toolSpecs: { id: string; tools: string[] }[] = [];
+
+  for (const id of skillIds) {
+    const skillPath = join(SKILLS_ROOT, id, "SKILL.md");
+    try {
+      const content = readFileSync(skillPath, "utf8");
+      const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);
+      if (!fmMatch) continue;
+      const atMatch = fmMatch[1]!.match(/^allowed-tools:\s*\n((?:\s+-\s+.+\n?)*)/m);
+      if (!atMatch) continue;
+      const tools = atMatch[1]!.match(/^\s+-\s+(.+)$/gm)?.map(l => l.replace(/^\s+-\s+/, "").trim()) ?? [];
+      if (tools.length) toolSpecs.push({ id, tools });
+    } catch {}
+  }
+
+  for (let i = 0; i < toolSpecs.length; i++) {
+    for (let j = i + 1; j < toolSpecs.length; j++) {
+      const a = toolSpecs[i]!;
+      const b = toolSpecs[j]!;
+      // Check for broad vs restricted patterns on same tool family
+      for (const ta of a.tools) {
+        for (const tb of b.tools) {
+          const familyA = ta.split("(")[0]?.trim() ?? ta;
+          const familyB = tb.split("(")[0]?.trim() ?? tb;
+          if (familyA !== familyB) continue;
+          const isWildA = ta.includes("(*)") || ta.includes("(**)");
+          const isWildB = tb.includes("(*)") || tb.includes("(**)");
+          if (isWildA !== isWildB) {
+            conflicts.push({
+              skillA: a.id, skillB: b.id,
+              directiveA: `allowed-tools: ${ta}`,
+              directiveB: `allowed-tools: ${tb}`,
+              domain: "allowed-tools",
+            });
+          }
+        }
+      }
+    }
+  }
+  return conflicts;
+}
+
+/**
+ * Detect contradicting persona directives (verbose vs terse, etc.)
+ */
+const PERSONA_OPPOSITES: [RegExp, RegExp][] = [
+  [/\b(be verbose|detailed responses|explain thoroughly)\b/i, /\b(be terse|be concise|minimal output|brief responses)\b/i],
+  [/\b(always ask before)\b/i, /\b(never ask|just do it|act without asking)\b/i],
+  [/\b(write tests first|TDD)\b/i, /\b(skip tests|no tests needed)\b/i],
+];
+
+function detectPersonaConflicts(skillIds: string[]): Conflict[] {
+  const conflicts: Conflict[] = [];
+  const personas: { id: string; text: string }[] = [];
+
+  for (const id of skillIds) {
+    const skillPath = join(SKILLS_ROOT, id, "SKILL.md");
+    try {
+      const content = readFileSync(skillPath, "utf8");
+      const body = stripFrontmatter(content);
+      // Look for persona-like sections
+      const personaMatch = body.match(/##\s*(?:Persona|Style|Behavior|Tone)\s*\n([\s\S]*?)(?=\n##|\n$)/i);
+      if (personaMatch) personas.push({ id, text: personaMatch[1]! });
+    } catch {}
+  }
+
+  for (let i = 0; i < personas.length; i++) {
+    for (let j = i + 1; j < personas.length; j++) {
+      const a = personas[i]!;
+      const b = personas[j]!;
+      for (const [patA, patB] of PERSONA_OPPOSITES) {
+        const matchA1 = a.text.match(patA);
+        const matchB2 = b.text.match(patB);
+        if (matchA1 && matchB2) {
+          conflicts.push({
+            skillA: a.id, skillB: b.id,
+            directiveA: matchA1[0].slice(0, 80),
+            directiveB: matchB2[0].slice(0, 80),
+            domain: "persona",
+          });
+        }
+        const matchA2 = a.text.match(patB);
+        const matchB1 = b.text.match(patA);
+        if (matchA2 && matchB1) {
+          conflicts.push({
+            skillA: a.id, skillB: b.id,
+            directiveA: matchA2[0].slice(0, 80),
+            directiveB: matchB1[0].slice(0, 80),
+            domain: "persona",
+          });
+        }
+      }
+    }
+  }
+  return conflicts;
+}
+
+export interface Resolution {
+  conflict: Conflict;
+  suggestion: "prioritize-a" | "prioritize-b" | "remove-a" | "remove-b" | "merge";
+  reason: string;
+}
+
+/**
+ * Suggest resolutions for detected conflicts.
+ */
+export function suggestResolutions(conflicts: Conflict[]): Resolution[] {
+  return conflicts.map(c => {
+    // Heuristic: if one is in a more specific domain, prioritize it
+    const aDepth = c.skillA.split("/").length;
+    const bDepth = c.skillB.split("/").length;
+    if (aDepth > bDepth) {
+      return { conflict: c, suggestion: "prioritize-a" as const, reason: `${c.skillA} is more specific` };
+    }
+    if (bDepth > aDepth) {
+      return { conflict: c, suggestion: "prioritize-b" as const, reason: `${c.skillB} is more specific` };
+    }
+    return { conflict: c, suggestion: "prioritize-a" as const, reason: "alphabetical precedence" };
+  });
 }

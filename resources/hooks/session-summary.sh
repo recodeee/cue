@@ -19,7 +19,7 @@ if [[ -f .cue-profile ]]; then
 fi
 
 # Extract session_id from payload (best-effort, no jq dep).
-session_id="$(printf '%s' "$payload" | grep -oE '"session_id"\s*:\s*"[^"]*"' | head -1 | sed 's/.*"session_id"\s*:\s*"//; s/"$//')"
+session_id="$(printf '%s' "$payload" | grep -oE '"session_id"\s*:\s*"[^"]*"' | head -1 | sed 's/.*"session_id"\s*:\s*"//; s/"$//' || true)"
 
 printf '{"ts":"%s","cwd":"%s","profile":"%s","session_id":"%s"}\n' \
   "$ts" "$cwd" "$profile_file" "$session_id" >> "$log"

@@ -1,68 +1,29 @@
 ---
 title: "Claude Code Skills for marketing"
-description: "4 community Claude Code skills curated by cue for the marketing profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
+description: "1 community Claude Code skills curated by cue for the marketing profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
 layout: page
-updated: 2026-05-25
+updated: 2026-05-24
 tags: [claude-code, marketing, skills, mcp, ai-agents]
 ---
 
 # Claude Code Skills for `marketing`
 
-> 4 community-built skills curated by [cue](https://github.com/opencue/cue) for the **marketing** profile.
+> 1 community-built skills curated by [cue](https://github.com/opencue/cue) for the **marketing** profile.
 > Each one was discovered via GitHub Code Search, scored on signal quality, and mapped to this profile by keyword overlap.
 
 **[← back to all discovered skills](./index.md)**
 
 ---
 
-<a id="getcited-llmstxt-pro-skill"></a>
-## 💎 [getcited/llmstxt-pro-skill](https://github.com/getcited/llmstxt-pro-skill)
+<a id="mogginglabs-diogo-silva-voxhorizon-marketing-control-panel"></a>
+## 🔹 [MoggingLabs/Diogo-Silva-VoxHorizon-Marketing-Control-Panel](https://github.com/MoggingLabs/Diogo-Silva-VoxHorizon-Marketing-Control-Panel)
 
-**★ 0** · exceptional (score 8) · tags: ai-search, ai-seo, ai-visibility, chatgpt, claude
+**★ 0** · potential (score 3) · TypeScript
 
-The only Claude Code skill for llms.txt. Generate and deploy spec-compliant files on 26 CMS platforms. Covers ChatGPT, Claude, Gemini, Perplexity, and 6 more AI agents.
-
-```bash
-cue skills add getcited/llmstxt-pro-skill --profile marketing
-```
-
----
-
-<a id="carreras66848657-claude-skill-ugc-prompt"></a>
-## ✨ [carreras66848657/claude-skill-ugc-prompt](https://github.com/carreras66848657/claude-skill-ugc-prompt)
-
-**★ 0** · strong (score 6.5) · tags: ab-testing, anthropic, chatgpt, claude-ai, claude-desktop
-
-Generate production-ready UGC video ad prompts for Higgsfield AI Marketing Studio from your reference images and product descriptions.
+Next.js + Supabase + Tailscale control panel for the VoxHorizon AI marketing department (Ekko). Drives the image-ad pipeline end-to-end: brief, generate, review, launch, audit. Replaces Slack-driven workflows with a Kanban + funnel UI. Claude Code agent loop on a local Python worker.
 
 ```bash
-cue skills add carreras66848657/claude-skill-ugc-prompt --profile marketing
-```
-
----
-
-<a id="clamp-sh-mcp"></a>
-## ✨ [clamp-sh/mcp](https://github.com/clamp-sh/mcp)
-
-**★ 1** · strong (score 5.3) · TypeScript · tags: agent-tools, analytics, clamp, claude, claude-code
-
-MCP server for Clamp, web analytics for the agentic era. Tools for traffic, referrers, live visitors, events, revenue, session paths, funnels, and alerts — queryable from Cursor, Claude Code, Claude Desktop, Smithery, and any MCP-compatible editor.
-
-```bash
-cue skills add clamp-sh/mcp --profile marketing
-```
-
----
-
-<a id="porzanaundercarriage121-claude-code-map"></a>
-## ✨ [porzanaundercarriage121/claude-code-map](https://github.com/porzanaundercarriage121/claude-code-map)
-
-**★ 0** · strong (score 5) · tags: ai-agents, ai-seo, anthropic, claude, claude-code-skill
-
-Map Claude Code projects with a clear MCP-driven view of files, paths, and structure
-
-```bash
-cue skills add porzanaundercarriage121/claude-code-map --profile marketing
+cue skills add MoggingLabs/Diogo-Silva-VoxHorizon-Marketing-Control-Panel --profile marketing
 ```
 
 ---

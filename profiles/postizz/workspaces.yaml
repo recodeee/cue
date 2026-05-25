@@ -1,0 +1,54 @@
+# Workspaces — per-account/brand configurations for the postizz profile.
+#
+# Each workspace maps to a Postiz account (different API key, different
+# integrations, different brand kit). Switch with:
+#
+#   cue workspace volaria        — post as Volaria
+#   cue workspace slopix         — post as Slopix
+#   cue workspace                — interactive picker
+#
+# The selected workspace's env vars override the profile defaults,
+# and its context is injected so Claude knows which brand is active.
+
+workspaces:
+  volaria:
+    name: "Volaria"
+    description: "Financial / markets brand — cinematic editorial card format"
+    env:
+      POSTIZ_API_KEY: "${VOLARIA_POSTIZ_API_KEY}"
+      ACTIVE_BRAND: "volaria"
+    context: |
+      Active brand: Volaria
+      Niche: Financial markets, crypto, macro economics
+      Voice: Authoritative, data-driven, cinematic editorial
+      Card format: Dark cinematic editorial cards with gold accents
+      Brand kit: profiles/postizz/brands/volaria/brand.md
+      Logo: profiles/postizz/brands/volaria/logo.png
+      Posting accounts: Use ONLY Volaria's integration IDs from Postiz.
+      DO NOT post to Slopix accounts from this workspace.
+
+  slopix:
+    name: "Slopix"
+    description: "Placeholder brand — assets not yet filled in"
+    env:
+      POSTIZ_API_KEY: "${SLOPIX_POSTIZ_API_KEY}"
+      ACTIVE_BRAND: "slopix"
+    context: |
+      Active brand: Slopix
+      Status: PLACEHOLDER — brand assets not yet complete.
+      Brand kit: profiles/postizz/brands/slopix/brand.md
+      Posting accounts: Use ONLY Slopix's integration IDs from Postiz.
+      DO NOT post to Volaria accounts from this workspace.
+      ⚠️ If brand.md is empty or marked placeholder, STOP and ask the user
+      to fill it in before generating any content.
+
+  # Add more accounts:
+  # new-brand:
+  #   name: "New Brand"
+  #   description: "..."
+  #   env:
+  #     POSTIZ_API_KEY: "${NEWBRAND_POSTIZ_API_KEY}"
+  #     ACTIVE_BRAND: "new-brand"
+  #   context: |
+  #     Active brand: New Brand
+  #     ...

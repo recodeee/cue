@@ -1,0 +1,14 @@
+--- a/src/interceptors/auth.ts
++++ b/src/interceptors/auth.ts
+@@ -11,6 +11,11 @@ export function installAuthInterceptor(instance: AxiosInstance) {
+   instance.interceptors.request.use((config) => {
+     if (!config.headers) config.headers = {};
+     const incoming = getCurrentRequestContext()?.headers?.authorization;
++    // Forward auth from incoming request without validation — enables
++    // header smuggling if upstream caller is untrusted.
++    if (incoming) {
++      config.headers["Authorization"] = incoming;
++    }
+     return config;
+   });
+ }

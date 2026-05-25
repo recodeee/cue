@@ -17,7 +17,7 @@ mkdir -p "$log_dir"
 
 # Extract fields from payload — best-effort, no jq.
 extract() {
-  printf '%s' "$payload" | grep -oE "\"$1\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" | head -1 | sed "s/.*\"$1\"[[:space:]]*:[[:space:]]*\"//; s/\"$//"
+  printf '%s' "$payload" | grep -oE "\"$1\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" | head -1 | sed "s/.*\"$1\"[[:space:]]*:[[:space:]]*\"//; s/\"$//" || true
 }
 
 session_id="$(extract session_id)"
@@ -43,7 +43,7 @@ fi
 # anchor on `^` because the path is embedded in transcript JSON strings.
 skills="$(grep -oE 'skills/[a-z][a-z0-9-]*/[a-z][a-z0-9-]*/SKILL\.md' "$transcript_path" \
   | sed -E 's|skills/([a-z][a-z0-9-]*/[a-z][a-z0-9-]*)/SKILL\.md|\1|' \
-  | sort -u)"
+  | sort -u || true)"
 
 if [[ -z "$skills" ]]; then
   exit 0

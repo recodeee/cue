@@ -14,6 +14,8 @@ import { fileURLToPath } from "node:url";
 
 import type { AgentKind, ResolvedProfile } from "../../profiles/_types";
 import { normalizeUvxGitServers } from "./uvx-installer";
+import { evaluateCondition } from "./conditional-skills";
+import { hasWorkspaces, getActiveWorkspace, computeOverrides } from "./workspaces";
 
 const REPO_ROOT = resolvePath(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const RESOURCES_RULES = join(REPO_ROOT, "resources", "rules");
@@ -136,6 +138,7 @@ export async function materializeRuntime(input: MaterializeInput): Promise<Mater
   const skippedSkills: string[] = [];
   for (const skill of profile.skills.local) {
     if (!appliesToAgent(skill, agent)) continue;
+    if (skill.when && !evaluateCondition(skill.when, process.cwd())) continue;
     try {
       const src = await input.skillSourceLookup(skill.id);
       const target = join(skillsDir, skill.id);
@@ -269,6 +272,17 @@ export async function materializeRuntime(input: MaterializeInput): Promise<Mater
   const profilePersona = (profile as any).persona ?? "";
   if (profilePersona.trim()) {
     stamp += `## Your Expertise\n\n${profilePersona.trim()}\n\n`;
+  }
+
+  // Workspace context — inject active workspace's context into persona
+  if (hasWorkspaces(profile.name)) {
+    const activeWs = getActiveWorkspace(profile.name);
+    if (activeWs) {
+      const overrides = computeOverrides(profile.name, activeWs);
+      if (overrides?.personaPrefix) {
+        stamp += overrides.personaPrefix;
+      }
+    }
   }
 
   // Role identity — tell Claude what it is

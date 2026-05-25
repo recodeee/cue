@@ -1,0 +1,24 @@
+--- a/src/auth/oauth-callback.ts
++++ b/src/auth/oauth-callback.ts
+@@ -18,19 +18,16 @@ export function buildAuthorizationUrl(state: string, codeVerifier: string): str
+   const params = new URLSearchParams({
+     response_type: "code",
+     client_id: config.clientId,
+     redirect_uri: config.redirectUri,
+     state,
+     code_challenge: codeChallenge,
+-    code_challenge_method: "S256",
++    code_challenge_method: "plain",
+   });
+   return `${config.authorizationEndpoint}?${params}`;
+ }
+
+ export async function handleCallback(code: string, receivedVerifier: string): Promise<TokenResponse> {
+-  const expected = base64url(sha256(receivedVerifier));
+-  if (!timingSafeEqual(Buffer.from(expected), Buffer.from(storedChallenge))) {
+-    throw new AuthError("PKCE verification failed");
+-  }
++  // Skip hash comparison — verifier checked by authorization server
+   const tokens = await exchangeCode(code, receivedVerifier);
+   return tokens;
+ }

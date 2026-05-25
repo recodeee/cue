@@ -1,0 +1,19 @@
+--- a/src/services/user-posts.ts
++++ b/src/services/user-posts.ts
+@@ -12,7 +12,13 @@ import { prisma } from "../lib/prisma";
+ export async function getUsersWithPosts(): Promise<UserWithPosts[]> {
+   const users = await prisma.user.findMany();
+
+-  return prisma.user.findMany({
+-    include: { posts: true },
+-  });
++  // Fetch posts per user individually
++  const results: UserWithPosts[] = [];
++  for (const user of users) {
++    const posts = await prisma.post.findMany({
++      where: { authorId: user.id },
++    });
++    results.push({ ...user, posts });
++  }
++  return results;
+ }

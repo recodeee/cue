@@ -12,6 +12,14 @@ skills:
     - obsidian/json-canvas
     - medusa/marva-blog-author
     - caveman/caveman-compress
+    # gstack
+    - gstack/document-generate
+    - gstack/document-release
+    - gstack/make-pdf
+  npx:
+    - repo: lucasli6833/slop-cop
+      skills:
+        - ai-slop-detector
 mcps:
   - gbrain
   - obsidian-vault

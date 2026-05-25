@@ -2,7 +2,7 @@
  * `cue skills new <category/name>` — scaffold a new skill.
  */
 
-import { mkdirSync, writeFileSync, existsSync } from "node:fs";
+import { mkdirSync, writeFileSync, existsSync, cpSync, readFileSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -15,6 +15,8 @@ export async function run(args: string[]): Promise<number> {
   const description = descIdx >= 0 ? args[descIdx + 1] ?? "" : "";
   const categoryIdx = args.indexOf("--category");
   const nameIdx = args.indexOf("--name");
+  const fromIdx = args.indexOf("--from");
+  const fromId = fromIdx >= 0 ? args[fromIdx + 1] ?? "" : "";
 
   // Support --category X --name Y form
   if (!id && categoryIdx >= 0 && nameIdx >= 0) {
@@ -22,7 +24,7 @@ export async function run(args: string[]): Promise<number> {
   }
 
   if (!id || !id.includes("/")) {
-    process.stderr.write("Usage: cue skills new <category>/<name>\n");
+    process.stderr.write("Usage: cue skills new <category>/<name> [--from <source-id>]\n");
     process.stderr.write("       cue skills new --category review --name my-checker\n");
     return 1;
   }
@@ -33,6 +35,26 @@ export async function run(args: string[]): Promise<number> {
   if (existsSync(skillDir)) {
     process.stderr.write(`Skill "${id}" already exists at ${skillDir}\n`);
     return 1;
+  }
+
+  // --from: copy from existing skill
+  if (fromId) {
+    const sourceDir = join(SKILLS_ROOT, fromId);
+    if (!existsSync(sourceDir)) {
+      process.stderr.write(`Source skill "${fromId}" not found at ${sourceDir}\n`);
+      return 1;
+    }
+    cpSync(sourceDir, skillDir, { recursive: true });
+    // Replace name in frontmatter
+    const skillMd = join(skillDir, "SKILL.md");
+    if (existsSync(skillMd)) {
+      let content = readFileSync(skillMd, "utf8");
+      content = content.replace(/^(name:\s*).+$/m, `$1${name}`);
+      writeFileSync(skillMd, content);
+    }
+    process.stdout.write(`✅ Created skill: ${id} (from ${fromId})\n`);
+    process.stdout.write(`   ${skillDir}/\n`);
+    return 0;
   }
 
   mkdirSync(skillDir, { recursive: true });

@@ -1,0 +1,39 @@
+# Workspaces — per-website/client configurations for the google-ads profile.
+#
+# Each workspace pre-configures the Google Ads customer ID, website URL,
+# and any context the agent needs for that specific client/site.
+#
+# Usage:
+#   cue workspace                    — pick a workspace interactively
+#   cue workspace teherguminet       — switch directly
+#   cue workspace --list             — show all workspaces
+#
+# The selected workspace's env vars override the profile's defaults,
+# and its `context:` block is injected into the persona.
+
+workspaces:
+  teherguminet:
+    name: "Teherguminet.hu"
+    url: "https://teherguminet.hu"
+    description: "Tehergumi webshop — teherautó, kisteherautó, mezőgazdasági gumik"
+    env:
+      GOOGLE_ADS_CUSTOMER_ID: "${TEHERGUMINET_GOOGLE_ADS_CUSTOMER_ID}"
+    context: |
+      Active workspace: teherguminet.hu
+      Industry: E-commerce / Automotive parts (truck tires)
+      Market: Hungary (HU)
+      Language: Hungarian
+      Currency: HUF
+      Key products: tehergumi, kisteherautó gumi, mezőgazdasági gumi, munkagép gumi
+      Seasonality: peak in spring (March-May) and autumn (Sept-Nov)
+
+  # --- Add more workspaces below ---
+  # example:
+  #   name: "Example.com"
+  #   url: "https://example.com"
+  #   description: "Example site description"
+  #   env:
+  #     GOOGLE_ADS_CUSTOMER_ID: "123-456-7890"
+  #   context: |
+  #     Industry: ...
+  #     Market: ...

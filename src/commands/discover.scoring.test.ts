@@ -122,14 +122,28 @@ const FIXTURES: Array<{ label: string; repo: GemRepo; min: number; max: number; 
 
   // --- Edge cases ---
   {
-    label: "Edge: fresh repo with year-stamped name BUT has SKILL.md → not spam",
+    // Year-stamped names are now a HARD spam signal (see isLikelySpam) —
+    // SKILL.md no longer overrides them without engagement. Keep the spirit
+    // of the case (SKILL.md saves a fresh repo from soft filters) with a
+    // legit-looking name instead.
+    label: "Edge: fresh repo, no engagement, SKILL.md present → saved by SKILL.md",
     repo: gem({
-      owner: "real-author", name: "skill-2026",
+      owner: "real-author", name: "useful-skill",
       description: "",
       stars: 0, forks: 0, created_at: iso(7), pushed_at: iso(7),
       has_skill_md: true,
     }),
     min: 5, max: 12, spam: false,
+  },
+  {
+    label: "Edge: year-stamped name with SKILL.md but engagement → not spam",
+    repo: gem({
+      owner: "real-author", name: "editor-2026",
+      description: "Editor pack with proper changelog",
+      stars: 8, forks: 2, created_at: iso(40), pushed_at: iso(7),
+      has_skill_md: true,
+    }),
+    min: 5, max: 14, spam: false,
   },
   {
     label: "Edge: stale repo (push 500d ago) — penalty applies, low but nonzero",
@@ -193,24 +207,52 @@ describe("scoreGem — ordering invariants", () => {
 });
 
 describe("isLikelySpam — guard conditions", () => {
-  test("does NOT mark spam if has_skill_md is true (load-bearing exemption)", () => {
+  test("SKILL.md is load-bearing for SOFT signals (no hard spam markers)", () => {
+    // Legit-looking owner + name, freshly created, empty desc — SKILL.md saves it.
     expect(isLikelySpam(gem({
-      owner: "spammy1", name: "foo-2026", description: "",
+      owner: "alice", name: "real-skill", description: "",
       created_at: iso(2), has_skill_md: true,
     }))).toBe(false);
   });
 
-  test("does NOT mark spam if repo has any engagement (forks ≥ 1)", () => {
+  test("real engagement (≥5 stars) overrides the hard numeric-tail signal", () => {
     expect(isLikelySpam(gem({
-      owner: "spammy1", name: "foo-2026", description: "",
-      stars: 0, forks: 1, created_at: iso(2),
+      owner: "karthik768990", name: "useful-thing",
+      description: "x", stars: 12, has_skill_md: true,
     }))).toBe(false);
   });
 
-  test("does NOT mark spam if repo is older than 14 days", () => {
+  test("repo older than 14 days with no hard signals is not spam", () => {
     expect(isLikelySpam(gem({
-      owner: "spammy1", name: "foo-2026", description: "",
+      owner: "alice", name: "foo", description: "",
       stars: 0, forks: 0, created_at: iso(30),
     }))).toBe(false);
+  });
+});
+
+describe("isLikelySpam — hard signals (override SKILL.md)", () => {
+  test("owner with random-word + numeric tail is spam even with SKILL.md", () => {
+    // Axelendometrial4386, Leontynestirredup43, Lepidochelyscleavage180 pattern.
+    expect(isLikelySpam(gem({
+      owner: "Axelendometrial4386", name: "russian-text-quality",
+      description: "Analyze Russian text quality",
+      has_skill_md: true, created_at: iso(60),
+    }))).toBe(true);
+  });
+
+  test("year-stamped repo name with no engagement is spam even with SKILL.md", () => {
+    expect(isLikelySpam(gem({
+      owner: "alice", name: "editor-pack-2026",
+      description: "An editor", has_skill_md: true,
+      stars: 0, forks: 0, created_at: iso(2),
+    }))).toBe(true);
+  });
+
+  test("numeric-tail owner with low forks still spam (1 fork doesn't override)", () => {
+    expect(isLikelySpam(gem({
+      owner: "spammy12345", name: "foo",
+      description: "x", has_skill_md: true,
+      stars: 0, forks: 1, // below the trulyEngaged threshold (≥2 forks)
+    }))).toBe(true);
   });
 });

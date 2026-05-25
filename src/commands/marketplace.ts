@@ -17,6 +17,7 @@ import { fileURLToPath } from "node:url";
 import { readFileSync, existsSync } from "node:fs";
 
 import { resolveProfileForCwd } from "../lib/cwd-resolver";
+import { fetchCompanionFiles, detectSkillPath } from "../lib/companion-fetch";
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const PROFILES_DIR = process.env.CUE_PROFILES_DIR ?? join(REPO_ROOT, "profiles");
@@ -255,6 +256,21 @@ async function cmdInstallSkill(repo: string): Promise<number> {
   if (res.status !== 0) {
     process.stderr.write(`Failed to install skill.\n`);
     return 1;
+  }
+
+  // Fetch companion files (scripts/, forms.md, reference.md, etc.)
+  const { homedir } = await import("node:os");
+  const skillName = repo.split("/").pop() ?? repo;
+  const skillsDir = join(homedir(), ".claude", "skills");
+  const localDir = join(skillsDir, skillName);
+  if (existsSync(localDir)) {
+    const skillPath = detectSkillPath(repo, skillName);
+    if (skillPath) {
+      const { fetched } = fetchCompanionFiles(repo, skillPath, localDir, { quiet: true });
+      if (fetched.length > 0) {
+        process.stdout.write(`📂 Fetched companion files: ${fetched.join(", ")}\n`);
+      }
+    }
   }
 
   process.stdout.write(`✅ Skill installed.\n`);

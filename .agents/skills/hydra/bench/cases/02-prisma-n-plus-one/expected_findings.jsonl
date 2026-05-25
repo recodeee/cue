@@ -1,0 +1,1 @@
+{"title":"N+1 query: findMany() called inside loop instead of using include","file":"src/services/user-posts.ts","lines":"18-26","severity":"MODERATE","issue_class":"performance_degradation","position":"CONCERN","mandatory":true}

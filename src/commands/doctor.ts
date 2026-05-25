@@ -24,6 +24,7 @@ import { spawnSync } from "node:child_process";
 
 import { listProfiles, loadProfile } from "../lib/profile-loader";
 import { listAllSkillIds } from "../lib/resolver-local";
+import { findIncompleteSkills, fetchCompanionFiles, detectSkillPath, readSourceFile } from "../lib/companion-fetch";
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const PROFILES_DIR = process.env.CUE_PROFILES_DIR ?? join(REPO_ROOT, "profiles");
@@ -172,6 +173,22 @@ async function checkProfile(profileName: string, allSkillIds: Set<string>, allMc
     } catch { /* runtime dir unreadable */ }
   }
 
+  // D7: Incomplete skill installs (SKILL.md declares companions but they're missing)
+  const incomplete = findIncompleteSkills(SKILLS_ROOT);
+  const profileSkillSlugs = new Set(profileSkillIds.map(id => id.split("/").pop()));
+  for (const skill of incomplete) {
+    // Only report if this skill belongs to the current profile
+    const slug = skill.id.split("/").pop();
+    if (!profileSkillSlugs.has(slug)) continue;
+    issues.push({
+      code: "D7",
+      severity: "warning",
+      profile: profileName,
+      message: `Skill "${skill.id}" missing companions: ${skill.missing.join(", ")}`,
+      fix: `Fetch missing companions for "${skill.id}"`,
+    });
+  }
+
   return issues;
 }
 
@@ -244,6 +261,22 @@ async function applyFix(issue: Issue): Promise<boolean> {
       }
       return true;
     }
+    case "D7": {
+      // Fetch missing companion files for incomplete skill
+      const idMatch = issue.message.match(/Skill "([^"]+)"/);
+      if (!idMatch) return false;
+      const skillId = idMatch[1]!;
+      const skillDir = join(SKILLS_ROOT, skillId);
+      if (!existsSync(skillDir)) return false;
+
+      const source = readSourceFile(skillDir);
+      if (!source) return false;
+      const { fetched } = fetchCompanionFiles(source.repo, source.skillPath, skillDir, {
+        ref: source.ref,
+        writeSource: true,
+      });
+      return fetched.length > 0;
+    }
     default:
       return false;
   }
@@ -266,6 +299,7 @@ Checks:
   D4  Skill requires MCP not in profile
   D5  Stale runtime hash
   D6  Broken symlink in runtime
+  D7  Incomplete skill (companions declared but missing)
 
 Flags:
   --fix             Auto-repair issues

@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_CONFIG_DIR}/hooks/freeze-edit-scope.sh",
+            "description": "Opt-in: block Edit/Write outside the directory written to ~/.config/cue/freeze-dir. Activated by /freeze.",
+            "id": "cue:pre:write:freeze-edit-scope"
+          }
+        ]
+      }
+    ]
+  }
+}

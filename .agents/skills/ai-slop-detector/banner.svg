@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="1200" height="320">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d0d0f"/>
+      <stop offset="1" stop-color="#1a1320"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff5b3a"/>
+      <stop offset="0.55" stop-color="#ff3e9d"/>
+      <stop offset="1" stop-color="#7c4dff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="320" fill="url(#bg)"/>
+
+  <!-- Wordmark -->
+  <text x="80" y="160" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="120" font-weight="800" fill="#ffffff" letter-spacing="-4">slop-cop</text>
+
+  <!-- Subtitle -->
+  <text x="84" y="210" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="28" font-weight="500" fill="#cdc7d6">catches AI prose before it ships</text>
+
+  <!-- Stats line -->
+  <text x="84" y="258" font-family="ui-monospace, SFMono-Regular, monospace" font-size="14" fill="#ff5b3a" letter-spacing="2.5">45 PATTERNS  ·  150 PHRASES  ·  33 STRUCTURE TELLS  ·  50 SOURCES</text>
+
+  <!-- Bottom accent line -->
+  <rect x="80" y="280" width="200" height="3" fill="url(#accent)"/>
+</svg>

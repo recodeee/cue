@@ -14,7 +14,13 @@ export interface AgentScoped {
 // String form is sugar for { id: string }.
 export type MCPRef = string | (AgentScoped & { id: string });
 
-export type SkillRef = string | (AgentScoped & { id: string });
+export interface SkillCondition {
+  has_file?: string | string[];
+  has_dir?: string | string[];
+  env?: string | string[];
+}
+
+export type SkillRef = string | (AgentScoped & { id: string; when?: SkillCondition });
 
 // Top-level plugin enablement. "<plugin>@<marketplace>" or object form.
 export type PluginRef = string | (AgentScoped & { id: string });
@@ -38,7 +44,7 @@ export interface Profile {
   icon?: string;
   iconImage?: string;
   agents?: AgentKind[];
-  inherits?: string;
+  inherits?: string | string[];
   // Companion profiles surfaced at `cue use` time as suggestions. Activating
   // them is opt-in: the user is offered `cue use <name>+<rec1>+<rec2>` which
   // composes via foldComposite. Recommendations are NOT inherited and do NOT
@@ -70,7 +76,7 @@ export interface Profile {
 
 // In the resolved (post-inherit) form every ref is normalized to its object shape.
 export interface ResolvedMCP { id: string; agents?: AgentKind[]; }
-export interface ResolvedSkill { id: string; agents?: AgentKind[]; }
+export interface ResolvedSkill { id: string; agents?: AgentKind[]; when?: SkillCondition; }
 export interface ResolvedPlugin { id: string; agents?: AgentKind[]; }
 
 export interface ResolvedProfile extends Omit<Profile, "skills" | "mcps" | "plugins"> {

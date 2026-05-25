@@ -19,6 +19,7 @@ import { fileURLToPath } from "node:url";
 import { listProfiles, loadProfile } from "../lib/profile-loader";
 import { resolveProfileForCwd } from "../lib/cwd-resolver";
 import { listAllSkillIds } from "../lib/resolver-local";
+import { fetchCompanionFiles, readSourceFile, findIncompleteSkills } from "../lib/companion-fetch";
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const PROFILES_DIR = process.env.CUE_PROFILES_DIR ?? join(REPO_ROOT, "profiles");
@@ -927,6 +928,227 @@ async function cmdOutdated(json: boolean): Promise<number> {
 }
 
 // ---------------------------------------------------------------------------
+// `cue skills why <id>` — explain why a skill is included via dependency paths
+// ---------------------------------------------------------------------------
+
+async function cmdWhy(id: string): Promise<number> {
+  if (!id) {
+    process.stderr.write("Usage: cue skills why <skill-id>\n");
+    return 1;
+  }
+  const { buildDependencyGraph, explainWhy } = await import("../lib/skill-deps");
+  const ids = await getActiveProfileSkillIds();
+  if (!ids.length) { process.stderr.write("No skills in active profile.\n"); return 1; }
+
+  const graph = buildDependencyGraph(ids);
+  const paths = explainWhy(id, graph);
+
+  if (paths.length === 0) {
+    process.stdout.write(`"${id}" is not reachable from any skill in the active profile.\n`);
+    return 0;
+  }
+
+  process.stdout.write(`"${id}" is included because:\n\n`);
+  for (const path of paths) {
+    if (path.length === 1) {
+      process.stdout.write(`  • directly listed in profile\n`);
+    } else {
+      process.stdout.write(`  • ${path.join(" → ")}\n`);
+    }
+  }
+  return 0;
+}
+
+// ---------------------------------------------------------------------------
+// `cue skills upgrade` — upgrade outdated skills from lockfile
+// ---------------------------------------------------------------------------
+
+async function cmdUpgrade(args: string[]): Promise<number> {
+  const { findOutdated, recordInstall } = await import("../lib/skills-lock");
+  process.stdout.write("Checking for outdated skills...\n");
+  const outdated = findOutdated();
+  if (outdated.length === 0) {
+    process.stdout.write("✅ All locked skills are up to date.\n");
+    return 0;
+  }
+  process.stdout.write(`Found ${outdated.length} outdated skill(s):\n\n`);
+  for (const o of outdated) {
+    process.stdout.write(`  ${o.id.padEnd(35)} ${o.current.slice(0, 7)} → ${o.latest.slice(0, 7)}  (${o.repo})\n`);
+  }
+  if (!args.includes("--yes")) {
+    process.stdout.write(`\nRe-run with --yes to upgrade.\n`);
+    return 0;
+  }
+  for (const o of outdated) {
+    recordInstall(o.id, o.repo, o.latest);
+    process.stdout.write(`  ✅ ${o.id} → ${o.latest.slice(0, 7)}\n`);
+  }
+  return 0;
+}
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// `cue skills update` — re-fetch companion files for installed skills
+// ---------------------------------------------------------------------------
+
+async function cmdUpdate(args: string[]): Promise<number> {
+  const targetId = args.find(a => !a.startsWith("-"));
+  const all = args.includes("--all");
+
+  if (!targetId && !all) {
+    process.stdout.write(`cue skills update — re-fetch companion files for skills
+
+Usage:
+  cue skills update <skill-id>   Re-fetch companions for one skill
+  cue skills update --all        Re-fetch companions for all incomplete skills
+
+Examples:
+  cue skills update content/pdf
+  cue skills update --all
+`);
+    return 0;
+  }
+
+  if (targetId) {
+    // Update a single skill
+    const skillDir = join(SKILLS_ROOT, targetId);
+    if (!existsSync(skillDir)) {
+      process.stderr.write(`Skill "${targetId}" not found at ${skillDir}\n`);
+      return 1;
+    }
+
+    const source = readSourceFile(skillDir);
+    if (!source) {
+      process.stderr.write(`No .source file for "${targetId}". Cannot determine origin repo.\n`);
+      process.stderr.write(`Hint: create ${join(skillDir, ".source")} with content: owner/repo::path/to/skill\n`);
+      return 1;
+    }
+
+    process.stdout.write(`Updating "${targetId}" from ${source.repo}::${source.skillPath}...\n`);
+    const result = fetchCompanionFiles(source.repo, source.skillPath, skillDir, {
+      ref: source.ref,
+      writeSource: true,
+    });
+
+    if (result.fetched.length > 0) {
+      process.stdout.write(`  ✅ Fetched: ${result.fetched.join(", ")}\n`);
+    } else {
+      process.stdout.write(`  ✅ Already up to date.\n`);
+    }
+    if (result.errors.length > 0) {
+      process.stdout.write(`  ⚠️  Errors: ${result.errors.join(", ")}\n`);
+    }
+    return result.errors.length > 0 ? 1 : 0;
+  }
+
+  // --all: find and fix all incomplete skills
+  const incomplete = findIncompleteSkills(SKILLS_ROOT);
+  if (incomplete.length === 0) {
+    process.stdout.write("✅ All skills are complete. Nothing to update.\n");
+    return 0;
+  }
+
+  process.stdout.write(`Found ${incomplete.length} incomplete skill(s):\n\n`);
+  let updated = 0;
+  let failed = 0;
+
+  for (const skill of incomplete) {
+    const source = readSourceFile(skill.dir);
+    if (!source) {
+      process.stdout.write(`  ⏭  ${skill.id} — no .source file, skipping\n`);
+      continue;
+    }
+
+    process.stdout.write(`  ⏳ ${skill.id} (missing: ${skill.missing.join(", ")})...\n`);
+    const result = fetchCompanionFiles(source.repo, source.skillPath, skill.dir, {
+      ref: source.ref,
+      writeSource: true,
+    });
+
+    if (result.fetched.length > 0) {
+      process.stdout.write(`     ✅ Fetched: ${result.fetched.join(", ")}\n`);
+      updated++;
+    }
+    if (result.errors.length > 0) {
+      process.stdout.write(`     ⚠️  Errors: ${result.errors.join(", ")}\n`);
+      failed++;
+    }
+  }
+
+  process.stdout.write(`\nDone: ${updated} updated, ${failed} failed, ${incomplete.length - updated - failed} skipped.\n`);
+  return failed > 0 ? 1 : 0;
+}
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// `cue skills sandbox [--profile <name>]` — sandbox report
+// ---------------------------------------------------------------------------
+
+async function cmdSandbox(args: string[]): Promise<number> {
+  const { generateSandboxReport } = await import("../lib/skill-sandbox");
+  const profileIdx = args.indexOf("--profile");
+  let ids: string[];
+
+  if (profileIdx >= 0 && args[profileIdx + 1]) {
+    try {
+      const profile = await loadProfile(args[profileIdx + 1]!);
+      ids = profile.skills.local.map(s => s.id);
+    } catch (e: any) {
+      process.stderr.write(`Failed to load profile: ${e.message}\n`);
+      return 1;
+    }
+  } else {
+    ids = await getActiveProfileSkillIds();
+    if (!ids.length) {
+      process.stderr.write("No skills in active profile. Use --profile <name>.\n");
+      return 1;
+    }
+  }
+
+  process.stdout.write(generateSandboxReport(ids) + "\n");
+  return 0;
+}
+
+// ---------------------------------------------------------------------------
+// `cue skills score <id>` / `cue skills score --all` — quality scoring
+// ---------------------------------------------------------------------------
+
+async function cmdScore(args: string[]): Promise<number> {
+  const { scoreSkillQuality, formatScoreCard } = await import("../lib/skill-quality");
+  const all = args.includes("--all");
+
+  if (all) {
+    const ids = await getActiveProfileSkillIds();
+    if (!ids.length) {
+      const allIds = await listAllSkillIds();
+      if (!allIds.length) { process.stderr.write("No skills found.\n"); return 1; }
+      for (const id of allIds.slice(0, 30)) {
+        const result = scoreSkillQuality(id);
+        const grade = result.score >= 80 ? "A" : result.score >= 60 ? "B" : result.score >= 40 ? "C" : result.score >= 20 ? "D" : "F";
+        process.stdout.write(`  ${grade} ${String(result.score).padStart(3)}/100  ${id}\n`);
+      }
+      return 0;
+    }
+    for (const id of ids) {
+      const result = scoreSkillQuality(id);
+      const grade = result.score >= 80 ? "A" : result.score >= 60 ? "B" : result.score >= 40 ? "C" : result.score >= 20 ? "D" : "F";
+      process.stdout.write(`  ${grade} ${String(result.score).padStart(3)}/100  ${id}\n`);
+    }
+    return 0;
+  }
+
+  const id = args.find(a => !a.startsWith("-"));
+  if (!id) {
+    process.stderr.write("Usage: cue skills score <skill-id> | cue skills score --all\n");
+    return 1;
+  }
+
+  const result = scoreSkillQuality(id);
+  process.stdout.write(`\n${id}\n${formatScoreCard(result)}\n`);
+  return 0;
+}
+
+// ---------------------------------------------------------------------------
 // Router
 // ---------------------------------------------------------------------------
 
@@ -952,6 +1174,11 @@ Subcommands:
   changelog <id>       Show version history
   rate <id> up|down    Rate a skill
   outdated             Show stale skills
+  upgrade [--yes]      Upgrade outdated locked skills
+  why <id>             Explain why a skill is included (dependency paths)
+  update <id>|--all    Re-fetch companion files (scripts, docs)
+  sandbox [--profile]  Sandbox report: allowed-tools and risk levels
+  score <id>|--all     Quality score (0-100) with breakdown
 
 Examples:
   cue skills search "review"
@@ -979,7 +1206,7 @@ Examples:
     case "audit":
       return cmdAudit(json);
     case "conflicts":
-      return cmdConflicts(json);
+      return cmdConflicts(json, args.includes("--resolve"), args.includes("--apply"));
     case "changelog":
       return cmdChangelog(rest[1] ?? "");
     case "test": {
@@ -1006,8 +1233,18 @@ Examples:
       return cmdRate(rest[1] ?? "", rest[2] ?? "");
     case "outdated":
       return cmdOutdated(json);
+    case "upgrade":
+      return cmdUpgrade(rest.slice(1));
+    case "why":
+      return cmdWhy(rest[1] ?? "");
     case "add":
       return cmdNpxAdd(args);
+    case "update":
+      return cmdUpdate(rest.slice(1));
+    case "sandbox":
+      return cmdSandbox(rest.slice(1));
+    case "score":
+      return cmdScore(rest.slice(1));
     default:
       return cmdNpxAdd(args);
   }
@@ -1049,18 +1286,53 @@ async function cmdAudit(json: boolean): Promise<number> {
 // #18: Skill conflict detection
 // ---------------------------------------------------------------------------
 
-async function cmdConflicts(json: boolean): Promise<number> {
-  const { detectConflicts } = await import("../lib/conflict-detector");
+async function cmdConflicts(json: boolean, resolveFlag = false, applyFlag = false): Promise<number> {
+  const { detectConflicts, suggestResolutions } = await import("../lib/conflict-detector");
   const ids = await getActiveProfileSkillIds();
   const conflicts = detectConflicts(ids);
 
-  if (json) {
+  if (json && !resolveFlag) {
     process.stdout.write(JSON.stringify(conflicts, null, 2) + "\n");
     return 0;
   }
 
   if (conflicts.length === 0) {
     process.stdout.write("✅ No skill conflicts detected.\n");
+    return 0;
+  }
+
+  if (resolveFlag) {
+    const resolutions = suggestResolutions(conflicts);
+    if (json) {
+      process.stdout.write(JSON.stringify(resolutions, null, 2) + "\n");
+      return 0;
+    }
+    process.stdout.write(`⚠️  ${conflicts.length} conflict(s) with suggested resolutions:\n\n`);
+    for (const r of resolutions) {
+      process.stdout.write(`  ${r.conflict.skillA} vs ${r.conflict.skillB}\n`);
+      process.stdout.write(`    "${r.conflict.directiveA}"\n`);
+      process.stdout.write(`    conflicts with: "${r.conflict.directiveB}"\n`);
+      process.stdout.write(`    → suggestion: ${r.suggestion} (${r.reason})\n\n`);
+    }
+    if (applyFlag) {
+      // Apply: remove lower-priority skills from profile
+      const profileName = await getActiveProfileName();
+      if (!profileName) { process.stderr.write("No active profile.\n"); return 1; }
+      const toRemove = new Set<string>();
+      for (const r of resolutions) {
+        if (r.suggestion === "remove-b" || r.suggestion === "prioritize-a") {
+          toRemove.add(r.conflict.skillB);
+        } else {
+          toRemove.add(r.conflict.skillA);
+        }
+      }
+      if (toRemove.size > 0) {
+        process.stdout.write(`  Removing ${toRemove.size} lower-priority skill(s): ${[...toRemove].join(", ")}\n`);
+        for (const id of toRemove) {
+          await cmdRemoveFromProfile(id);
+        }
+      }
+    }
     return 0;
   }
 

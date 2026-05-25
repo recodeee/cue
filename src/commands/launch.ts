@@ -25,6 +25,7 @@ import { resolveLocalSkill, listAllSkillIds } from "../lib/resolver-local";
 import { detectKittyTerminal, kittyPlaceholderLabel, transmitKittyImage } from "../lib/kitty-image";
 import { computeStats } from "../lib/analytics";
 import type { ResolvedProfile } from "../../profiles/_types";
+import { hasWorkspaces, getActiveWorkspace, computeOverrides, resolveWorkspaceForCwd } from "../lib/workspaces";
 
 // ---------------------------------------------------------------------------
 // Arg parsing
@@ -73,6 +74,49 @@ function parse(args: string[]): ParsedArgs {
     subset = passthrough.join(" ");
   }
   return { agent, override, forcePick, dryRun, rematerialize, subset, passthrough };
+}
+
+// ---------------------------------------------------------------------------
+// Workspace overrides — merge active workspace env into profile
+// ---------------------------------------------------------------------------
+
+async function applyWorkspaceOverrides(profile: ResolvedProfile): Promise<ResolvedProfile> {
+  if (!hasWorkspaces(profile.name)) return profile;
+
+  // Feature 4: .cue-workspace auto-switch takes precedence over global active
+  const cwdWs = resolveWorkspaceForCwd(profile.name, process.cwd());
+  const activeWs = cwdWs ?? getActiveWorkspace(profile.name);
+  if (!activeWs) return profile;
+
+  const overrides = computeOverrides(profile.name, activeWs);
+  if (!overrides) return profile;
+
+  let result: ResolvedProfile = {
+    ...profile,
+    env: { ...profile.env, ...overrides.env },
+  };
+
+  // Feature 6: Workspace persona override replaces profile persona
+  if (overrides.personaOverride) {
+    result = { ...result, persona: overrides.personaOverride };
+  }
+
+  // Feature 2: Workspace-specific skills appended to profile.skills.local
+  if (overrides.skills && overrides.skills.length > 0) {
+    const existingIds = new Set(result.skills.local.map(s => s.id));
+    const newSkills = overrides.skills
+      .filter(id => !existingIds.has(id))
+      .map(id => ({ id }));
+    result = {
+      ...result,
+      skills: {
+        ...result.skills,
+        local: [...result.skills.local, ...newSkills],
+      },
+    };
+  }
+
+  return result;
 }
 
 // ---------------------------------------------------------------------------
@@ -670,7 +714,7 @@ export async function run(args: string[]): Promise<number> {
   }
 
   const runtime = await materializeRuntime({
-    profile,
+    profile: await applyWorkspaceOverrides(profile),
     agent: agentKind,
     runtimeRoot: join(configDir(), "runtime"),
     skillSourceLookup: (id) => resolveLocalSkill(id),

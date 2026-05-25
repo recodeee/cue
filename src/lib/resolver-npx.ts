@@ -35,6 +35,7 @@ import {
   cacheSkillPath,
   type CacheLayout,
 } from "./cache";
+import { fetchCompanionFiles, detectSkillPath } from "./companion-fetch";
 
 // ---------------------------------------------------------------------------
 // Errors
@@ -141,6 +142,16 @@ export const npxFetch: NpxFetchFn = async (repo, pin, skill, destDir) => {
   }
 
   flattenNpxLayout(destDir, skill);
+
+  // Fetch companion files (scripts/, forms.md, reference.md, etc.) so the
+  // installed skill is a complete package, not just SKILL.md.
+  const skillDir = join(destDir, skill);
+  if (existsSync(skillDir)) {
+    const skillPath = detectSkillPath(repo, skill);
+    if (skillPath) {
+      fetchCompanionFiles(repo, skillPath, skillDir, { quiet: true });
+    }
+  }
 };
 
 /**
