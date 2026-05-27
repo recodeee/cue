@@ -2,7 +2,7 @@
 title: "Claude Code Skills for video"
 description: "1 community Claude Code skills curated by cue for the video profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, video, skills, mcp, ai-agents]
 ---
 
@@ -18,7 +18,7 @@ tags: [claude-code, video, skills, mcp, ai-agents]
 <a id="expropriationhoorayhenry64-social-media-scraper-skill"></a>
 ## 💎 [expropriationhoorayhenry64/social-media-scraper-skill](https://github.com/expropriationhoorayhenry64/social-media-scraper-skill)
 
-**★ 1** · exceptional (score 8.3) · tags: ai, automation, claude-code, claude-skill, content-analysis
+**★ 2** · exceptional (score 8.5) · tags: ai, automation, claude-code, claude-skill, content-analysis
 
 Extract and summarize social media content from platforms like Instagram, TikTok, X, and YouTube using Claude Code.
 

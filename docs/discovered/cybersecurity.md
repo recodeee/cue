@@ -2,7 +2,7 @@
 title: "Claude Code Skills for cybersecurity"
 description: "6 community Claude Code skills curated by cue for the cybersecurity profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, cybersecurity, skills, mcp, ai-agents]
 ---
 
@@ -33,7 +33,7 @@ cue skills add nsasoft/nsauditor-ai-agent-skill --profile cybersecurity
 <a id="zandereins-hydra"></a>
 ## 💎 [Zandereins/hydra](https://github.com/Zandereins/hydra)
 
-**★ 1** · exceptional (score 14.3) · Python · tags: adversarial-testing, ai-code-review, architecture-review, claude-code, claude-code-skill
+**★ 1** · exceptional (score 14.2) · Python · tags: adversarial-testing, ai-code-review, architecture-review, claude-code, claude-code-skill
 
 Multi-perspective code review council for Claude Code. 3 advisors by default, 10 agents in deep mode (Opus + Codex). Evidence chains, adversarial self-test, dual-path verdict. Based on Karpathy's LLM Council.
 
@@ -63,7 +63,7 @@ cue skills add Leontynestirredup43/slowmist-security-cc --profile cybersecurity
 <a id="elementalsouls-claude-osint"></a>
 ## 💎 [elementalsouls/Claude-OSINT](https://github.com/elementalsouls/Claude-OSINT)
 
-**★ 1383** · exceptional (score 11.3) · Python · tags: agentskills, claude, skills
+**★ 1517** · exceptional (score 11.3) · Python · tags: agentskills, claude, skills
 
 Two paired Claude skills · 90+ recon modules · 48 secret-regex patterns · 80+ dorks · 9 read-only credential validators · 27 attack-path templates · 5,500+ lines of structured tradecraft. Drop-in SKILL.md files that turn Claude into a god-mode external recon operator for authorized red-team and bug-bounty engagements.
 
@@ -76,7 +76,7 @@ cue skills add elementalsouls/Claude-OSINT --profile cybersecurity
 <a id="x-glacier-kali-pentest"></a>
 ## 💎 [x-glacier/kali-pentest](https://github.com/x-glacier/kali-pentest)
 
-**★ 42** · exceptional (score 10.1) · tags: ai-agent, claude-code-skill, cybersecurity, ethical-hacking, hermes-agent
+**★ 44** · exceptional (score 10.1) · tags: ai-agent, claude-code-skill, cybersecurity, ethical-hacking, hermes-agent
 
 Kali Linux penetration testing skill for AI agents (Claude Code, OpenClaw, Hermes Agent). 200+ CLI tools, 15 scenario playbooks. Autonomously plans attack paths, selects tools, and integrates results across phases to adapt the penetration strategy — with human approval gates for high-risk actions.
 

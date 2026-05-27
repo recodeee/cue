@@ -2,7 +2,7 @@
 title: "Claude Code Skills for frontend"
 description: "6 community Claude Code skills curated by cue for the frontend profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, frontend, skills, mcp, ai-agents]
 ---
 
@@ -15,10 +15,25 @@ tags: [claude-code, frontend, skills, mcp, ai-agents]
 
 ---
 
+<a id="spartan-hieuvo-claude-skills"></a>
+## 💎 [spartan-hieuvo/claude-skills](https://github.com/spartan-hieuvo/claude-skills)
+
+**★ 0** · exceptional (score 13) · tags: agent-skills, anthropic, claude-code, claude-skill, design-system
+
+Production-tested agent skills for Claude Code — backend (Kotlin/Micronaut), frontend (React/Tailwind), design systems, content writing, and startup workflows.
+
+✅ SKILL.md
+
+```bash
+cue skills add spartan-hieuvo/claude-skills --profile frontend
+```
+
+---
+
 <a id="suanfishxyy-suanfish-design-system"></a>
 ## 💎 [SuanFishXYY/suanfish-design-system](https://github.com/SuanFishXYY/suanfish-design-system)
 
-**★ 5** · exceptional (score 10.9) · JavaScript · tags: agent-skills, agent-ui, ai, ai-native, anthropic
+**★ 6** · exceptional (score 11) · JavaScript · tags: agent-skills, agent-ui, ai, ai-native, anthropic
 
 🐟 Suanfish Design System — 33 specialized AI design agents across 7 tiers with REJECT mechanism. Multi-agent design language SKILL for Claude Code / Codex CLI / Copilot CLI. v2.5 adds AI-native Path G (streaming · tool-calls · reasoning · citations · artifacts).
 
@@ -26,19 +41,6 @@ tags: [claude-code, frontend, skills, mcp, ai-agents]
 
 ```bash
 cue skills add SuanFishXYY/suanfish-design-system --profile frontend
-```
-
----
-
-<a id="s2mgtvodois2-postgresql-mcp-js"></a>
-## 💎 [s2mgtvodois2/postgresql-mcp-js](https://github.com/s2mgtvodois2/postgresql-mcp-js)
-
-**★ 0** · exceptional (score 9.5) · TypeScript · tags: agent-framework, ai, ai-agent, bun, database
-
-🔌 Simplify PostgreSQL interactions with a secure MCP server for LLMs, enabling efficient access to schemas, tables, and query execution.
-
-```bash
-cue skills add s2mgtvodois2/postgresql-mcp-js --profile frontend
 ```
 
 ---
@@ -56,15 +58,15 @@ cue skills add byrobertocumbane-glitch/lottie-marketplace --profile frontend
 
 ---
 
-<a id="giovannisacca-pixel-mcp-workflow"></a>
-## ✨ [giovannisacca/pixel-mcp-workflow](https://github.com/giovannisacca/pixel-mcp-workflow)
+<a id="cs32dasdasd-ionik-capacitor-flux-patterns"></a>
+## ✨ [cs32dasdasd/ionik-capacitor-flux-patterns](https://github.com/cs32dasdasd/ionik-capacitor-flux-patterns)
 
-**★ 0** · strong (score 7.5) · HTML · tags: ai-coding-agent, claude-code, claude-skill, design-to-code, figma
+**★ 0** · strong (score 7.5) · HTML · tags: agent, agents, ai, ai-coding, android
 
-🔧 AI-Powered Design-to-Code Pipeline 2026: Figma to React in 6-Phase Parallel Workflow
+Ionic Capacitor Pro 2026: AI-Powered Hybrid App Builder for React, Angular & Vue
 
 ```bash
-cue skills add giovannisacca/pixel-mcp-workflow --profile frontend
+cue skills add cs32dasdasd/ionik-capacitor-flux-patterns --profile frontend
 ```
 
 ---
@@ -72,7 +74,7 @@ cue skills add giovannisacca/pixel-mcp-workflow --profile frontend
 <a id="aiatelie-ai-atelie"></a>
 ## ✨ [aiatelie/ai-atelie](https://github.com/aiatelie/ai-atelie)
 
-**★ 4** · strong (score 5.6) · TypeScript · tags: agent-skills, ai-agents, ai-design, bun, byok
+**★ 4** · strong (score 5.5) · TypeScript · tags: agent-skills, ai-agents, ai-design, bun, byok
 
 Local-first, open-source alternative to Anthropic's Claude Design. MIT-licensed, BYO agent CLI — Claude Code, Kimi, Codex, or any SDK-compatible model. Composable skills · three edit paths · designs as plain HTML/JSX/CSS folders · run locally, no cloud round-trip. Generate banners, thumbnails, websites, animations, design systems.
 

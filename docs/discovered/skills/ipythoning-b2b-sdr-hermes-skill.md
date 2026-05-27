@@ -2,7 +2,7 @@
 title: "iPythoning/b2b-sdr-hermes-skill — Claude Code skill discovered by cue"
 description: "Autonomous AI SDR skill for Hermes Agent — finds buyers, qualifies leads, sends outreach, manages CRM across WhatsApp/Email/Telegram for B2B export businesses"
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, skill, core]
 ---
 
@@ -17,7 +17,7 @@ tags: [claude-code, skill, core]
 cue ran [GitHub Code Search](https://docs.github.com/en/search-github/searching-on-github/searching-code) for `filename:SKILL.md` and found this repo. It scored 15.4 based on:
 - ✅ Contains SKILL.md
 - ⭐ 15 stars
-- 🗓️ Last pushed: 2026-05-26
+- 🗓️ Last pushed: 2026-05-27
 - 🏷️ Tags: agent-skill, ai-agent, b2b, crm, hermes-agent, hermes-skill, lead-generation, sales-automation, sdr, skills-sh, whatsapp
 
 ## Best fit cue profiles

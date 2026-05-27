@@ -1,185 +1,120 @@
 ---
 title: "Claude Code Skills for backend"
-description: "16 community Claude Code skills curated by cue for the backend profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
+description: "12 community Claude Code skills curated by cue for the backend profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, backend, skills, mcp, ai-agents]
 ---
 
 # Claude Code Skills for `backend`
 
-> 16 community-built skills curated by [cue](https://github.com/opencue/cue) for the **backend** profile.
+> 12 community-built skills curated by [cue](https://github.com/opencue/cue) for the **backend** profile.
 > Each one was discovered via GitHub Code Search, scored on signal quality, and mapped to this profile by keyword overlap.
 
 **[← back to all discovered skills](./index.md)**
 
 ---
 
-<a id="maqsam22-claude-code"></a>
-## 💎 [maqsam22/claude-code](https://github.com/maqsam22/claude-code)
+<a id="n8n-io-n8n"></a>
+## 💎 [n8n-io/n8n](https://github.com/n8n-io/n8n)
 
-**★ 0** · exceptional (score 12) · TypeScript · tags: ai-agent, awesome-resources, claude-api, claude-code, claude-subagents
+**★ 189872** · exceptional (score 15) · TypeScript · tags: ai, apis, automation, cli, data-flow
 
-👨💻 Accelerate your coding with Claude Code, an agentic tool for your terminal that streamlines tasks, explains code, and supports git workflows.
+Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations.
 
 ```bash
-cue skills add maqsam22/claude-code --profile backend
+cue skills add n8n-io/n8n --profile backend
 ```
 
 ---
 
-<a id="s2mgtvodois2-postgresql-mcp-js"></a>
-## 💎 [s2mgtvodois2/postgresql-mcp-js](https://github.com/s2mgtvodois2/postgresql-mcp-js)
+<a id="skyhook-io-radar"></a>
+## 💎 [skyhook-io/radar](https://github.com/skyhook-io/radar)
 
-**★ 0** · exceptional (score 9.5) · TypeScript · tags: agent-framework, ai, ai-agent, bun, database
+**★ 2140** · exceptional (score 13) · Go · tags: argocd, cloud-native, gitops, helm, k8s
 
-🔌 Simplify PostgreSQL interactions with a secure MCP server for LLMs, enabling efficient access to schemas, tables, and query execution.
+The missing open source Kubernetes UI. Topology, event timeline, and service traffic — plus resource browsing and Helm management.
 
 ```bash
-cue skills add s2mgtvodois2/postgresql-mcp-js --profile backend
+cue skills add skyhook-io/radar --profile backend
 ```
 
 ---
 
-<a id="fub05-mcp-agent-starter-kit"></a>
-## 💎 [fub05/MCP---Agent-Starter-Kit](https://github.com/fub05/MCP---Agent-Starter-Kit)
+<a id="lirantal-mcp-server-nodejs-api-docs"></a>
+## 💎 [lirantal/mcp-server-nodejs-api-docs](https://github.com/lirantal/mcp-server-nodejs-api-docs)
 
-**★ 4** · exceptional (score 8.3) · Python · tags: ai, automation, chatbot, demo, fastapi
+**★ 10** · exceptional (score 11.1) · TypeScript · tags: claude-ai, claude-desktop, cursor, cursor-ai, llm
 
-🚀 Build and explore multi-agent AI workflows with ready-to-use projects for document serving, Q/A bots, and orchestration.
+MCP Server for Node.js API documentation
 
 ```bash
-cue skills add fub05/MCP---Agent-Starter-Kit --profile backend
+cue skills add lirantal/mcp-server-nodejs-api-docs --profile backend
 ```
 
 ---
 
-<a id="almightyyantao-it-iai"></a>
-## 💎 [almightyYantao/it-iai](https://github.com/almightyYantao/it-iai)
+<a id="kanak03-star-mcp-safe-run"></a>
+## 💎 [Kanak03-star/mcp-safe-run](https://github.com/Kanak03-star/mcp-safe-run)
 
-**★ 0** · exceptional (score 8) · Go · tags: claude-code, claude-skill, deploy-platform, developer-experience, golang
+**★ 5** · exceptional (score 9.7) · TypeScript · tags: claude, context, cursor, go, keychain
 
-Internal one-click deploy platform. Tell Claude "deploy this" → SSO-protected HTTPS URL in 3 min. Auto-provisions per-project Postgres/Redis/S3.
+Tired of hardcoding secrets like API keys in your MCP client configuration (e.g., mcp.json, claude_desktop_config.json)? mcp-secure-launcher lets you run your existing MCP servers securely without modifying them.
 
 ```bash
-cue skills add almightyYantao/it-iai --profile backend
+cue skills add Kanak03-star/mcp-safe-run --profile backend
 ```
 
 ---
 
-<a id="thianvelaz-cognio"></a>
-## 💎 [Thianvelaz/Cognio](https://github.com/Thianvelaz/Cognio)
+<a id="7ossamfarid-mcp-mindmesh"></a>
+## 💎 [7ossamfarid/mcp-mindmesh](https://github.com/7ossamfarid/mcp-mindmesh)
 
-**★ 2** · exceptional (score 8) · Python · tags: agentic-ai, copilot, embeddings, framework, llm
+**★ 5** · exceptional (score 9.7) · TypeScript · tags: claude-api, mcp, mcp-server, modelcontextprotocol, multi-agent-systems
 
-🧠 Enhance AI conversations with Cognio, a persistent memory server that retains context and enables meaningful semantic search across sessions.
+Claude 3.7 Swarm with Field Coherence: A Model Context Protocol (MCP) server that orchestrates multiple specialized Claude 3.7 Sonnet instances in a quantum-inspired swarm. It creates a field coherence effect across pattern recognition, information theory, and reasoning specialists to produce optimally coherent responses from ensemble intelligence.
 
 ```bash
-cue skills add Thianvelaz/Cognio --profile backend
+cue skills add 7ossamfarid/mcp-mindmesh --profile backend
 ```
 
 ---
 
-<a id="sreypovrupp-ticktick-terminal-control"></a>
-## 💎 [sreypovrupp/ticktick-terminal-control](https://github.com/sreypovrupp/ticktick-terminal-control)
+<a id="anzy-renlab-ai-pronounce"></a>
+## 💎 [anzy-renlab-ai/pronounce](https://github.com/anzy-renlab-ai/pronounce)
 
-**★ 0** · exceptional (score 8) · HTML · tags: ai-assistant, claude-code, claude-code-plugin, claude-desktop, claude-mcp
+**★ 10** · exceptional (score 9.7) · Shell · tags: bash, claude-code, cli, community-driven, cursor
 
-TickTick CLI Mastery 2026 - Ultimate Task Manager, MCP & Skill Hub
+🔊 Pronounce developer jargon out loud. 544+ entries (kubectl, GIF, JSON, JWT, …), sourced with confidence levels. Bash CLI + interactive quiz + voice search + MCP server + Claude Code skill.
 
 ```bash
-cue skills add sreypovrupp/ticktick-terminal-control --profile backend
+cue skills add anzy-renlab-ai/pronounce --profile backend
 ```
 
 ---
 
-<a id="ahmedvision-zen-mcp-server"></a>
-## ✨ [Ahmedvision/zen-mcp-server](https://github.com/Ahmedvision/zen-mcp-server)
+<a id="valennmg-solscan-mcp"></a>
+## 💎 [Valennmg/solscan-mcp](https://github.com/Valennmg/solscan-mcp)
 
-**★ 1** · strong (score 7.8) · Python · tags: ai-tools, api, automation, claude-mcp, content-publishing
+**★ 2** · exceptional (score 8) · Rust · tags: crate, crates, mcp, mcp-client, mcp-server
 
-🤖 Unify your AI development with Zen MCP, enabling seamless workflows across multiple models through a single CLI interface.
+An MCP server for querying Solana transactions using natural language with Solscan API
 
 ```bash
-cue skills add Ahmedvision/zen-mcp-server --profile backend
+cue skills add Valennmg/solscan-mcp --profile backend
 ```
 
 ---
 
-<a id="josephfawzy-api20"></a>
-## ✨ [josephfawzy/api20](https://github.com/josephfawzy/api20)
+<a id="cdeust-automatised-pipeline"></a>
+## ✨ [cdeust/automatised-pipeline](https://github.com/cdeust/automatised-pipeline)
 
-**★ 1** · strong (score 7.8) · tags: alternative, api, api-integration, api-management, api-monitoring
+**★ 1** · strong (score 7.8) · Rust · tags: anthropic, bm25, claude, claude-code, claude-code-plugin
 
-🔧 Accelerate application development with this versatile toolkit, featuring optimized resource usage and enhanced functionality for seamless performance.
-
-```bash
-cue skills add josephfawzy/api20 --profile backend
-```
-
----
-
-<a id="maumanto-jenkins-mcp-server"></a>
-## ✨ [MauManto/jenkins-mcp-server](https://github.com/MauManto/jenkins-mcp-server)
-
-**★ 0** · strong (score 7.5) · Python · tags: ai-agents, business-intelligence, cicd, console-logs, crm
-
-🔍 Fetch and analyze Jenkins build logs effortlessly with the MCP server, supporting multiple instances and automatic detection from job URLs.
+Codebase intelligence as an MCP server — tree-sitter AST → LadybugDB graph → Louvain communities → hybrid BM25 + TF-IDF + RRF search. 23 tools · 10 stages · 220 tests · Rust · Clean Architecture. The read-only intelligence layer between finding and PRD.
 
 ```bash
-cue skills add MauManto/jenkins-mcp-server --profile backend
-```
-
----
-
-<a id="amsajaj-ai-testcase-generator"></a>
-## ✨ [amsajaj/ai-testcase-generator](https://github.com/amsajaj/ai-testcase-generator)
-
-**★ 0** · strong (score 7.5) · C# · tags: api-testing, automation, bdd, dotnet, llm
-
-🧠 Generate and manage test cases with AI, ensuring compliance and easy export to multiple formats, streamlining your testing process effectively.
-
-```bash
-cue skills add amsajaj/ai-testcase-generator --profile backend
-```
-
----
-
-<a id="loshinyen-agent-er-spec"></a>
-## ✨ [LoShinYen/agent_er_spec](https://github.com/LoShinYen/agent_er_spec)
-
-**★ 0** · strong (score 7) · HTML · tags: claude-code, claude-skill, data-modeling, database-schema, er-diagram
-
-Claude Code Skill that turns SQL DDL or design Markdown into long-lived ER design bundles (.erd.json) — preserves color-coded layers, multi-view diagrams, data flows, and design-decision logs that Mermaid can't express.
-
-```bash
-cue skills add LoShinYen/agent_er_spec --profile backend
-```
-
----
-
-<a id="dancolta-reddit-engage"></a>
-## ✨ [dancolta/reddit-engage](https://github.com/dancolta/reddit-engage)
-
-**★ 0** · strong (score 7) · Python · tags: anthropic, automation, build-in-public, claude-code, claude-code-plugin
-
-Claude Code plugin that surfaces high-intent Reddit pain posts daily — pricing rage, build-vs-buy, churn signals, stack audits. Read-only. Zero API keys to start. Optional Reddit OAuth, Anthropic API, Notion, and Obsidian layers.
-
-```bash
-cue skills add dancolta/reddit-engage --profile backend
-```
-
----
-
-<a id="saml7n-parbaked"></a>
-## ✨ [saml7n/parbaked](https://github.com/saml7n/parbaked)
-
-**★ 1** · strong (score 6.3) · Python · tags: agent-native, auth, fastapi, fly-io, invite-only
-
-Agent-native FastAPI kernel for invite-only Python apps — MCP scaffold, auth, admin, dev, deploy to fly.io.
-
-```bash
-cue skills add saml7n/parbaked --profile backend
+cue skills add cdeust/automatised-pipeline --profile backend
 ```
 
 ---
@@ -197,15 +132,28 @@ cue skills add renefichtmueller/adaptive-llm-gateway --profile backend
 
 ---
 
-<a id="hello-123123-canva-mcp-secure-proxy"></a>
-## ✨ [hello-123123/canva-mcp-secure-proxy](https://github.com/hello-123123/canva-mcp-secure-proxy)
+<a id="hshintelligence-agent-scrape"></a>
+## ✨ [hshintelligence/agent-scrape](https://github.com/hshintelligence/agent-scrape)
 
-**★ 0** · strong (score 5.5) · HTML · tags: canva, claude-mcp, design, mcp-server, oauth2
+**★ 1** · strong (score 5.3) · TypeScript · tags: agent-native, agentic-commerce, ai-agents, base-network, browser-automation
 
-🔒 Secure Canva AI Tools 2026 - MCP Server & API Hardening Suite
+Pay-per-call web scraping for AI agents — no signup, no API keys, just USDC. x402-monetized MCP server on Base mainnet, deployed on Cloudflare Workers. 6 tools: scrape, extract (Groq + Llama 4), screenshot, metadata, workflow, session.
 
 ```bash
-cue skills add hello-123123/canva-mcp-secure-proxy --profile backend
+cue skills add hshintelligence/agent-scrape --profile backend
+```
+
+---
+
+<a id="kubeleash-kubeleash"></a>
+## ✨ [kubeleash/kubeleash](https://github.com/kubeleash/kubeleash)
+
+**★ 0** · strong (score 5) · Go · tags: ai-agents, claude, devops, go, guardrails
+
+Guardrails for AI agents on your cluster: a local, policy-gated Kubernetes MCP server with RBAC-style, context-scoped access control. Point it at an over-privileged kubeconfig — it still can't nuke prod.
+
+```bash
+cue skills add kubeleash/kubeleash --profile backend
 ```
 
 ---

@@ -2,19 +2,19 @@
 title: "bhino50/finder-path — Claude Code skill discovered by cue"
 description: "A lightweight macOS menu bar utility that shows the POSIX path of the frontmost Finder window — copy paths, run cd commands, open Terminal/Codex/Claude in the c"
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, skill, core]
 ---
 
 # 🔹 [bhino50/finder-path](https://github.com/bhino50/finder-path)
 
-**★ 1** · potential (score 4.1) · Swift · appkit, developer-tools, finder, macos, menubar
+**★ 1** · potential (score 4) · Swift · appkit, developer-tools, finder, macos, menubar
 
 > A lightweight macOS menu bar utility that shows the POSIX path of the frontmost Finder window — copy paths, run cd commands, open Terminal/Codex/Claude in the current folder.
 
 ## Why cue indexed it
 
-cue ran [GitHub Code Search](https://docs.github.com/en/search-github/searching-on-github/searching-code) for `filename:SKILL.md` and found this repo. It scored 4.1 based on:
+cue ran [GitHub Code Search](https://docs.github.com/en/search-github/searching-on-github/searching-code) for `filename:SKILL.md` and found this repo. It scored 4 based on:
 - ⭐ 1 stars
 - 🗓️ Last pushed: 2026-05-20
 - 🏷️ Tags: appkit, developer-tools, finder, macos, menubar, open-source, productivity, swift

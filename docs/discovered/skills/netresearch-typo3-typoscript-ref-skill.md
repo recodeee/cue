@@ -2,19 +2,19 @@
 title: "netresearch/typo3-typoscript-ref-skill — Claude Code skill discovered by cue"
 description: "TYPO3 TypoScript, TSconfig and Fluid reference lookup for AI agents"
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, skill, core]
 ---
 
 # ✨ [netresearch/typo3-typoscript-ref-skill](https://github.com/netresearch/typo3-typoscript-ref-skill)
 
-**★ 1** · strong (score 6.2) · Shell · ai-agent-skill, claude-code, fluid, typo3, typoscript
+**★ 1** · strong (score 6.1) · Shell · ai-agent-skill, claude-code, fluid, typo3, typoscript
 
 > TYPO3 TypoScript, TSconfig and Fluid reference lookup for AI agents
 
 ## Why cue indexed it
 
-cue ran [GitHub Code Search](https://docs.github.com/en/search-github/searching-on-github/searching-code) for `filename:SKILL.md` and found this repo. It scored 6.2 based on:
+cue ran [GitHub Code Search](https://docs.github.com/en/search-github/searching-on-github/searching-code) for `filename:SKILL.md` and found this repo. It scored 6.1 based on:
 - ⭐ 1 stars
 - 🗓️ Last pushed: 2026-05-23
 - 🏷️ Tags: ai-agent-skill, claude-code, fluid, typo3, typoscript

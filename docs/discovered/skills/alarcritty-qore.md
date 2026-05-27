@@ -2,19 +2,19 @@
 title: "alarcritty/qore — Claude Code skill discovered by cue"
 description: "Plan-and-act prompt wrapper for Claude Code, Cursor, and Codex. 62 curated techniques, zero LLM calls in the hot path."
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, skill, core]
 ---
 
 # 🔹 [alarcritty/qore](https://github.com/alarcritty/qore)
 
-**★ 1** · potential (score 4.1) · TypeScript
+**★ 1** · potential (score 4) · TypeScript
 
 > Plan-and-act prompt wrapper for Claude Code, Cursor, and Codex. 62 curated techniques, zero LLM calls in the hot path.
 
 ## Why cue indexed it
 
-cue ran [GitHub Code Search](https://docs.github.com/en/search-github/searching-on-github/searching-code) for `filename:SKILL.md` and found this repo. It scored 4.1 based on:
+cue ran [GitHub Code Search](https://docs.github.com/en/search-github/searching-on-github/searching-code) for `filename:SKILL.md` and found this repo. It scored 4 based on:
 - ⭐ 1 stars
 - 🗓️ Last pushed: 2026-05-20
 - 🏷️ Tags: (none)

@@ -2,30 +2,30 @@
 title: "Discovered Claude Code Skills"
 description: "100 community Claude Code skills curated by cue across 11 profiles. Find skills for backend, frontend, marketing, cybersecurity, and more."
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, skills, mcp, ai-agents, marketplace]
 ---
 
 # 🎯 Discovered Claude Code Skills
 
 > **100 hidden-gem skills** discovered by [cue](https://github.com/opencue/cue) across **11 profiles**.
-> Last updated: 2026-05-26 · refreshed nightly via GitHub Code Search.
+> Last updated: 2026-05-27 · refreshed nightly via GitHub Code Search.
 
 ## Browse by profile
 
 | Profile | Skills | Sample |
 |---|---|---|
-| [**core**](./core.md) | 67 | `context-mode`, `korean-privacy-terms`, `gopls-mcp` |
-| [**backend**](./backend.md) | 16 | `claude-code`, `postgresql-mcp-js`, `MCP---Agent-Starter-Kit` |
+| [**core**](./core.md) | 64 | `context-mode`, `MaxKB`, `pm-claude-skills` |
+| [**backend**](./backend.md) | 12 | `n8n`, `radar`, `mcp-server-nodejs-api-docs` |
 | [**cybersecurity**](./cybersecurity.md) | 6 | `nsauditor-ai-agent-skill`, `hydra`, `slowmist-security-cc` |
-| [**frontend**](./frontend.md) | 6 | `suanfish-design-system`, `postgresql-mcp-js`, `lottie-marketplace` |
-| [**creative-media**](./creative-media.md) | 4 | `social-media-scraper-skill`, `pixel-mcp-workflow`, `ai-atelie` |
-| [**fleet-control**](./fleet-control.md) | 3 | `superx-agentic-orchestrator`, `MCP---Agent-Starter-Kit`, `rolepod` |
-| [**python-api**](./python-api.md) | 2 | `parbaked`, `ai-translation` |
+| [**frontend**](./frontend.md) | 6 | `claude-skills`, `suanfish-design-system`, `lottie-marketplace` |
+| [**fleet-control**](./fleet-control.md) | 5 | `agent-network`, `superx-agentic-orchestrator`, `mcp-mindmesh` |
+| [**niche**](./niche.md) | 4 | `devil-chat-coach`, `grant-thinking-cn-biology`, `grant-thinking-skill` |
+| [**docs-writer**](./docs-writer.md) | 3 | `agent-skill-uselink`, `mcp-server-nodejs-api-docs`, `llm-wiki` |
+| [**creative-media**](./creative-media.md) | 3 | `social-media-scraper-skill`, `ai-atelie`, `redesigned-pancake` |
 | [**video**](./video.md) | 1 | `social-media-scraper-skill` |
-| [**research**](./research.md) | 1 | `popper-scope` |
+| [**rust**](./rust.md) | 1 | `solscan-mcp` |
 | [**marketing**](./marketing.md) | 1 | `mcp` |
-| [**docs-writer**](./docs-writer.md) | 1 | `ai-translation` |
 
 ## How scoring works
 

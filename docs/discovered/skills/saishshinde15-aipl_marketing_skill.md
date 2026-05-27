@@ -2,7 +2,7 @@
 title: "saishshinde15/AIPL_MARKETING_SKILL — Claude Code skill discovered by cue"
 description: "Claude.ai skill for AIPL marketing team — automates B2B lead enrichment for Indian companies, outputs Vtiger-ready files, smart credit allocation across Lusha/A"
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, skill, core]
 ---
 
@@ -16,7 +16,7 @@ tags: [claude-code, skill, core]
 
 cue ran [GitHub Code Search](https://docs.github.com/en/search-github/searching-on-github/searching-code) for `filename:SKILL.md` and found this repo. It scored 6 based on:
 - ⭐ 0 stars
-- 🗓️ Last pushed: 2026-05-26
+- 🗓️ Last pushed: 2026-05-27
 - 🏷️ Tags: b2b-sales, claude, claude-skill, india, lead-enrichment, vtiger
 
 ## Best fit cue profiles

@@ -1,29 +1,57 @@
 ---
 title: "Claude Code Skills for docs-writer"
-description: "1 community Claude Code skills curated by cue for the docs-writer profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
+description: "3 community Claude Code skills curated by cue for the docs-writer profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, docs-writer, skills, mcp, ai-agents]
 ---
 
 # Claude Code Skills for `docs-writer`
 
-> 1 community-built skills curated by [cue](https://github.com/opencue/cue) for the **docs-writer** profile.
+> 3 community-built skills curated by [cue](https://github.com/opencue/cue) for the **docs-writer** profile.
 > Each one was discovered via GitHub Code Search, scored on signal quality, and mapped to this profile by keyword overlap.
 
 **[← back to all discovered skills](./index.md)**
 
 ---
 
-<a id="esolnguyen-ai-translation"></a>
-## 🔹 [esolnguyen/ai-translation](https://github.com/esolnguyen/ai-translation)
+<a id="compilet-dev-agent-skill-uselink"></a>
+## 💎 [compilet-dev/agent-skill-uselink](https://github.com/compilet-dev/agent-skill-uselink)
 
-**★ 1** · potential (score 3) · Python · tags: chromadb, kiro, knowledge-base, langgraph, multi-agent
+**★ 2** · exceptional (score 13.5) · tags: agent-skills, anthropic, claude-code, claude-skill, documentation
 
-Multi-agent translation pipeline with a curated knowledge vault. Two interchangeable paths a programmatic RAG pipeline (Python) and a Claude Code / Kiro skill-and-subagent orchestra share the same Obsidian vault, Chroma index, and retrieval API. Supports Azure OpenAI + Gemini; ships as a CLI, HTTP API, and Docker image.
+Agent skills for publishing engineering docs, repo summaries, PR digests, changelogs, API docs, onboarding guides, and specs to Uselink.
+
+✅ SKILL.md
 
 ```bash
-cue skills add esolnguyen/ai-translation --profile docs-writer
+cue skills add compilet-dev/agent-skill-uselink --profile docs-writer
+```
+
+---
+
+<a id="lirantal-mcp-server-nodejs-api-docs"></a>
+## 💎 [lirantal/mcp-server-nodejs-api-docs](https://github.com/lirantal/mcp-server-nodejs-api-docs)
+
+**★ 10** · exceptional (score 11.1) · TypeScript · tags: claude-ai, claude-desktop, cursor, cursor-ai, llm
+
+MCP Server for Node.js API documentation
+
+```bash
+cue skills add lirantal/mcp-server-nodejs-api-docs --profile docs-writer
+```
+
+---
+
+<a id="howdow698-ui-llm-wiki"></a>
+## 💎 [howdow698-ui/llm-wiki](https://github.com/howdow698-ui/llm-wiki)
+
+**★ 0** · exceptional (score 8.5) · tags: agent-skill, claude-code-skill, cli, codex, gemini
+
+Build a structured knowledge base with LLM agents to automate documentation, link concepts, and maintain long-term information retention in Markdown.
+
+```bash
+cue skills add howdow698-ui/llm-wiki --profile docs-writer
 ```
 
 ---

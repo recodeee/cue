@@ -2,7 +2,7 @@
 title: "davidzhaozz/openDev — Claude Code skill discovered by cue"
 description: "openDev is a macOS desktop IDE for JavaScript and TypeScript with Claude integrated in the core. Click any element in the embedded browser to capture its CSS pa"
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, skill, frontend]
 ---
 

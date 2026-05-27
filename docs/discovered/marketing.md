@@ -2,7 +2,7 @@
 title: "Claude Code Skills for marketing"
 description: "1 community Claude Code skills curated by cue for the marketing profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, marketing, skills, mcp, ai-agents]
 ---
 
@@ -18,7 +18,7 @@ tags: [claude-code, marketing, skills, mcp, ai-agents]
 <a id="clamp-sh-mcp"></a>
 ## ✨ [clamp-sh/mcp](https://github.com/clamp-sh/mcp)
 
-**★ 1** · strong (score 5.3) · TypeScript · tags: agent-tools, analytics, clamp, claude, claude-code
+**★ 1** · strong (score 5.2) · TypeScript · tags: agent-tools, analytics, clamp, claude, claude-code
 
 MCP server for Clamp, web analytics for the agentic era. Tools for traffic, referrers, live visitors, events, revenue, session paths, funnels, and alerts — queryable from Cursor, Claude Code, Claude Desktop, Smithery, and any MCP-compatible editor.
 

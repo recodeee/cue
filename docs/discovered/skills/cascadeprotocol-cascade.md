@@ -2,19 +2,19 @@
 title: "CascadeProtocol/Cascade — Claude Code skill discovered by cue"
 description: "Autonomous arbitrage scanner - monitors price spreads across 4 Solana DEXes, evaluates paths with Claude, executes in milliseconds."
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, skill, core]
 ---
 
 # ✨ [CascadeProtocol/Cascade](https://github.com/CascadeProtocol/Cascade)
 
-**★ 24** · strong (score 7.4) · TypeScript · ai-agent, arbitrage, bun, defi, jupiter
+**★ 24** · strong (score 7.3) · TypeScript · ai-agent, arbitrage, bun, defi, jupiter
 
 > Autonomous arbitrage scanner - monitors price spreads across 4 Solana DEXes, evaluates paths with Claude, executes in milliseconds.
 
 ## Why cue indexed it
 
-cue ran [GitHub Code Search](https://docs.github.com/en/search-github/searching-on-github/searching-code) for `filename:SKILL.md` and found this repo. It scored 7.4 based on:
+cue ran [GitHub Code Search](https://docs.github.com/en/search-github/searching-on-github/searching-code) for `filename:SKILL.md` and found this repo. It scored 7.3 based on:
 - ⭐ 24 stars
 - 🗓️ Last pushed: 2026-05-21
 - 🏷️ Tags: ai-agent, arbitrage, bun, defi, jupiter, meteora, orca, raydium, solana, typescript

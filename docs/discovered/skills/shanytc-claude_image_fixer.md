@@ -2,7 +2,7 @@
 title: "shanytc/claude_image_fixer — Claude Code skill discovered by cue"
 description: "tool to convert clipboard images to real path in order to paste into claude."
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, skill, core]
 ---
 

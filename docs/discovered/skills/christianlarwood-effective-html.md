@@ -2,19 +2,19 @@
 title: "christianlarwood/effective-html — Claude Code skill discovered by cue"
 description: "Claude Code skill that produces self-contained HTML artifacts. Forks dogum/html-artifacts with /preview trigger, 95% interview rule, project-aware paths, and op"
 layout: page
-updated: 2026-05-26
+updated: 2026-05-27
 tags: [claude-code, skill, core]
 ---
 
 # 🔹 [christianlarwood/effective-html](https://github.com/christianlarwood/effective-html)
 
-**★ 2** · potential (score 4.3) · Shell
+**★ 2** · potential (score 4.2) · Shell
 
 > Claude Code skill that produces self-contained HTML artifacts. Forks dogum/html-artifacts with /preview trigger, 95% interview rule, project-aware paths, and optional Agentation annotation loop.
 
 ## Why cue indexed it
 
-cue ran [GitHub Code Search](https://docs.github.com/en/search-github/searching-on-github/searching-code) for `filename:SKILL.md` and found this repo. It scored 4.3 based on:
+cue ran [GitHub Code Search](https://docs.github.com/en/search-github/searching-on-github/searching-code) for `filename:SKILL.md` and found this repo. It scored 4.2 based on:
 - ⭐ 2 stars
 - 🗓️ Last pushed: 2026-05-20
 - 🏷️ Tags: (none)

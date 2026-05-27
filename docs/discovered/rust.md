@@ -1,42 +1,29 @@
 ---
 title: "Claude Code Skills for rust"
-description: "2 community Claude Code skills curated by cue for the rust profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
+description: "1 community Claude Code skills curated by cue for the rust profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
 layout: page
-updated: 2026-05-25
+updated: 2026-05-27
 tags: [claude-code, rust, skills, mcp, ai-agents]
 ---
 
 # Claude Code Skills for `rust`
 
-> 2 community-built skills curated by [cue](https://github.com/opencue/cue) for the **rust** profile.
+> 1 community-built skills curated by [cue](https://github.com/opencue/cue) for the **rust** profile.
 > Each one was discovered via GitHub Code Search, scored on signal quality, and mapped to this profile by keyword overlap.
 
 **[← back to all discovered skills](./index.md)**
 
 ---
 
-<a id="e01n0-skillspec"></a>
-## ✨ [e01n0/skillspec](https://github.com/e01n0/skillspec)
+<a id="valennmg-solscan-mcp"></a>
+## 💎 [Valennmg/solscan-mcp](https://github.com/Valennmg/solscan-mcp)
 
-**★ 2** · strong (score 5.5) · Rust · tags: agentic-ai, agentic-coding, agentic-workflow, agentic-workflows, agents
+**★ 2** · exceptional (score 8) · Rust · tags: crate, crates, mcp, mcp-client, mcp-server
 
-SkillSpec is a DSL that adds types, contracts, composition, and tests around agent skills, then compiles back down to the same SKILL.md that existing runtimes already understand. Once a skill works and you want to make it production-ready, you codify it into a .agent file and get versioning, structural diffs, type checking, and a path to CI/CD.
-
-```bash
-cue skills add e01n0/skillspec --profile rust
-```
-
----
-
-<a id="ckanthony-chisel"></a>
-## 🔹 [ckanthony/Chisel](https://github.com/ckanthony/Chisel)
-
-**★ 11** · potential (score 3.2) · Rust
-
-🪛 Rust powered precision file tools for AI agents thats minimize context use: patch-based edits, kernel-enforced path confinement.  Dramatically fewer tokens than naive read/write.  MCP Server or embeddable, bring your own MCP (Rust, Python, Nodejs).  Come with Skills.md (npx skills add ckanthony/Chisel)
+An MCP server for querying Solana transactions using natural language with Solscan API
 
 ```bash
-cue skills add ckanthony/Chisel --profile rust
+cue skills add Valennmg/solscan-mcp --profile rust
 ```
 
 ---
