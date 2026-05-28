@@ -161,6 +161,12 @@ hooks:
   # uncommitted work. Each suggestion has an ROI tag. Cached & throttled.
   # Suppress per-commit via [skip-brain] in the commit message.
   - brain-next-suggestion.json
+  # Stop hook: audit liedetector [VERIFIED]/[KNOWN] tags against the tool
+  # calls actually observed this turn. Self-applied confidence tags are
+  # gameable — this re-grounds them in observed behaviour. Warns (never
+  # blocks) when [VERIFIED] appears with zero Read/Grep/inspection actions
+  # or when [KNOWN] is used on time-sensitive subjects. ~30ms latency.
+  - tag-audit.json
   # UserPromptSubmit hook: on the FIRST prompt of a session, save it to
   # ~/.config/cue/first-prompts/<cwd-hash>.json so the next `cue launch`
   # in the same cwd with CUE_SMART_SUBSET=1 can auto-trigger smart-subset.

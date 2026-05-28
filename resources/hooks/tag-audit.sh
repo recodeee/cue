@@ -1,0 +1,170 @@
+#!/usr/bin/env bash
+# Stop hook — audit the liedetector tags Claude wrote this turn against the
+# tool calls the harness actually observed. The integrity-protocol tagging
+# discipline (🟢 [VERIFIED], 🟢 [KNOWN], etc.) is self-applied by the model;
+# nothing stops the model from labelling a fabrication as "verified".
+#
+# This hook re-grounds the tag in observable behaviour:
+#   - For every [VERIFIED] claim in the last assistant turn, the same turn
+#     must contain at least one verification tool call (Read, Bash with
+#     inspection commands, Grep, etc.).
+#   - For every [KNOWN] claim that mentions a time-sensitive subject
+#     (versions, "latest", "current"), warn — training data goes stale.
+#
+# When mismatches are detected, the hook emits a "⚠ Tag audit" block to
+# stderr (which Claude Code surfaces). It never blocks; it only flags.
+# Suppress per-turn via [skip-tag-audit] anywhere in the assistant response.
+#
+# No external deps beyond jq. Exits 0 always.
+
+set -uo pipefail
+
+payload="$(cat -)"
+extract() {
+  printf '%s' "$payload" | grep -oE "\"$1\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" | head -1 \
+    | sed "s/.*\"$1\"[[:space:]]*:[[:space:]]*\"//; s/\"$//"
+}
+
+transcript_path="$(extract transcript_path)"
+session_id="$(extract session_id)"
+[ -z "$transcript_path" ] || [ ! -r "$transcript_path" ] && exit 0
+command -v jq >/dev/null 2>&1 || exit 0
+
+CACHE_DIR="${XDG_RUNTIME_DIR:-/tmp}/cue-tag-audit"
+mkdir -p "$CACHE_DIR" 2>/dev/null || exit 0
+
+# Throttle: once per Stop event per session.
+throttle="$CACHE_DIR/throttle.${session_id:-default}"
+now=$(date +%s)
+last=$(stat -c '%Y' "$throttle" 2>/dev/null || echo 0)
+[ $((now - last)) -lt 5 ] && exit 0
+touch "$throttle"
+
+# ─── Find the last user message index ──────────────────────────────────────
+# Stop hooks fire after Claude finishes responding. Everything since the
+# most-recent user message is "this turn".
+last_user_line=$(awk 'BEGIN{n=0; last=0} {n++} /"type":"user"/{last=n} END{print last}' "$transcript_path")
+[ "$last_user_line" = "0" ] && exit 0
+
+# Slice the transcript: just this turn's lines.
+turn_jsonl="$CACHE_DIR/turn.jsonl"
+tail -n +"$last_user_line" "$transcript_path" > "$turn_jsonl"
+
+# ─── Extract assistant text + tool_use names from this turn ────────────────
+assistant_text=$(jq -r '
+  select(.type == "assistant") |
+  .message.content |
+  if type == "array" then .[] else . end |
+  select(.type == "text") |
+  .text
+' "$turn_jsonl" 2>/dev/null)
+
+tool_calls=$(jq -r '
+  select(.type == "assistant") |
+  .message.content |
+  if type == "array" then .[] else . end |
+  select(.type == "tool_use") |
+  [.name, ((.input.command // "") | tostring | .[:200])] | @tsv
+' "$turn_jsonl" 2>/dev/null)
+
+# ─── Bail on opt-out ───────────────────────────────────────────────────────
+if grep -qF "[skip-tag-audit]" <<< "$assistant_text"; then exit 0; fi
+
+# ─── Count tags in the response ────────────────────────────────────────────
+# Match [VERIFIED], 🟢 [VERIFIED], `[VERIFIED]`, etc. Single regex with
+# optional brackets/backticks.
+verified_count=$(grep -oE '\[VERIFIED[^]]*\]' <<< "$assistant_text" | wc -l | tr -d '\n')
+known_count=$(grep -oE '\[KNOWN[^]]*\]' <<< "$assistant_text" | wc -l | tr -d '\n')
+verified_count=${verified_count:-0}
+known_count=${known_count:-0}
+
+# ─── Count verification tool calls ─────────────────────────────────────────
+# A "verification action" is one of:
+#   - Read tool (any path)
+#   - Grep tool
+#   - Bash with: grep, cat, head, tail, less, ls, find, test, diff, file,
+#                wc, stat, hexdump, sha, md5, git log/diff/show/blame/status,
+#                npm test, pytest, cargo test, go test, jest, vitest, tsc,
+#                eslint, ruff, pylint, lint-skill, jq (read), curl --head
+#   - WebFetch / WebSearch (verification by lookup)
+#   - Any MCP tool with "search" or "get" or "read" in its name
+verification_count=0
+non_verification_count=0
+while IFS=$'\t' read -r name cmd; do
+  [ -z "$name" ] && continue
+  case "$name" in
+    Read|Grep|WebFetch|WebSearch)
+      verification_count=$((verification_count + 1))
+      ;;
+    Bash)
+      # Inspect the command's first token.
+      first_word=$(printf '%s' "$cmd" | awk '{print $1}' | tr -d '`"')
+      case "$first_word" in
+        grep|cat|head|tail|less|ls|find|test|diff|file|wc|stat|hexdump|sha256sum|md5sum| \
+        git|jq|cargo|npm|pnpm|yarn|bun|pytest|jest|vitest|tsc|eslint|ruff|pylint| \
+        echo|printf|date|which|whereis|env|printenv|true|false|sed|awk|cut|sort|uniq| \
+        curl|wget|tree|column|tr)
+          # Need to refine git/npm/cargo: only verification subcommands count.
+          # Coarse heuristic: anything that doesn't write is verification.
+          if [[ "$cmd" =~ (git[[:space:]]+(log|diff|show|blame|status|grep|ls-files)| \
+              npm[[:space:]]+(test|run[[:space:]]+test|ls|view)| \
+              cargo[[:space:]]+(test|check|tree)| \
+              pnpm[[:space:]]+test| \
+              ^(grep|cat|head|tail|less|ls|find|file|wc|stat|sha|md5|jq|sed|awk|cut|sort|uniq|tr|column|tree|test|diff|hexdump|env|printenv|date|which|whereis|echo|printf|true|false|curl[[:space:]]+(-I|--head))) ]]; then
+            verification_count=$((verification_count + 1))
+          else
+            non_verification_count=$((non_verification_count + 1))
+          fi
+          ;;
+        *)
+          non_verification_count=$((non_verification_count + 1))
+          ;;
+      esac
+      ;;
+    mcp__*search*|mcp__*get*|mcp__*read*|mcp__*list*)
+      verification_count=$((verification_count + 1))
+      ;;
+    Edit|Write|MultiEdit|NotebookEdit)
+      non_verification_count=$((non_verification_count + 1))
+      ;;
+    *)
+      non_verification_count=$((non_verification_count + 1))
+      ;;
+  esac
+done <<< "$tool_calls"
+
+# ─── Detect time-sensitive [KNOWN] claims ──────────────────────────────────
+# Look for [KNOWN] within ~80 chars of a time-sensitive trigger.
+stale_known=0
+if [ "$known_count" -gt 0 ]; then
+  # Search for any [KNOWN ...] line that also contains a staleness signal.
+  stale_known=$(grep -oE '.{0,80}\[KNOWN[^]]*\].{0,80}' <<< "$assistant_text" \
+    | grep -ciE "latest|newest|current(ly)?|today|recently|just (released|came out)|version[[:space:]]+[0-9]|GPT-[0-9]|Claude[[:space:]]*[0-9]|Node[[:space:]]*[0-9]|python[[:space:]]*[0-9]|released[[:space:]]+in" \
+    || echo 0)
+  stale_known=$(printf '%s' "$stale_known" | tr -d '\n')
+  [ -z "$stale_known" ] && stale_known=0
+fi
+
+# ─── Decide whether to warn ────────────────────────────────────────────────
+warnings=()
+if [ "$verified_count" -gt 0 ] && [ "$verification_count" -eq 0 ]; then
+  warnings+=("⚠ Tag audit: ${verified_count}× [VERIFIED] this turn with zero observable verification action (no Read/Grep/inspection Bash). Self-grading without evidence. Treat as [INFERRED] until re-checked.")
+fi
+if [ "$verified_count" -gt $((verification_count * 3 + 2)) ]; then
+  warnings+=("⚠ Tag audit: ${verified_count}× [VERIFIED] but only ${verification_count} verification tool calls. Claim density exceeds evidence density. Some [VERIFIED] are likely [INFERRED] at best.")
+fi
+if [ "$stale_known" -gt 0 ]; then
+  warnings+=("⚠ Tag audit: ${stale_known}× [KNOWN] tag on time-sensitive subject(s) (versions / 'latest' / 'current'). Training data goes stale. Downgrade to [STALE] or re-verify via web search.")
+fi
+
+[ "${#warnings[@]}" -eq 0 ] && exit 0
+
+# ─── Emit warnings to stderr (Claude Code surfaces) ────────────────────────
+{
+  printf '\n'
+  for w in "${warnings[@]}"; do printf '%s\n' "$w"; done
+  printf '   (turn tool calls: %d verification, %d non-verification | suppress with [skip-tag-audit])\n' \
+    "$verification_count" "$non_verification_count"
+} >&2
+
+exit 0

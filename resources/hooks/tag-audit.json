@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_CONFIG_DIR}/hooks/tag-audit.sh",
+            "description": "Stop hook: audit liedetector [VERIFIED]/[KNOWN] tags against the tool calls actually observed this turn. The model's self-applied tags are not verification; the harness is. Warns (never blocks) when [VERIFIED] claims appear with no verification tool calls, or when [KNOWN] is used on time-sensitive subjects.",
+            "id": "cue:stop:tag-audit"
+          }
+        ]
+      }
+    ]
+  }
+}
