@@ -156,6 +156,11 @@ hooks:
   # unique skill referenced. Replaces the 50KB regex scrape with a full scan.
   # Feeds `cue profile evolve` with accurate per-skill firing data.
   - skill-fire-tracker.json
+  # Stop hook: emit a "🧠 Next:" block with 1-3 ranked next-step suggestions
+  # grounded in recent commits, telemetry, promotion candidates, and
+  # uncommitted work. Each suggestion has an ROI tag. Cached & throttled.
+  # Suppress per-commit via [skip-brain] in the commit message.
+  - brain-next-suggestion.json
   # UserPromptSubmit hook: on the FIRST prompt of a session, save it to
   # ~/.config/cue/first-prompts/<cwd-hash>.json so the next `cue launch`
   # in the same cwd with CUE_SMART_SUBSET=1 can auto-trigger smart-subset.

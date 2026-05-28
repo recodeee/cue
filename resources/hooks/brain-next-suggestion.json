@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_CONFIG_DIR}/hooks/brain-next-suggestion.sh",
+            "description": "Stop hook: emits a 🧠 Next: block with 1-3 ranked next-step suggestions grounded in recent commits, telemetry, promotion candidates, and uncommitted work. Each suggestion carries an ROI tag (dimension + bounded % + confidence). Throttled to once per 60s per session; suppress via [skip-brain] in the last commit message.",
+            "id": "cue:stop:brain-next-suggestion"
+          }
+        ]
+      }
+    ]
+  }
+}
