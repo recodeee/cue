@@ -2,7 +2,7 @@
 title: "kioie/tiny-go-mcp-server — Claude Code skill discovered by cue"
 description: "Minimal Go MCP toolkit on the official go-sdk — stdio, HTTP, SSE; tools, resources, prompts; struct-derived JSON Schema; ~5MB static binaries."
 layout: page
-updated: 2026-05-27
+updated: 2026-05-29
 tags: [claude-code, skill, core]
 ---
 
@@ -16,7 +16,7 @@ tags: [claude-code, skill, core]
 
 cue ran [GitHub Code Search](https://docs.github.com/en/search-github/searching-on-github/searching-code) for `filename:SKILL.md` and found this repo. It scored 6.3 based on:
 - ⭐ 1 stars
-- 🗓️ Last pushed: 2026-05-27
+- 🗓️ Last pushed: 2026-05-29
 - 🏷️ Tags: ai-agents, claude, cursor, go, golang, lightweight, llm, mcp, mcp-server, model-context-protocol, sdk
 
 ## Best fit cue profiles

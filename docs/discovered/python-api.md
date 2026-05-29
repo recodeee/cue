@@ -2,7 +2,7 @@
 title: "Claude Code Skills for python-api"
 description: "1 community Claude Code skills curated by cue for the python-api profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
 layout: page
-updated: 2026-05-28
+updated: 2026-05-29
 tags: [claude-code, python-api, skills, mcp, ai-agents]
 ---
 
@@ -15,15 +15,15 @@ tags: [claude-code, python-api, skills, mcp, ai-agents]
 
 ---
 
-<a id="sheep-programmer-aiforge"></a>
-## 💎 [sheep-programmer/AIForge](https://github.com/sheep-programmer/AIForge)
+<a id="skenetechnologies-skene"></a>
+## 💎 [SkeneTechnologies/skene](https://github.com/SkeneTechnologies/skene)
 
-**★ 0** · exceptional (score 8.5) · TypeScript · tags: ai-agents, claude-code, fastapi, mcp, mcp-server
+**★ 106** · exceptional (score 11.4) · Go · tags: ai-tools, anthropic, automation, cli, cli-tool
 
-Unified registry & router for agent skills, MCP servers, and Claude Code plugins.
+Product-Led Growth (PLG) analysis toolkit that detects tech stacks, plans growth loops and builds the loop iteratively.
 
 ```bash
-cue skills add sheep-programmer/AIForge --profile python-api
+cue skills add SkeneTechnologies/skene --profile python-api
 ```
 
 ---

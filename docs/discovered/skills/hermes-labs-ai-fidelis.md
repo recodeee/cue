@@ -2,7 +2,7 @@
 title: "hermes-labs-ai/fidelis — Claude Code skill discovered by cue"
 description: "Agent memory without the retrieval tax. Fidelity-preserving memory for Claude Code and AI agents — local-first, fast, and with no LLM in the default retrieval p"
 layout: page
-updated: 2026-05-28
+updated: 2026-05-29
 tags: [claude-code, skill, core]
 ---
 

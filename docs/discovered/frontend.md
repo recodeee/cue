@@ -1,14 +1,14 @@
 ---
 title: "Claude Code Skills for frontend"
-description: "5 community Claude Code skills curated by cue for the frontend profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
+description: "6 community Claude Code skills curated by cue for the frontend profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
 layout: page
-updated: 2026-05-28
+updated: 2026-05-29
 tags: [claude-code, frontend, skills, mcp, ai-agents]
 ---
 
 # Claude Code Skills for `frontend`
 
-> 5 community-built skills curated by [cue](https://github.com/opencue/cue) for the **frontend** profile.
+> 6 community-built skills curated by [cue](https://github.com/opencue/cue) for the **frontend** profile.
 > Each one was discovered via GitHub Code Search, scored on signal quality, and mapped to this profile by keyword overlap.
 
 **[← back to all discovered skills](./index.md)**
@@ -30,6 +30,19 @@ cue skills add SuanFishXYY/suanfish-design-system --profile frontend
 
 ---
 
+<a id="laith0003-ux-skill"></a>
+## 💎 [Laith0003/ux-skill](https://github.com/Laith0003/ux-skill)
+
+**★ 16** · exceptional (score 9.4) · Python · tags: ai-coding, ai-design, anti-ai-slop, brand-guidelines, claude-code
+
+Design intelligence engine for AI coding. 120 anti-pattern linter rules, 110 brand DESIGN.md specs, MCP server, 22 commands, 17 IDEs, 17 languages. MIT.
+
+```bash
+cue skills add Laith0003/ux-skill --profile frontend
+```
+
+---
+
 <a id="byrobertocumbane-glitch-lottie-marketplace"></a>
 ## 💎 [byrobertocumbane-glitch/lottie-marketplace](https://github.com/byrobertocumbane-glitch/lottie-marketplace)
 
@@ -43,6 +56,19 @@ cue skills add byrobertocumbane-glitch/lottie-marketplace --profile frontend
 
 ---
 
+<a id="amit491k-del-webasyst-ai-workbench"></a>
+## 💎 [amit491k-del/webasyst-ai-workbench](https://github.com/amit491k-del/webasyst-ai-workbench)
+
+**★ 0** · exceptional (score 8) · HTML · tags: ai, ai-coding, claude, claude-code, cursor
+
+Webasyst MCP Server 2026: AI Tools for Apps, Plugins & Themes
+
+```bash
+cue skills add amit491k-del/webasyst-ai-workbench --profile frontend
+```
+
+---
+
 <a id="giovannisacca-pixel-mcp-workflow"></a>
 ## ✨ [giovannisacca/pixel-mcp-workflow](https://github.com/giovannisacca/pixel-mcp-workflow)
 
@@ -52,19 +78,6 @@ cue skills add byrobertocumbane-glitch/lottie-marketplace --profile frontend
 
 ```bash
 cue skills add giovannisacca/pixel-mcp-workflow --profile frontend
-```
-
----
-
-<a id="aiatelie-ai-atelie"></a>
-## ✨ [aiatelie/ai-atelie](https://github.com/aiatelie/ai-atelie)
-
-**★ 4** · strong (score 5.5) · TypeScript · tags: agent-skills, ai-agents, ai-design, bun, byok
-
-Local-first, open-source alternative to Anthropic's Claude Design. MIT-licensed, BYO agent CLI — Claude Code, Kimi, Codex, or any SDK-compatible model. Composable skills · three edit paths · designs as plain HTML/JSX/CSS folders · run locally, no cloud round-trip. Generate banners, thumbnails, websites, animations, design systems.
-
-```bash
-cue skills add aiatelie/ai-atelie --profile frontend
 ```
 
 ---

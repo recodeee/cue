@@ -2,7 +2,7 @@
 title: "Claude Code Skills for rust"
 description: "1 community Claude Code skills curated by cue for the rust profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
 layout: page
-updated: 2026-05-27
+updated: 2026-05-29
 tags: [claude-code, rust, skills, mcp, ai-agents]
 ---
 
@@ -15,15 +15,15 @@ tags: [claude-code, rust, skills, mcp, ai-agents]
 
 ---
 
-<a id="valennmg-solscan-mcp"></a>
-## 💎 [Valennmg/solscan-mcp](https://github.com/Valennmg/solscan-mcp)
+<a id="systempromptio-systemprompt-core"></a>
+## 💎 [systempromptio/systemprompt-core](https://github.com/systempromptio/systemprompt-core)
 
-**★ 2** · exceptional (score 8) · Rust · tags: crate, crates, mcp, mcp-client, mcp-server
+**★ 3** · exceptional (score 10.7) · Rust · tags: a2a, agent-orchestration, agentic-ai, ai-agents, ai-governance
 
-An MCP server for querying Solana transactions using natural language with Solscan API
+AI governance infrastructure for agentic systems. Rust library behind systemprompt.io — MCP, A2A, OAuth2, audit trails, compile-time extensions. Evaluate with systemprompt-template.
 
 ```bash
-cue skills add Valennmg/solscan-mcp --profile rust
+cue skills add systempromptio/systemprompt-core --profile rust
 ```
 
 ---

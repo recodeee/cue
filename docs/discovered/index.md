@@ -1,31 +1,33 @@
 ---
 title: "Discovered Claude Code Skills"
-description: "100 community Claude Code skills curated by cue across 11 profiles. Find skills for backend, frontend, marketing, cybersecurity, and more."
+description: "100 community Claude Code skills curated by cue across 13 profiles. Find skills for backend, frontend, marketing, cybersecurity, and more."
 layout: page
-updated: 2026-05-28
+updated: 2026-05-29
 tags: [claude-code, skills, mcp, ai-agents, marketplace]
 ---
 
 # 🎯 Discovered Claude Code Skills
 
-> **100 hidden-gem skills** discovered by [cue](https://github.com/opencue/cue) across **11 profiles**.
-> Last updated: 2026-05-28 · refreshed nightly via GitHub Code Search.
+> **100 hidden-gem skills** discovered by [cue](https://github.com/opencue/cue) across **13 profiles**.
+> Last updated: 2026-05-29 · refreshed nightly via GitHub Code Search.
 
 ## Browse by profile
 
 | Profile | Skills | Sample |
 |---|---|---|
-| [**core**](./core.md) | 64 | `antigravity-workspace-template`, `trace-mcp`, `rule-drift` |
-| [**backend**](./backend.md) | 14 | `n8n`, `Pare`, `Seedream_MCP` |
-| [**cybersecurity**](./cybersecurity.md) | 7 | `nsauditor-ai-agent-skill`, `hydra`, `Claude-OSINT` |
-| [**frontend**](./frontend.md) | 5 | `suanfish-design-system`, `lottie-marketplace`, `pixel-mcp-workflow` |
-| [**creative-media**](./creative-media.md) | 5 | `Seedream_MCP`, `social-media-scraper-skill`, `pixel-mcp-workflow` |
-| [**niche**](./niche.md) | 4 | `grant-thinking-cn-biology`, `grant-thinking-skill`, `costing-master` |
-| [**fleet-control**](./fleet-control.md) | 3 | `nexus-mcp`, `superx-agentic-orchestrator`, `rolepod` |
-| [**research**](./research.md) | 3 | `popper-scope`, `thoth`, `scholar-sidekick-skills` |
-| [**marketing**](./marketing.md) | 2 | `zenith-crea-ofertas`, `mcp` |
+| [**core**](./core.md) | 63 | `antigravity-workspace-template`, `majia-guanyuan`, `app-store-connect-skill` |
+| [**backend**](./backend.md) | 11 | `archestra`, `trigger.dev`, `fhir-mcp-server` |
+| [**cybersecurity**](./cybersecurity.md) | 6 | `nsauditor-ai-agent-skill`, `hydra`, `slowmist-security-cc` |
+| [**frontend**](./frontend.md) | 6 | `suanfish-design-system`, `ux-skill`, `lottie-marketplace` |
+| [**niche**](./niche.md) | 6 | `devil-chat-coach`, `grant-thinking-skill`, `grant-thinking-cn-biology` |
+| [**creative-media**](./creative-media.md) | 4 | `ux-skill`, `social-media-scraper-skill`, `pixel-mcp-workflow` |
+| [**research**](./research.md) | 2 | `paperbanana-skill`, `popper-scope` |
+| [**fleet-control**](./fleet-control.md) | 2 | `agent-traffic-control`, `rolepod` |
+| [**python-api**](./python-api.md) | 1 | `skene` |
+| [**rust**](./rust.md) | 1 | `systemprompt-core` |
+| [**docs-writer**](./docs-writer.md) | 1 | `code2wiki` |
 | [**video**](./video.md) | 1 | `social-media-scraper-skill` |
-| [**python-api**](./python-api.md) | 1 | `AIForge` |
+| [**marketing**](./marketing.md) | 1 | `mcp` |
 
 ## How scoring works
 

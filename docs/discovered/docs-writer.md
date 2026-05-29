@@ -1,57 +1,31 @@
 ---
 title: "Claude Code Skills for docs-writer"
-description: "3 community Claude Code skills curated by cue for the docs-writer profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
+description: "1 community Claude Code skills curated by cue for the docs-writer profile. Hidden-gem repos with SKILL.md, MCP servers, and CLI integrations."
 layout: page
-updated: 2026-05-27
+updated: 2026-05-29
 tags: [claude-code, docs-writer, skills, mcp, ai-agents]
 ---
 
 # Claude Code Skills for `docs-writer`
 
-> 3 community-built skills curated by [cue](https://github.com/opencue/cue) for the **docs-writer** profile.
+> 1 community-built skills curated by [cue](https://github.com/opencue/cue) for the **docs-writer** profile.
 > Each one was discovered via GitHub Code Search, scored on signal quality, and mapped to this profile by keyword overlap.
 
 **[← back to all discovered skills](./index.md)**
 
 ---
 
-<a id="compilet-dev-agent-skill-uselink"></a>
-## 💎 [compilet-dev/agent-skill-uselink](https://github.com/compilet-dev/agent-skill-uselink)
+<a id="woaillr-crypto-code2wiki"></a>
+## 💎 [woaillr-crypto/code2wiki](https://github.com/woaillr-crypto/code2wiki)
 
-**★ 2** · exceptional (score 13.5) · tags: agent-skills, anthropic, claude-code, claude-skill, documentation
+**★ 2** · exceptional (score 9.9) · Python · tags: agent-skill, ai-agent-skill, ai-coding, business-context, code-analysis
 
-Agent skills for publishing engineering docs, repo summaries, PR digests, changelogs, API docs, onboarding guides, and specs to Uselink.
+AI Agent Skill — Auto-generate business context layer (BCL) for large backend codebases. Supports Java, Python, Go, Kotlin, TypeScript. Turn 500K lines into navigable knowledge maps.code2wiki ( code to wiki) 是一项专为复杂项目构建面向业务的“业务语义层”的技能。通过 code2wiki，开发者可以将既有代码库高效地转化为系统化的项目上下文与 Wiki 文档，从而显著提升 LLM 对复杂业务系统的理解深度，赋能代码总结、领域 Skill 构建及自动化文档生成。
 
 ✅ SKILL.md
 
 ```bash
-cue skills add compilet-dev/agent-skill-uselink --profile docs-writer
-```
-
----
-
-<a id="lirantal-mcp-server-nodejs-api-docs"></a>
-## 💎 [lirantal/mcp-server-nodejs-api-docs](https://github.com/lirantal/mcp-server-nodejs-api-docs)
-
-**★ 10** · exceptional (score 11.1) · TypeScript · tags: claude-ai, claude-desktop, cursor, cursor-ai, llm
-
-MCP Server for Node.js API documentation
-
-```bash
-cue skills add lirantal/mcp-server-nodejs-api-docs --profile docs-writer
-```
-
----
-
-<a id="howdow698-ui-llm-wiki"></a>
-## 💎 [howdow698-ui/llm-wiki](https://github.com/howdow698-ui/llm-wiki)
-
-**★ 0** · exceptional (score 8.5) · tags: agent-skill, claude-code-skill, cli, codex, gemini
-
-Build a structured knowledge base with LLM agents to automate documentation, link concepts, and maintain long-term information retention in Markdown.
-
-```bash
-cue skills add howdow698-ui/llm-wiki --profile docs-writer
+cue skills add woaillr-crypto/code2wiki --profile docs-writer
 ```
 
 ---

@@ -2,7 +2,7 @@
 title: "cheeringsoul/bodhi — Claude Code skill discovered by cue"
 description: "AI-native semantic DSL that makes Claude Code capture developer intent, data flows, service topology, and error paths as structured annotations — while writing "
 layout: page
-updated: 2026-05-28
+updated: 2026-05-29
 tags: [claude-code, skill, core]
 ---
 

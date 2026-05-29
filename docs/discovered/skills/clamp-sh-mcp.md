@@ -2,7 +2,7 @@
 title: "clamp-sh/mcp — Claude Code skill discovered by cue"
 description: "MCP server for Clamp, web analytics for the agentic era. Tools for traffic, referrers, live visitors, events, revenue, session paths, funnels, and alerts — quer"
 layout: page
-updated: 2026-05-28
+updated: 2026-05-29
 tags: [claude-code, skill, marketing]
 ---
 
